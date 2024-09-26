@@ -1,4 +1,5 @@
 <?php
+//print la matriz
 $contador=1;
 for($i=0;$i<=1;$i++){
     for($j=0;$j<=2;$j++){
@@ -9,6 +10,8 @@ for($i=0;$i<=1;$i++){
         echo"] ";
     }
 }
+echo "<br><br>";
+echo __FILE__;
 echo "<br><br>";
 
 var_dump(value: $M);

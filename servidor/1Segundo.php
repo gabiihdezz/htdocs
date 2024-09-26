@@ -1,4 +1,5 @@
 <?php
+//media
 $conteo = 0;
 $media = 0;
 for($i= 1; $i <= 5; $i++){
