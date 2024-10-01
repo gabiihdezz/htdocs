@@ -1,42 +1,32 @@
 <?php
-/*
-Determinar la cantidad de dinero que recibirá un trabajador por concepto de las
-horas extras trabajadas en una empresa, sabiendo que cuando las horas de
-trabajo exceden de 40, el resto se consideran horas extras y que estas se pagan al
-doble de una hora normal cuando no exceden de 8; si las horas extras exceden de
-8 se pagan las primeras 8 al doble de lo que se pagan las horas normales y el resto
-al triple.
-*/
-//las primeras 40 -->20€
-//40-48 --> 40€
-//48-56 --> 60€
-$horas=40;
-if ($horas>=40){
-    $horas1=$horas-40;
-    $dinero1=($horas-$horas1)*20;
+$horas =57; // Cambia este valor según las horas trabajadas
+$tarifaNormal = 20; // Tarifa por hora normal
+$tarifaExtraDoble = $tarifaNormal * 2; // Tarifa por hora extra (doble)
+$tarifaExtraTriple = $tarifaNormal * 3; // Tarifa por hora extra (triple)
 
-    if ($horas1>=8){
-        $horas2=$horas1-8;
-        $dinero2=($horas1-$horas2)*40;
-    }
-    else{
-        $horas2=$horas1-8;
-        $dinero2=($horas1-$horas2)*40;
-    }
+$dinero = 0;
 
-        if ($horas2>=8){
-            $horas3=$horas2-8;
-            $dinero3=($horas2-$horas3)*60;
+if ($horas > 40) {
+    $horasNormales = 40;
+    $horasExtras = $horas - $horasNormales;
+
+    // Calcular el pago por las primeras 40 horas
+    $dinero += $horasNormales * $tarifaNormal;
+
+    // Calcular las horas extras
+    if ($horasExtras <= 8) {
+        $dinero += $horasExtras * $tarifaExtraDoble;
+    } else {
+        // Primeras 8 horas extras al doble
+        $dinero += 8 * $tarifaExtraDoble;
+        // El resto de las horas extras al triple
+        $horasExtras -= 8;
+        $dinero += $horasExtras * $tarifaExtraTriple;
     }
-    else{
-        $horas3=$horas2-8;
-        $dinero3=($horas2-$horas3)*60;
+} else {
+    // Si no hay horas extras, solo se paga por horas normales
+    $dinero += $horas * $tarifaNormal;
 }
-}
-else{
-    $horas1=$horas-40;
-    $dinero1=($horas-$horas1)*20;
-}
-$dinero=$dinero1 + $dinero2 + $dinero3;
-echo "El total de dinero generado esta semana es de: " . $dinero ;
+
+echo "El total de dinero generado esta semana es de: " . $dinero . "€";
 ?>
