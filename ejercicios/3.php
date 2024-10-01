@@ -19,7 +19,7 @@ if ($horas > 40) {
     } else {
         // Primeras 8 horas extras al doble
         $dinero += 8 * $tarifaExtraDoble;
-        // El resto de las horas extras al triple
+        // El resto de las horas extras al triple €
         $horasExtras -= 8;
         $dinero += $horasExtras * $tarifaExtraTriple;
     }

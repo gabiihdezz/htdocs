@@ -1,6 +1,6 @@
 <?php
 /*
-Dados 3 números asignados dentro del código a mostrar el número mayor de los tres.
+Dados 3 números asignados dentro del código a mostrar el número mayor de los 3.
 */
 function mayorNumero($numeros) {
     return max($numeros);
