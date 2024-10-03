@@ -6,5 +6,5 @@ visualiza -3.
 */
 $coches= array("32","11","45","22","78","-3","9","66","5");
 
-echo $coches[5];
+echo $coches[5]; 
 ?>

@@ -5,5 +5,5 @@ pantalla el elemento con localizador cero. Deberás obtener por pantalla que se
 muestra “true”.
 */
 $confirmado=array(true, true, false, true, false, false);
-echo $confirmado[0];
+echo $confirmado[0]; 
 ?> 

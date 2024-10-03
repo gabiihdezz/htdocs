@@ -6,6 +6,6 @@ function mayorNumero($numeros) {
     return max($numeros);
 }
 $numeros = [3, 5, 1, 8, 2];
-$mayor = mayorNumero($numeros);
-echo "El mayor número es: " . $mayor;
+$pito = mayorNumero($numeros);
+echo "El mayor número es: " . $pito;
 ?>

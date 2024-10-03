@@ -7,5 +7,5 @@ equipo está compuesta por Crovic, Antic, Malic, Zulic y Rostrich. */
 $jugador=array("Crovic", "Antic", "Malic", "Zulic", "Rostrich");
 echo "La alineacion del equipo esta compuesta por: ";
 for($i= 0;$i<count($jugador);$i++){
-echo $jugador[$i].", ";}
+echo $jugador[$i].", ";} 
 ?> 
