@@ -33,7 +33,6 @@ class Vehiculo {
 
     public function anadirPersona($peso_persona) {
         $this->peso += $peso_persona;
-        echo "<br>Se sube una persona"; 
         return $this->peso; // Retorna el nuevo peso
     }
 }
@@ -47,7 +46,7 @@ class CuatroRuedas extends Vehiculo {
         $this->numeroPuertas = $numeroPuertas;
     }
 
-    public function repintar($color) {
+    public function repintar($color):string {
         $this->setColor($color);
         return "El vehículo tiene un nuevo color: " . $color;
     }
@@ -67,7 +66,7 @@ class DosRuedas extends Vehiculo {
     }
 
     public function ponerGasolina($litros) {
-        $this->getPeso()+=$litros;
+        $this->setPeso=($this->getPeso()+$litros);
         return "Se han añadido $litros litros de gasolina.";
     }
 
@@ -87,10 +86,15 @@ class Coche extends CuatroRuedas {
 
     public function anadirCadenasNieve($num) {
         $this->numeroCadenasNieve += $num;
+        return "El vehículo tiene ahora " . $this->numeroCadenasNieve . " cadenas de nieve";
     }
 
     public function quitarCadenasNieve($num) {
-        $this->numeroCadenasNieve -= $num;
+        if(($this->numeroCadenasNieve-$num)<0){
+            $this->numeroCadenasNieve=0;
+        }
+        else{
+            $this->numeroCadenasNieve -= $num;}
     }
 
     public function __toString() {
