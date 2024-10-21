@@ -1,8 +1,8 @@
 <?php
-// Clase base
-class Vehiculo {
+// Clase base abstracta
+abstract class Vehiculo {
     private $color;
-    private $peso;
+    protected $peso; // Cambiado a protected para permitir acceso en clases derivadas
 
     public function __construct($color, $peso) {
         $this->color = $color;
@@ -27,13 +27,27 @@ class Vehiculo {
         $this->color = $color;
     }
 
+    public function setPeso($peso) {
+        $this->peso = $peso; // Añadido para permitir la modificación del peso
+    }
+
     public function __toString() {
         return "El peso ". $this->getPeso() ." y color del vehículo: " . $this->getColor() . "<br>";
     }
 
-    public function anadirPersona($peso_persona) {
-        $this->peso += $peso_persona;
-        return $this->peso; // Retorna el nuevo peso
+    // Método abstracto
+    abstract public function anadirPersona($peso_persona);
+
+    // Método estático para ver atributos
+    public static function ver_atributo($objeto) {
+        echo "Color: " . $objeto->getColor() . "<br>";
+        echo "Peso: " . $objeto->getPeso() . " kg<br>";
+        if ($objeto instanceof CuatroRuedas) {
+            echo "Número de puertas: " . $objeto->getNumeroPuertas() . "<br>";
+        }
+        if ($objeto instanceof DosRuedas) {
+            echo "Cilindrada: " . $objeto->getCilindrada() . " cc<br>";
+        }
     }
 }
 
@@ -44,6 +58,15 @@ class CuatroRuedas extends Vehiculo {
     public function __construct($color, $peso, $numeroPuertas) {
         parent::__construct($color, $peso);
         $this->numeroPuertas = $numeroPuertas;
+    }
+
+    public function anadirPersona($peso_persona) {
+        $this->setPeso($this->getPeso() + $peso_persona); // Uso de métodos getter y setter
+        return $this->getPeso(); // Retorna el nuevo peso
+    }
+
+    public function getNumeroPuertas() {
+        return $this->numeroPuertas;
     }
 
     public function repintar($color):string {
@@ -65,40 +88,17 @@ class DosRuedas extends Vehiculo {
         $this->cilindrada = $cilindrada;
     }
 
-    public function ponerGasolina($litros) {
-        $this->setPeso=($this->getPeso()+$litros);
-        return "Se han añadido $litros litros de gasolina.";
+    public function anadirPersona($peso_persona) {
+        $this->setPeso($this->getPeso() + $peso_persona + 2); // Añade 2 kg por el casco
+        return $this->getPeso(); // Retorna el nuevo peso
+    }
+
+    public function getCilindrada() {
+        return $this->cilindrada;
     }
 
     public function __toString() {
         return parent::__toString() . ", Cilindrada: " . $this->cilindrada . " cc";
-    }
-}
-
-// Clase derivada de CuatroRuedas
-class Coche extends CuatroRuedas {
-    private $numeroCadenasNieve;
-
-    public function __construct($color, $peso, $numeroPuertas, $numeroCadenasNieve) {
-        parent::__construct($color, $peso, $numeroPuertas);
-        $this->numeroCadenasNieve = $numeroCadenasNieve;
-    }
-
-    public function anadirCadenasNieve($num) {
-        $this->numeroCadenasNieve += $num;
-        return "El vehículo tiene ahora " . $this->numeroCadenasNieve . " cadenas de nieve";
-    }
-
-    public function quitarCadenasNieve($num) {
-        if(($this->numeroCadenasNieve-$num)<0){
-            $this->numeroCadenasNieve=0;
-        }
-        else{
-            $this->numeroCadenasNieve -= $num;}
-    }
-
-    public function __toString() {
-        return parent::__toString() . "<br>Número de cadenas de nieve: " . $this->numeroCadenasNieve;
     }
 }
 
@@ -116,7 +116,7 @@ class Camion extends CuatroRuedas {
     }
 
     public function __toString() {
-        return parent::__toString() . ", Longitud: " . $this->longitud . " m";
+        return parent::__toString() . " Longitud: " . $this->longitud . " m";
     }
 }
 ?>
