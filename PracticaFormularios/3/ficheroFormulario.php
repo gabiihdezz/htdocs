@@ -1,24 +1,22 @@
 <?php
 if(isset($_POST['radio'])){
-    $evaluar=$_POST['radio'];
-    switch($evaluar){
-        case 14:
-            echo "Yogurin";
+    $validar=$_POST['radio'];
+    echo "Resultado: ";
+    switch($validar){
+        case 'SUMA':
+            echo $_POST['Num1']+$_POST['Num2'];
         break;
-        case 15:
-            echo "Muy joven";
+        case 'RESTA':
+            echo $_POST['Num1']-$_POST['Num2'];
         break;
-        case 21:
-            echo "Joven";
+        case 'MULT':
+            echo $_POST['Num1']*$_POST['Num2'];
         break;
-        case 41:
-            echo "Persona madura";
+        case 'DIV':
+            echo $_POST['Num1']/$_POST['Num2'];
         break;
-        case 61:
-            echo "Ya eres una persona mayor";
-        break;
-            default:
-            echo "No has introducido tu edad";
+        default:
+            echo "No se como, pero has llegado hasta aqui";
             break;
     }
 }    
@@ -59,26 +57,17 @@ else{
 </style>
 </head>
 <body>
-<h1>Introduzca su edad: </h1>
-<form action="ficheroFormulario.php" method="POST">
-    <label>
-        <input type="radio" name="opcion" value="14"> Menor de 14 años
-    </label><br>
-    <label>
-        <input type="radio" name="opcion" value="15"> Entre 15 y 20 años
-    </label><br>
-    <label>
-        <input type="radio" name="opcion" value="21"> Entre 21 y 40 años
-    </label><br>
-    <label>
-        <input type="radio" name="opcion" value="41"> Entre 41 y 60 años 
-    </label><br>
-    <label>
-        <input type="radio" name="opcion" value="61"> Mayor de 60 años
-    </label><br>
-    <br>
-    <button type="submit">Enviar</button>
-</form>
+<div>
+    <h2 >Calculadora, sume, reste, multiplique o divida:</h2>
+        <form action="ficheroSuma.php" method="POST">
+                <p><input type="text" name="Num1" placeholder='Numero 1'></p>
+                <p><input type="text" name="Num2" placeholder='Numero 2'></p>
+                <button type="submit" name="radio" value="SUMA" href="#" >SUMA</button>
+                <button type="submit" name="radio" value="RESTA" href="#">RESTA</button>
+                <button type="submit" name="radio" value="MULT" href="#">MULTIPLICACION</button>
+                <button type="submit" name="radio" value="DIV" href="#">DIVISION</button>
+            </form>
+    </div>
 </body>
 </html>
 <?php }
