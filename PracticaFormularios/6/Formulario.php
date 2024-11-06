@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -38,22 +38,9 @@
 </head>
 <body>
     <div>
-            <form action="" method="POST">
-                <p>Numero de elementos: <input type="text" name="Elementos" placeholder='Elementos'></p>
-            </form>
-            <form action="resultadoFormularioDinamico.php" method="POST">
-                <?php
-                for ($i = 0; $i < $elementos; $i++) {
-                    echo <<<_END
-                    <label for="num$i">$i:</label>
-                    <input type="text" id="num$i" name="nn" required>
-                    <br>
-                    _END;
-                    $suma+=$i;
-                }
-                echo '<input type="submit" value="Enviar">';
-                ?>
-
+        <form action="resultadoFormularioDinamico.php" method="POST">
+            <p>Numero de elementos: <input type="text" name="Elementos" placeholder='Elementos'></p>
+        </form>
     </div>
 </body>
-</html>
+</html>-->

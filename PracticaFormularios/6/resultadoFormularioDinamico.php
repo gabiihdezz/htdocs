@@ -1,5 +1,5 @@
 <?php
-if (isset($_POST['Elementos'])) {
+/*if (isset($_POST['Elementos'])) {
     $elementos = intval($_POST['Elementos']);
     $suma = 0;
 
@@ -15,13 +15,13 @@ if (isset($_POST['Elementos'])) {
         <style>
             @font-face {
                 font-family: 'NunitoXtra';
-                src: url('../html/Nunito-Black.ttf') format('truetype'); /* Asegúrate de que la ruta sea correcta */
+                src: url('../html/Nunito-Black.ttf') format('truetype'); 
                 font-style: normal;
             }   
             .titulo {
-                font-family: 'NunitoXtra', serif; /* Aplica la fuente personalizada */
+                font-family: 'NunitoXtra', serif; 
                 text-align: center;
-                flex-grow: 1; /* Esto permite que el texto ocupe el centro */
+                flex-grow: 1; 
                 font-size: 20px;
             }
             body {
@@ -44,12 +44,12 @@ if (isset($_POST['Elementos'])) {
     </head>
     <body>
         <div>
-            <form action="" method="POST">
+            <form action="final.php" method="POST">
                 <?php
-                for ($i = 0; $i < $elementos; $i++) {
+                for ($i = 1; $i <= $elementos; $i++) {
                     echo <<<_END
                     <label for="num$i">$i:</label>
-                    <input type="text" id="num$i" name="num[]" required>
+                    <input type="text" id="num1" name="1" required>
                     <br>
                     _END;
                 }
@@ -69,13 +69,13 @@ if (isset($_POST['Elementos'])) {
         <style>
             @font-face {
                 font-family: 'NunitoXtra';
-                src: url('../html/Nunito-Black.ttf') format('truetype'); /* Asegúrate de que la ruta sea correcta */
+                src: url('../html/Nunito-Black.ttf') format('truetype');
                 font-style: normal;
             }   
             .titulo {
-                font-family: 'NunitoXtra', serif; /* Aplica la fuente personalizada */
+                font-family: 'NunitoXtra', serif;
                 text-align: center;
-                flex-grow: 1; /* Esto permite que el texto ocupe el centro */
+                flex-grow: 1; 
                 font-size: 20px;
             }
             body {
@@ -107,4 +107,4 @@ if (isset($_POST['Elementos'])) {
     </html>
     <?php
 }
-?>
+*/?>
