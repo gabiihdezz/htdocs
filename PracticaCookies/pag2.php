@@ -1,3 +1,7 @@
+<?php
+$color = isset($_COOKIE['color']) ? $_COOKIE['color'] : 'white'; 
+
+?>
 <html>
 <head>
     <style>
@@ -13,7 +17,7 @@
             font-size: 20px;
         }
     body{
-        /*background-color: lightblue;*/
+        background-color: <?php echo htmlspecialchars($color); ?>;
         text-align: center;
     }
     button{
@@ -33,8 +37,17 @@
 </style>
 </head>
 <body>
-    
-<h5>Se crea la cookie</h5>   
-<p><a href="pag1.php"></a>Volver a la web</p>
+    <?php
+    ($_POST['radio'])==htmlspecialchars($color);
+    // Verificar si se envió el valor de la cookie desde el formulario
+    if (isset($_POST['radio'])) {
+        $color = $_POST['radio']; // Obtener el color seleccionado
+        setcookie('color', $color, time() + (3600 * 7*24), "/"); // Crear cookie válida por 30 días
+        echo "<h3>Cookie creada exitosamente. Has seleccionado el color: $color</h3>";
+    } else {
+        echo "<h3>No se seleccionó ningún color</h3>";
+    }
+    ?>
+    <p><a href="pag1.php">Volver a la página principal</a></p>
 </body>
 </html>

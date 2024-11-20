@@ -1,44 +1,41 @@
+<?php
+setcookie('color', '', time() - 3600, "/");
+$color = isset($_COOKIE['color']) ? $_COOKIE['color'] : 'white'; 
+
+?>
+<!DOCTYPE html>
 <html>
 <head>
     <style>
-    @font-face {
-        font-family: 'NunitoXtra';
-        src: url('../html/Nunito-Black.ttf') format('truetype'); /* Ensure the path is correct */
-        font-style: normal;
-    }   
-    .titulo{
-        font-family: 'NunitoXtra', serif; /* Applies the custom font */
+        body {
+            background-color: <?php echo htmlspecialchars($color); ?>;
             text-align: center;
-            flex-grow: 1; /* Esto permite que el texto ocupe el centro */
-            font-size: 20px;
         }
-    body{
-        text-align: center;
-    }
-    button{
-        padding: 5px 15px;
-        border-width: 4px;
-        border-radius: 50px;
-        font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-        font-size: 15px;
-        color: var(--color-white);
-        transition:
-        scale 0.25s ease-in, 
-            opacity 0.25s ease-in, 
-            filter 0.25s ease-in;}
-            .enviar:hover {
-                transform: scale(1.2); 
-            }
-</style>
+        h1 {
+            color: <?php echo $color === 'white' ? 'black' : 'white'; ?>; /* Contraste para visibilidad */
+        }
+        button {
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 16px;
+            border: none;
+            border: 2px solid black;
+            cursor: pointer;
+            margin: 10px;
+        }
+        .red { background-color: red; color: white; }
+        .green { background-color: green; color: white; }
+        .blue { background-color: blue; color: white; }
+    </style>
 </head>
 <body>
-    
-<form action="pag2.php" method="POST">
-    <h3>De que color quieres que se vea la pagina: </h3>
+    <h1>¡Bienvenido!</h1>
+    <p>El color actual del fondo es: <?php echo htmlspecialchars($color); ?></p>
     <form action="pag2.php" method="POST">
-        <button type="submit" name="radio" value="Rojo" href="#" >Rojo</button>
-        <button type="submit" name="radio" value="Verde" href="#">Verde</button>
-        <button type="submit" name="radio" value="Azul  " href="#">Azul</button>
+        <h3>Selecciona un color para cambiar el fondo:</h3>
+        <button class="red" type="submit" name="radio" value="red">Rojo</button>
+        <button class="green" type="submit" name="radio" value="green">Verde</button>
+        <button class="blue" type="submit" name="radio" value="blue">Azul</button>
     </form>
 </body>
 </html>
