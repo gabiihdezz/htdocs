@@ -2,11 +2,7 @@
 /*Dados 2 números asignados dentro del código a variables realizar el siguiente
 cálculo: si son iguales que los multiplique, si el primero es mayor que el segundo
 que los reste y si no que los sume. Mostrar el resultado en pantalla*/
-$matriz = [
-    [15, 2,  4,  8],
-    [3,  2,  1,  1],
-    [4, 25, 10,  1],
-    [9,  8,  2, 13]];
+$num1 = 0;
 
     $n = count(value: $matriz);
     //n es la length de matriz
