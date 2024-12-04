@@ -103,8 +103,6 @@ $clave='123';
                 </svg>
             </button>
         </div>
-        <br>
-        <a href="claseSignUp.php">Registrarse</a>
         <button type="submit" value="enviar">Enviar</button>
     </form>
 

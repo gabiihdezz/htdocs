@@ -41,6 +41,17 @@ echo <<<_END
 </style>
 _END;
 
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $usuario = $_POST['Usuario'];
+        $contrasena = $_POST['contrasena']; 
+        $intentos = $_SESSION['intentos'];
+        $conn = new mysqli('localhost', 'root', '', 'bdsimon',3307);
+        if ($conn->connect_error) die("Fatal Error"); 
+        $query = "INSERT INTO `simon`( `Usuario`, `Contrasena`, `Rol`, `IntentosCorrectos`) VALUES ('$usuario','$contrasena', 'Jugador', '$intentos')";
+        $result = $conn->query($query); 
+        echo "Usuario registrado exitosamente.";
+    }
+    
 $colores = ["Rojo", "Verde", "Azul", "Amarillo"];
 $secuencia = [];
 for ($i = 0; $i < 4; $i++) {
@@ -73,17 +84,24 @@ $_SESSION["secuencia"] = $secuencia;
     </style>
 </head>
 <body>
-    <h1>Memoriza la secuencia de colores</h1>
-    <div>
+<?php
 
-        <?php
-        foreach ($secuencia as $color) {
-            echo "<div class='color-box " . strtolower($color) . "'></div>";
-        }
-        ?>
-        <form action="pregunta.php" method="POST">
-            <button class="enviar" type="submit" value="enviar">¡A jugar!</button>
-        </form>
+if (isset($_SESSION["intentos"])) {
+    $intentos = $_SESSION["intentos"];
+    echo "Intentos hasta ahora: $intentos";
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $usuario = $_POST["Usuario"];
+    $contrasena = $_POST["contrasena"];
+    
+    exit();
+}
+?>
+
+             <a href="index.php">
+                <button>Nueva Partida</button>
+            </a>
     </div>
 </body>
 </html>

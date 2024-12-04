@@ -41,6 +41,8 @@
         transform: scale(1.2); 
             }
 
+
+
     </style>
 </head>
 <body>
@@ -51,9 +53,8 @@
             <input id="clave" name="clave" type="password" placeholder="Contraseña">
             <span class="toggle-eye" onclick="togglePassword()">👁️</span>
         </div>
-        <br>
         <a href="claseSignUp.php">Registrarse</a>
-        <button type="submit" value="enviar">Enviar</button>
+        <button class="enviar" type="submit" value="enviar">Enviar</button>
     </form>
 
     <script>
