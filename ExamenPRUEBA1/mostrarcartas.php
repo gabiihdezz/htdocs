@@ -2,106 +2,107 @@
 session_start();
 echo <<<_END
 <style>
-    .toggle-eye {
-        cursor: pointer;
-        position: absolute;
-        margin-left: -30px;
-        margin-top: 10px; 
-    }
-    @font-face {
-                font-family: 'NunitoXtra';
-                src: url('Nunito-Black.ttf') format('truetype');
-                font-style: normal;
-            }   
-            .titulo{
-                font-family: 'NunitoXtra', serif; 
-                text-align: center;
-                flex-grow: 1; 
-                font-size: 20px;
-            }
-        body{
-            background-color: lightblue;
-            text-align: center;
-        }
-        .enviar{
-            padding: 5px 15px;
-            border-width: 4px;
-            border-radius: 50px;
-            font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-            font-size: 15px;
-            color: var(--color-white);
-            transition:
-                scale 0.25s ease-in, 
-                opacity 0.25s ease-in, 
-                filter 0.25s ease-in;}
-            .enviar:hover {
-    transform: scale(1.2); 
-        }
-
+img {
+    height: 180px;
+    width: 8%;
+    margin: 5px;}
 </style>
 _END;
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $usuario = $_POST['Usuario'];
-        $contrasena = $_POST['contrasena']; 
-        $intentos = $_SESSION['intentos'];
-        $conn = new mysqli('localhost', 'root', '', 'bdsimon',3307);
-        if ($conn->connect_error) die("Fatal Error"); 
-        $query = "INSERT INTO `simon`( `Usuario`, `Contrasena`, `Rol`, `IntentosCorrectos`) VALUES ('$usuario','$contrasena', 'Jugador', '$intentos')";
-        $result = $conn->query($query); 
-        echo "Usuario registrado exitosamente.";
-    }
-    
-$colores = ["Rojo", "Verde", "Azul", "Amarillo"];
-$secuencia = [];
-for ($i = 0; $i < 4; $i++) {
-    $secuencia[] = $colores[array_rand($colores)];
+//1 combinacion random, se guardan en la sesion
+if (!isset($_SESSION["cartas"])) {
+    $_SESSION["cartas"] = array_merge([1, 2, 3, 1, 2, 3]); 
+    shuffle($_SESSION["cartas"]);
 }
 
+if (!isset($_SESSION["levantada"])) {
+    $_SESSION["levantada"] = -1; 
+}
 
-$_SESSION["secuencia"] = $secuencia;
+if (isset($_POST["cartaSeleccionada"])) {
+    $_SESSION["levantada"] = (int)$_POST["cartaSeleccionada"]; 
+}
+
+for ($i = 0; $i < 6; $i++) {
+    if ($i == $_SESSION["levantada"]) {
+        switch ($_SESSION["cartas"][$i]) {
+            case 1:
+                echo "<img src=\"materiales-examen/copas_02.jpg\">";
+                break;
+            case 2:
+                echo "<img src=\"materiales-examen/copas_03.JPG\">";
+                break;
+            case 3:
+                echo "<img src=\"materiales-examen/copas_05.JPG\">";
+                break;
+        }
+    } else {
+        echo "<img src=\"materiales-examen/boca_abajo.jpg\">";
+    }
+}
+
+if (!isset($_SESSION["r"])) {
+    $_SESSION["r"] = 0; 
+}
+
+if (isset($_POST["prueba"])) {
+    $pruebas= $_SESSION["r"]++; 
+    echo "<div> Número de intentos: $pruebas</div>";
+    $num1=($_SESSION["cartas"][$_POST["pareja1"]]);
+    $num2=($_SESSION["cartas"][$_POST["pareja2"]]);
+    if($num1>5 || $num2>5){
+        echo "<br>Debe de ser un numero comprendido entre el 0 y el 5";
+    }
+    else if($num1>5 && $num2>5){
+        echo "<br>Debe de ser un numero comprendido entre el 0 y el 5";
+    }
+    else if($num1 === $num2){
+        echo "<br>Correcto, has acertado: <br>".$num1." = ".$num2;
+    }
+    else{
+        echo "<br> Has fallado, vuelva a intentarlo";
+    }
+}
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIMON - Muestra la Secuencia</title>
+    <title>Juego de Cartas</title>
     <style>
-        body { text-align: center; background-color: aliceblue; }
-        .color-box {
-            display: inline-block; width: 100px; height: 100px; border-radius: 50%;
-            margin: 15px; border: 3px solid black;
+        body {
+            text-align: center;
+            background-color: aliceblue;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif,sans-serif;
         }
-        .rojo { background-color: red; }
-        .verde { background-color: green; }
-        .azul { background-color: blue; }
-        .amarillo { background-color: yellow; }
         button {
-            padding: 10px 20px; font-size: 18px; cursor: pointer; margin-top: 20px;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 10px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        button:hover {
+            transform: scale(1.1);
         }
     </style>
 </head>
 <body>
-<?php
-
-if (isset($_SESSION["intentos"])) {
-    $intentos = $_SESSION["intentos"];
-    echo "Intentos hasta ahora: $intentos";
-}
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $usuario = $_POST["Usuario"];
-    $contrasena = $_POST["contrasena"];
-    
-    exit();
-}
-?>
-
-             <a href="index.php">
-                <button>Nueva Partida</button>
-            </a>
-    </div>
+    <h1>Bienvenido/a, <?php echo htmlspecialchars($_SESSION["login"]); ?></h1>
+    <form action="" method="POST">
+        <?php for ($i = 0; $i < 6; $i++){?>
+            <button type="submit" name="cartaSeleccionada" value="<?php echo $i; ?>">Levantar Carta nº<?php echo $i + 1; ?></button>
+        <?php } ?>
+    </form>
+    <h3>Introduzca una pareja de Cartas</h3>
+    <form action="resultado.php" method="POST">
+        <input type="text" name="pareja1">
+        <input type="text" name="pareja2">
+        <button type="submit" name="prueba" value="<?php echo $r++; ?>">Probar</button>
+    </form>
 </body>
 </html>
