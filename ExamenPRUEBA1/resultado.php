@@ -70,16 +70,16 @@ if (isset($_POST["prueba"])) {
             require_once 'materiales-examen/conexion.php';
             $conn = new mysqli('localhost', 'root', '', 'pruebas',3307); 
             if ($conn->connect_error) die("Fatal Error"); 
-            $query = "UPDATE `jugador` where `login`=$login SET `puntos` = `puntos` + 1;";
+            $query = "UPDATE `jugador` SET `puntos` = `puntos` + 1 WHERE `login` = '$login';";
             $result = $conn->query($query); 
         }
         else{
-        require_once 'materiales-examen/conexion.php';
-        $conn = new mysqli('localhost', 'root', '', 'pruebas',3307); 
-        if ($conn->connect_error) die("Fatal Error"); 
-        $query = "UPDATE `jugador` where `login`=$login SET `puntos` = `puntos` - 1;";
-        $result = $conn->query($query); 
-        echo "<h3>Fallo posiciones.Valor de la primera carta: $num1 y de la segunda: $num2 </h3>";}
+            require_once 'materiales-examen/conexion.php';
+            $conn = new mysqli('localhost', 'root', '', 'pruebas',3307); 
+            if ($conn->connect_error) die("Fatal Error"); 
+            $query = "UPDATE `jugador` SET `puntos` = `puntos` - 1 WHERE `login` = '$login';";
+            $result = $conn->query($query); 
+            echo "<h3>Fallo posiciones.Valor de la primera carta: $num1 y de la segunda: $num2 </h3>";}
     ?>
     <div>
     <?php
