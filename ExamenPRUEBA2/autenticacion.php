@@ -3,16 +3,17 @@ require_once('conexion.php');
 
 function autenticarUsuario($login, $clave) {
     global $conn;
-    $stmt = $conn->prepare("SELECT * FROM usuarios WHERE login=? AND clave=?");
-    $stmt->bind_param("ss", $login, $clave);
+    $stmt = $conn->prepare("SELECT clave FROM usuarios WHERE login = ?");
+    $stmt->bind_param("s", $login);
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result->num_rows === 1) {
-        return true;
-    } else {
-        return false;
+        $hashedPassword = $result->fetch_assoc()['clave'];
+        if (password_verify($clave, $hashedPassword)) {
+            return true;
+        }
     }
-    $stmt->close();
-    $conn->close();
+    return false;
 }
+
 ?>
