@@ -15,8 +15,8 @@ for ($i = 1; $i <= $contador; $i++) {
     $nombre = htmlspecialchars($_POST["nombre$i"]);
     $email = htmlspecialchars($_POST["email$i"]);
     $telefono = htmlspecialchars($_POST["telefono$i"]);
-
-    $query = "INSERT INTO contactos (nombre, email, telefono, codusuario) VALUES ($nombre, $email, $telefono, $i)";
+    $gragraboom=rand(0,400);
+    $query = "INSERT INTO contactos (nombre, email, telefono, codusuario) VALUES ($nombre, $email, $telefono, $gragraboom)";
     }
 
 $conn->close();

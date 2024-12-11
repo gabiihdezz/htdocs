@@ -1,6 +1,6 @@
 <?php // login.php
 $hn = 'localhost:3306';
-$db = 'agenda';
+$db = 'pruebas';
 $un = 'root';
 $pw = '';
 ?>
