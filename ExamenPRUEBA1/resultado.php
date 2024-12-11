@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION["r"])) {
-    $_SESSION["r"] = 0; 
+    $_SESSION["r"] = 1; 
 }
 
 if (isset($_POST["prueba"])) {
@@ -68,11 +68,12 @@ if (isset($_POST["prueba"])) {
         if($num1 === $num2)  {
             echo "<h3>Correcto!+1</h3>";
             require_once 'materiales-examen/conexion.php';
-            $conn = new mysqli('localhost', 'root', '', 'pruebas',3307); 
+            $conn = new mysqli('localhost', 'root',     '', 'pruebas',3307); 
             if ($conn->connect_error) die("Fatal Error"); 
             $query = "UPDATE `jugador` SET `puntos` = `puntos` + 1 WHERE `login` = '$login';";
             $result = $conn->query($query); 
         }
+     
         else{
             require_once 'materiales-examen/conexion.php';
             $conn = new mysqli('localhost', 'root', '', 'pruebas',3307); 
