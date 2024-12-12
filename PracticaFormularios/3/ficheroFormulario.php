@@ -109,7 +109,7 @@ else{
 <body>
 <div>
     <h2 >Calculadora, sume, reste, multiplique o divida:</h2>
-        <form action="ficheroFormulario.php" method="POST">
+        <form action="ficheroSuma.php" method="POST">
                 <p><input type="text" name="Num1" placeholder='Numero 1'></p>
                 <p><input type="text" name="Num2" placeholder='Numero 2'></p>
                 <button type="submit" name="radio" value="SUMA" href="#" >SUMA</button>

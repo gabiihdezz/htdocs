@@ -50,6 +50,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $query = "INSERT INTO `simon`( `Usuario`, `Contrasena`, `Rol`, `IntentosCorrectos`) VALUES ('$usuario','$contrasena', 'Jugador', '$intentos')";
         $result = $conn->query($query); 
         echo "Usuario registrado exitosamente.";
+        echo <<<_END
+            <div>
+                <a href="index.php">
+                    <button>Nueva Partida</button>
+                </a>
+            </div>  
+        _END;
     }
     
 $colores = ["Rojo", "Verde", "Azul", "Amarillo"];
@@ -99,9 +106,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
-             <a href="index.php">
-                <button>Nueva Partida</button>
-            </a>
-    </div>
 </body>
 </html>

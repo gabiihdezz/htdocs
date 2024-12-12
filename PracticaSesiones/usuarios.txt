@@ -7,5 +7,4 @@ fermin,feerr
 fermin,feerr
 we,we
 usuario,clave
-quevediño,quevedazo
-snuffly,snuffly
+nosvemos,entucalle

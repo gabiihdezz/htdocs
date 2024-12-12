@@ -1,40 +1,36 @@
 <?php
 session_start();
-if(isset($_POST["color"])){
 
-$num=rand(0,100);
-$intentos=0;
-$resul="";
-if ($_SESSION["color"] <= $num) {
-    $intentos++;
-    $resul="menor";}
-else if ($_SESSION["color"] >= $num) {
-    $intentos++;
-    $resul="mayor";}
-if ($_SESSION["color"] == $num) {
-    $intentos++;
-    $resul=" correcto, enhorabuena. \n Lo has adivinado en "+ $intentos+ " intentos";}
-    
-echo <<<_END
-<p>Tu numero es $resul :</p>
-<form action="ejercicio3.php" method="POST">
-<input type="text" id="color" name="color" required>
-<a href="ejercicio3.php">
-     <input type="submit" value="Enviar">
-</a>
-</form>
-_END;
+if (!isset($_SESSION["num_secreto"])) {
+    $_SESSION["num_secreto"] = rand(0, 100);
+    $_SESSION["intentos"] = 0;
+}
 
-}    
-else{
-    ?>
+$resul = "";
+
+if (isset($_POST["color"])) {
+    $numero_usuario = intval($_POST["color"]); 
+    $_SESSION["intentos"]++; 
+
+    if ($numero_usuario < $_SESSION["num_secreto"]) {
+        $resul = "El número es mayor.";
+    } elseif ($numero_usuario > $_SESSION["num_secreto"]) {
+        $resul = "El número es menor.";
+    } else {
+        $resul = "¡Correcto! Has adivinado el número en {$_SESSION["intentos"]} intentos.";
+        unset($_SESSION["num_secreto"]);
+        unset($_SESSION["intentos"]);
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ejercicio2</title>
+    <title>Adivina el Número</title>
     <style>
         body {
             text-align: center;
@@ -54,15 +50,16 @@ else{
 </head>
 <body>
     <div>
-        <p>Adivina mi numero:</p>
+        <h1>Adivina el Número</h1>
+        <p>Estoy pensando en un número entre 0 y 100.</p>
+        <?php if ($resul): ?>
+            <p><?php echo htmlspecialchars($resul); ?></p>
+        <?php endif; ?>
         <form action="ejercicio3.php" method="POST">
-        <input type="text" id="color" name="color" required>
-        <a href="ejercicio3.php">
-             <input type="submit" value="Enviar">
-        </a>
+            <label for="color">Introduce tu número:</label>
+            <input type="number" id="color" name="color" required>
+            <input type="submit" value="Enviar" class="enviar">
         </form>
- 
     </div>
 </body>
 </html>
-<?php }

@@ -1,5 +1,5 @@
 <?php
-$color = isset($_COOKIE['color']) ? $_COOKIE['color'] : 'white'; 
+$color = isset($_COOKIE['color']) ? $_COOKIE['color'] : 'white'; // Valor predeterminado: blanco
 
 ?>
 <html>
