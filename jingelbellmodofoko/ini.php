@@ -19,7 +19,7 @@ session_start();
             *{
                 font-family: 'Bebas', serif; 
                 text-align: center;
-                margin-top:30px;                
+                margin-top:10px;                
                 flex-grow: 1; 
                 font-size: 40px;
             }
@@ -48,11 +48,11 @@ session_start();
 
 <?php
 $i=0;
-for($i=0; $i <=10;$i++){ ?>
- <form method='post' action='upload.php' enctype='multipart/form-data'>
- Select File: <input type='file' name='filename' size='10'>
+for($i=0; $i <=3;$i++){ ?>
+ <form method='post' action='upload.php' enctype='multipart/form-data'><br>
+ Select File: <input type='file' name='filename$i' name='filename$i' size='10'>
+ <?php  }?><br>
  <input type='submit' value='Upload'>
  </form>
- <?php  }?>
 </body>
 </html>

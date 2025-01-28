@@ -31,13 +31,13 @@ $result = $conn->query($query);
         <tr>
             <th>Login</th>
             <th>Puntos</th>
-            <th>Gráfica /200</th>
+            <th>Gráfica %</th>
         </tr>
         <?php while ($row = $result->fetch_assoc()): ?>
             <tr>
                 <td><?php echo htmlspecialchars($row['login']); ?></td>
                 <td><?php echo htmlspecialchars($row['puntos']); ?></td>
-                <td style=" background-color: red; width: <?php $row['puntos']*100/200  ?> % ;"><?php  ;echo htmlspecialchars($row['puntos']*100/200); ?> %</td>
+                <td style=" background-color: red; width: <?php $row['puntos'] ?> % ;"><?php  ;echo htmlspecialchars($row['puntos']*100/200); ?> %</td>
             </tr>
         <?php endwhile; ?>
     </table>

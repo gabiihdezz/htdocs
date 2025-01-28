@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 
@@ -56,21 +57,23 @@ _END;
 if ($_FILES)
  {
  $name = $_FILES['filename']['name'];
- move_uploaded_file($_FILES['filename']['tmp_name'], "img/$name");
+ for($i=0; $i <=3;$i++){ 
+    move_uploaded_file($_FILES['filename']['tmp_name'], "img/$name$i");
+ }
  echo "</body></html>";  }
- echo "<br><img src='img/$name'>";
+ echo "<br><img src='img/$name$i'>";
  echo "<br>";
- echo "<img src=\"img/madera.jpg\">";
- echo "<img src=\"img/madera.jpg\">";
+ echo "<img src=\"img/$name$i\">";
+ echo "<img src=\"img/$name$i\">";
  echo "<br>";
- echo "<img src=\"img/madera.jpg\">";
- echo "<img src=\"img/madera.jpg\">";
- echo "<img src=\"img/madera.jpg\">";
+ echo "<img src=\"img/$name$i\">";
+ echo "<img src=\"img/$name$i\">";
+ echo "<img src=\"img/$name$i\">";
  echo "<br>";
- echo "<img src=\"img/madera.jpg\">";
- echo "<img src=\"img/madera.jpg\">";
- echo "<img src=\"img/madera.jpg\">";
- echo "<img src=\"img/madera.jpg\">";
+ echo "<img src=\"img/$name$i\">";
+ echo "<img src=\"img/$name$i\">";
+ echo "<img src=\"img/$name$i\">";
+ echo "<img src=\"img/$name$i\">";
  echo "<br>";
  echo "<img src=\"img/madera.jpg\">";
 
