@@ -1,30 +1,42 @@
 <?php
-require 'C:\xampp\phpMyAdmin\vendor\autoload.php';
+require '../../../phpMyAdmin/vendor/autoload.php';
 
-//Conectar a MongoDB
+// Conectar a MongoDB
 use MongoDB\Client;
 
-$client = new Client("MongoDB://localhost:27017");
+$uri = 'mongodb://localhost:27017';
 
-//Seleccionar la base de datos
-$database = $client ->miBaseDeDatos;
+// Crear una instancia de MongoDB\Client
+$client = new Client($uri);
 
-//Seleccionar la coleccion
-$colection  = $database ->miColeccion;
+// Seleccionar la base de datos
+$database = $client->miBaseDeDatos;
 
-//insertar un documento
+// Seleccionar la colección
+$collection = $database->Empresa;
+
+// Datos a insertar
 $document = [
-    'nombre' => 'Juan',
-    'edad' => 30,
-    'ciudad' => 'Madrid',
+    'Nombre' => 'Juan',
+    'Apellido1' => 'Pérez',
+    'Apellido2' => 'González',
+    'Departamento' => 'Recursos Humanos', // Puede ser uno de los 3 o 4 departamentos
 ];
 
-$result = $collection -> insertOne($document);
+// Insertar el documento
+$result = $collection->insertOne($document);
 
+// Mostrar mensaje de éxito
+echo "Documento insertado con el ID: " . $result->getInsertedId() . "<br>";
 
-//Recuperar documentos
-$cursor = $collection -> find();
+// Recuperar documentos de la colección
+$cursor = $collection->find();
 
-
-
+// Mostrar todos los documentos de la colección
+foreach ($cursor as $document) {
+    echo "Nombre: " . $document['Nombre'] . "<br>";
+    echo "Apellido1: " . $document['Apellido1'] . "<br>";
+    echo "Apellido2: " . $document['Apellido2'] . "<br>";
+    echo "Departamento: " . $document['Departamento'] . "<br><br>";
+}
 ?>
