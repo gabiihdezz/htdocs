@@ -1,7 +1,6 @@
 <?php
-setcookie('color', '', time() - 3600, "/");
-$color = isset($_COOKIE['color']) ? $_COOKIE['color'] : 'white'; 
-
+// Leer la cookie si existe
+$color = isset($_COOKIE['color']) ? $_COOKIE['color'] : 'white'; // Valor predeterminado: blanco
 ?>
 <!DOCTYPE html>
 <html>

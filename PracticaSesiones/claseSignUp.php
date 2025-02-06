@@ -12,16 +12,16 @@
             margin-top: 10px; 
         }
         @font-face {
-        font-family: 'Bebas';
-        src: url('font_types/BebasNeue-Regular.tff') format('truetype');
-        font-style: normal;
-    }   
-    *{
-        font-family: 'Bebas', sans-serif; 
-        text-align: center;
-        flex-grow: 1; 
-        font-size: 20px;
-    }
+                    font-family: 'NunitoXtra';
+                    src: url('Nunito-Black.ttf') format('truetype');
+                    font-style: normal;
+                }   
+                .titulo{
+                    font-family: 'NunitoXtra', serif; 
+                    text-align: center;
+                    flex-grow: 1; 
+                    font-size: 20px;
+                }
             body{
                 background-color: lightblue;
                 text-align: center;
@@ -40,17 +40,12 @@
                 .enviar:hover {
         transform: scale(1.2); 
             }
-            .estandar{
-                background-color:beige;
-            }
-            .premium{
-                color:gold;
-            }
+
     </style>
 </head>
 <body>
     <form action="guardarUsuario.php" method="POST">
-        <h3>REGISTRARSE:</h3>
+        <h3>Registrarse:</h3>
         <input id="nombre" name="nombre" placeholder="Nombre"><br><br>
         <input id="apellidos" name="apellidos" placeholder="Apellidos"><br><br>
         <input id="CP" name="CP" placeholder="Código Postal"><br><br>
@@ -60,12 +55,6 @@
             <span class="toggle-eye" onclick="togglePassword()">👁️</span>
         </div>
         <br>
-        <br>
-        <input class="estandar" type="radio" name="jugador" value="jugador" href="#" >Jugador Estándar</input>
-        <input class="premium" type="radio" name="jugador" value="premium" href="#" >Jugador Chingon</input>
-        <br>
-        <br>        
-
         <a href="clase1.php">Iniciar Sesion</a>
         <button type="submit" value="enviar">Enviar</button>
     </form>
