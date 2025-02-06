@@ -1,14 +1,16 @@
 <?php
 session_start();
-require_once('util/login.php'); 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+require_once('util/usuario.php'); 
 require_once('util/funciones.php');  
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $login = $_POST["login"];
+    $usuario = $_POST["usuario"];
     $clave = $_POST["clave"];
 
-    if (autenticarUsuario($login, $clave)) {
-        $_SESSION["login"] = $login;
+    if (autenticarUsuario($usuario, $clave)) {
+        $_SESSION["usuario"] = $usuario;
         header("Location: inicio.php");  
         exit();
     } else {
@@ -23,19 +25,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <title>Iniciar sesión</title>
+    <style>
+        *{
+            text-align:center;
+            font-size: 30px;
+            margin:10px;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+
+    </style>
 </head>
 <body>
     <h2>Iniciar sesión</h2>
     <?php if(isset($error)) { echo "<p style='color: red;'>$error</p>"; } ?>
 
     <form method="post" action="">
-        <label for="login">Usuario:</label>
-        <input type="text" id="login" name="login" required><br>
+        <label for="usuario">Usuario:</label>
+        <input type="text" id="usuario" name="usuario" required><br>
 
         <label for="clave">Contraseña:</label>
         <input type="password" id="clave" name="clave" required><br>
 
         <input type="submit" value="Entrar">
     </form>
+    <hr>
+    <h3>¿No tienes cuenta?</h3>
+    <a href="registro.php">Registrarse</a>
+
+
 </body>
 </html>

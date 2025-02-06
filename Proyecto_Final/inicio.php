@@ -41,13 +41,14 @@ _END;
 </head>
 <body>
     <?php   
-        $conn = new mysqli('localhost', 'root', '', 'jerogrifico',3307);
+        $conn = new mysqli('localhost', 'root', '', 'diabetesdb',3307);
         if ($conn->connect_error) die("Fatal Error"); 
 
         $query = "
-        SELECT jugador.login, nombre AS nombre
+        SELECT jugador.usuario, nombre AS nombre
         FROM jugador; 
-    ";
+
+        ";
     
     
     
