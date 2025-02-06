@@ -20,7 +20,7 @@ if (!isset($_SESSION['usuario']) || !isset($_SESSION['contador'])) {
                 <fieldset>
                     <legend>Contacto $i</legend>
                     <label>Nombre:</label>
-                    <input type="text" name="nombre$i" required>
+                    <input type="text" name="nobrem$i" required>
                     <br>
                     <label>Email:</label>
                     <input type="email" name="email$i" required>

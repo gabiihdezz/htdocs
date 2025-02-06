@@ -2,7 +2,6 @@
 session_start();
 require_once('conexion.php');
 
-// Verificar si el usuario está logueado
 if (!isset($_SESSION['codusuario'])) {
     echo "No has iniciado sesión.";
     exit();
@@ -11,12 +10,21 @@ if (!isset($_SESSION['codusuario'])) {
 $codusuario = $_SESSION['codusuario'];  
 $contador = $_SESSION['contador'];     
 
+$usuarios = [
+    'luis' => 1,
+    'maria' => 2,
+    'paco' => 3,
+    'pedro' => 4,
+];
+
+$codcontacto = $usuarios[$_SESSION['usuario']] ?? 33;
+
+
 for ($i = 1; $i <= $contador; $i++) {
-    $nombre = htmlspecialchars($_POST["nombre$i"]);
-    $email = htmlspecialchars($_POST["email$i"]);
-    $telefono = htmlspecialchars($_POST["telefono$i"]);
-    $gragraboom=rand(0,400);
-    $query = "INSERT INTO contactos (nombre, email, telefono, codusuario) VALUES ($nombre, $email, $telefono, $gragraboom)";
+    $nombre = isset($_POST["nombre$i"]) ? htmlspecialchars($_POST["nombre$i"]) : '';
+    $email = isset($_POST["email$i"]) ? htmlspecialchars($_POST["email$i"]) : '';
+    $telefono = isset($_POST["telefono$i"]) ? htmlspecialchars($_POST["telefono$i"]) : '';
+    $query = "INSERT INTO contactos (nombre, email, telefono, codcontacto) VALUES ($nombre, $email, $telefono, $codcontacto)";
     }
 
 $conn->close();
