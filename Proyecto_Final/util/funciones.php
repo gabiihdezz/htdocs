@@ -1,13 +1,12 @@
-<<<<<<< HEAD
 <?php
-function autenticarUsuario($usuario, $clave) {
+function autenticarUsuario($usuario, $contra) {
     global $conn;  // Usamos la conexión definida en conexion.php
     
     // Evitar inyecciones SQL
     $usuario = $conn->real_escape_string($usuario);
-    $clave = $conn->real_escape_string($clave);
+    $contra = $conn->real_escape_string($contra);
 
-    $sql = "SELECT * FROM usuario WHERE usuario = '$usuario' AND clave = '$clave'";
+    $sql = "SELECT * FROM usuario WHERE usuario = '$usuario' AND contra = '$contra'";
     $resultado = $conn->query($sql);
 
     if ($resultado && $resultado->num_rows > 0) {
@@ -17,17 +16,20 @@ function autenticarUsuario($usuario, $clave) {
         return false;
     }
 }
-?>
-=======
-<?php
-function autenticarUsuario($usuario, $clave) {
+
+function registroUsuario($contra, $correo , $user, $fecha, $nombre, $apellidos) {
     global $conn;  // Usamos la conexión definida en conexion.php
     
     // Evitar inyecciones SQL
-    $usuario = $conn->real_escape_string($usuario);
-    $clave = $conn->real_escape_string($clave);
+    $contra = $conn->real_escape_string($contra);
+    $correo = $conn->real_escape_string($correo);
+    $user = $conn->real_escape_string($user);
+    $fecha = $conn->$fecha;
+    $nombre = $conn->real_escape_string(string: $nombre);
+    $apellidos = $conn->real_escape_string($apellidos);
 
-    $sql = "SELECT * FROM usuario WHERE usuario = '$usuario' AND clave = '$clave'";
+    $sql = "INSERT INTO `usuario`( `fecha_nacimiento`, `nombre`, `apellidos`, `usuario`, `contra`, `correo`) 
+                          VALUES ('$fecha','$nombre','$apellidos','$user','$contra','$correo')";
     $resultado = $conn->query($sql);
 
     if ($resultado && $resultado->num_rows > 0) {
@@ -37,5 +39,5 @@ function autenticarUsuario($usuario, $clave) {
         return false;
     }
 }
+
 ?>
->>>>>>> 8be80c137861cac082f5a1f16cbf7dd413a6a04c
