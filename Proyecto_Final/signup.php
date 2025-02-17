@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </style>
 </head>
 <body>
-    <h2 href="registro.php">Registrarse</h2>
+    <h2 href="signup.php">Registrarse</h2>
 
     <?php if(isset($error)) { echo "<p style='color: red;'>$error</p>"; } ?>
 
@@ -80,6 +80,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <input type="submit" value="Registrarse">
     </form>
-
+    <hr>
+    <h4>¿Ya tienes una cuenta?</h4>
+        <a href="login.php">Iniciar Sesión</a>
 </body>
 </html>

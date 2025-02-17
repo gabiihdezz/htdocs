@@ -1,4 +1,4 @@
-<?php
+    <?php
 session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -8,15 +8,26 @@ require_once('util/funciones.php');
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $usuario = $_POST["usuario"];
     $contra = $_POST["contra"];
-
+  
+    if (pasarHash($contra)) {
+        $_SESSION["contra"] = $contra;
+        header("Location: inicio.php");  
+        exit();
+    }
     if (autenticarUsuario($usuario, $contra)) {
         $_SESSION["usuario"] = $usuario;
+        $_SESSION["contra"] = $contra;
         header("Location: inicio.php");  
         exit();
     } else {
         $error = "Credenciales incorrectas. Inténtalo de nuevo.";
     }
+    
 }
+
+
+
+
 ?>
 
 
@@ -50,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </form>
     <hr>
     <h3>¿No tienes cuenta?</h3>
-    <a href="registro.php">Registrarse</a>
+    <a href="signup.php">Registrarse</a>
 
 
 </body>
