@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $usuario = $_POST["usuario"];
     $contra = $_POST["contra"];
 
-    if (autenticarUsuario($usuario, $contra)) {
+    if (verifyPassword($usuario, $contra)) {
         $_SESSION["usuario"] = $usuario;
         $_SESSION["contra"] = $contra;
         header("Location: ../inicio.php");  

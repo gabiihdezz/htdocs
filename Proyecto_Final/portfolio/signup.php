@@ -4,18 +4,31 @@ require_once('../util/login.php');
 require_once('../util/funciones.php');  
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $usuario = $_POST["usuario"];
     $contra = $_POST["contra"];
+    $correo = $_POST["correo"];
+    $usuario = $_POST["usuario"];
+    $fecha = $_POST["fecha"];
+    $nombre = $_POST["nombre"];
+    $apellidos = $_POST["apellidos"];
+    $contra2 = $_POST["contra2"];
 
-    if (autenticarUsuario($usuario, $contra)) {
+    if (registroUsuario($contra, $correo , $usuario, $fecha, $nombre, $apellidos)) {
         $_SESSION["usuario"] = $usuario;
-        $_SESSION["contra"] = $contra;
         header("Location: ../inicio.php");  
         exit();
     } else {
         $error = "Credenciales incorrectas. Inténtalo de nuevo.";
-    }    
+    }
+
+
+    if ($contra === $contra2) {
+        header("Location: ../inicio.php");  
+        exit();
+    } else {
+        $error = "Las contraseñas no coinciden. Inténtalo de nuevo.";
+    }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -106,7 +119,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="row mt-3">
                         <div class="col-12 col-sm-6">
                             <label for="correo" class="form-label fs-5">Correo Electrónico: </label>
-                            <input type="email" id="correo" name="correo" class="form-control" required>
+                            <input type="text" id="correo" name="correo" class="form-control" required>
                         </div>
                         <div class="col-12 col-sm-6">
                             <label for="fecha" class="form-label fs-5">Fecha de Nacimiento: </label>
@@ -116,8 +129,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     <div class="row mt-3">
                         <div class="col-12 col-sm-6">
-                            <label for="user" class="form-label fs-5">Usuario: </label>
-                            <input type="text" id="user" name="user" class="form-control" required>
+                            <label for="usuario" class="form-label fs-5">Usuario: </label>
+                            <input type="text" id="usuario" name="usuario" class="form-control" required>
                         </div>
                         <div class="col-12 col-sm-6">
                             <label for="contra" class="form-label fs-5">Contraseña: </label>
