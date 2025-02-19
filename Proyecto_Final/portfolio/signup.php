@@ -12,21 +12,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $apellidos = $_POST["apellidos"];
     $contra2 = $_POST["contra2"];
 
-    if (registroUsuario($contra, $correo , $usuario, $fecha, $nombre, $apellidos)) {
-        $_SESSION["usuario"] = $usuario;
-        header("Location: ../inicio.php");  
-        exit();
-    } else {
-        $error = "Credenciales incorrectas. Inténtalo de nuevo.";
-    }
-
-
-    if ($contra === $contra2) {
-        header("Location: ../inicio.php");  
-        exit();
-    } else {
+    if ($contra !== $contra2) {
         $error = "Las contraseñas no coinciden. Inténtalo de nuevo.";
+    } else {
+        if (registroUsuario($contra, $correo , $usuario, $fecha, $nombre, $apellidos)) {
+            $_SESSION["usuario"] = $usuario;
+            header("Location: ../inicio.php");  
+            exit();
+        } else {
+            $error = "Error al registrar el usuario. Inténtalo de nuevo.";
+        }
     }
+    
 }
 
 ?>
