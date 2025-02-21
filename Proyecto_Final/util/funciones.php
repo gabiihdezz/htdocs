@@ -1,67 +1,80 @@
 <?php
+$conn = new mysqli('localhost', 'root', '', 'diabetesdb', 3307);
+
+if ($conn->connect_error) {
+    die("Conexión fallida: " . $conn->connect_error);
+}
+
 function autenticarUsuario($usuario, $contra) {
     global $conn;
 
-    $usuario = $conn->real_escape_string($usuario);
+    if (!$conn) {
+        die("Error en la conexión a la base de datos: " . $conn->connect_error);
+    }
 
-    $sql = "SELECT * FROM usuario WHERE usuario = '$usuario'";
-    $resultado = $conn->query($sql);
+    $sql = "SELECT id_usu, nombre, contra FROM usuario WHERE usuario = ?";
+    $stmt = $conn->prepare($sql);
+    
+    if (!$stmt) {
+        die("Error en la preparación de la consulta: " . $conn->error);
+    }
 
-    if ($resultado && $resultado->num_rows > 0) {
-        $fila = $resultado->fetch_assoc();
-        $hashAlmacenado = $fila["contra"]; 
+    $stmt->bind_param("s", $usuario);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-        if (password_verify($contra, $hashAlmacenado)) {
-            $_SESSION["usuario"] = $usuario;
-            header("Location: ../inicio.php");
-            exit();
+    if ($result->num_rows > 0) {
+        $fila = $result->fetch_assoc();
+
+        if (password_verify($contra, $fila["contra"])) {
+            session_start();
+            $_SESSION['id_usu'] = $fila['id_usu'];
+            $_SESSION['nombre_usuario'] = $fila['nombre'];
+            
+            return true;
         } else {
-            return false; 
+            return false;
         }
     } else {
-        return false; 
+        return false;
     }
 }
 
 function hashPassword($contra) {
     return password_hash($contra, PASSWORD_BCRYPT);
 }
- function verifyPassword($contra, $hash) {
-    global $conn;  
-    $hash = "SELECT * FROM `usuario`( `contra`)" ;
-    $resultado = $conn->query($hash);
-    if ($hash == $contra){
-        true;
-    }
-    else{
-        false;
-        echo "error";
-    }
-    return password_verify($contra, $hash);
-}
-function registroUsuario($contra, $correo , $usuario, $fecha, $nombre, $apellidos) {
-    global $conn;  
-    $contra = $_POST["contra"];  
-    $contraHash = password_hash($contra, PASSWORD_BCRYPT);  
 
-    $correo = $conn->real_escape_string($correo);
-    $usuario = $conn->real_escape_string($usuario);
-    $fecha = $conn->real_escape_string($fecha);
-    $nombre = $conn->real_escape_string(string: $nombre);
-    $apellidos = $conn->real_escape_string($apellidos);
-    
-    $sql = "INSERT INTO `usuario`( `fecha_nacimiento`, `nombre`, `apellidos`, `usuario`, `contra`, `correo`) 
-                          VALUES ('$fecha','$nombre','$apellidos','$usuario','$contraHash','$correo')";
-    $resultado = $conn->query($sql);
-    if ($resultado === false) {  // Si la consulta falló
-        error_log("Error en la consulta: " . $conn->error); // Guardar en logs en vez de mostrar en pantalla
-        return false;
+function registroUsuario($contra, $usuario, $fecha, $nombre, $apellidos) {
+    global $conn;
+
+    // Verificar si el usuario ya existe
+    $sql_check = "SELECT usuario FROM usuario WHERE usuario = ?";
+    $stmt_check = $conn->prepare($sql_check);
+    $stmt_check->bind_param("s", $usuario);
+    $stmt_check->execute();
+    $stmt_check->store_result();
+
+    if ($stmt_check->num_rows > 0) {
+        $stmt_check->close();
+        return false; // Usuario ya existe
     }
-    if ($conn->affected_rows > 0) { 
-        header("Location: ../inicio.php");
-        exit();
+    $stmt_check->close();
+
+    // Hashear la contraseña antes de guardarla
+    $contraHash = password_hash($contra, PASSWORD_BCRYPT);
+
+    // Insertar nuevo usuario
+    $sql = "INSERT INTO usuario (fecha_nacimiento, nombre, apellidos, usuario, contra) 
+            VALUES (?, ?, ?, ?, ?)";
+    
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("sssss", $fecha, $nombre, $apellidos, $usuario, $contraHash);
+
+    if ($stmt->execute()) {
+        return $stmt->insert_id; // Devuelve el ID del usuario recién creado
     } else {
-        return false;
+        return false; // Error en el registro
     }
 }
-?>
+
+?>  
