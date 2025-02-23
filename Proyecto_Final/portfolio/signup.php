@@ -1,6 +1,8 @@
 <?php
 session_start();
 require_once('../util/funciones.php');  
+error_reporting(E_ALL);  // Muestra todos los errores.
+ini_set('display_errors', 1);  // Muestra los errores en pantalla.
 
 $nombre = $apellidos = $correo = $fecha = $usuario = "";
 $error = "";
@@ -29,6 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             session_write_close();
 
             // Redirigir al usuario a la página de inicio
+            header("Location: ../inicio.php");
             exit();
         } else {
             $error = "Error al registrar el usuario. Es posible que el nombre de usuario ya esté en uso.";
@@ -37,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 if (isset($_POST['Cerrar'])) {
     session_destroy();
-    header("Location: login.php");
+    header("Location: signup.php");
     exit;
 }
 ?>
@@ -101,7 +104,7 @@ if (isset($_POST['Cerrar'])) {
                                             echo"<a class=\"nav-link py-2 px-0 px-lg-2\" href=\"menu.php\" aria-current=\"true\">";}
                                         else{
                                             echo"<a class=\"nav-link py-2 px-0 px-lg-2\" href=\"login.php\" class=\"text-decoration-none\">";}
-                                        ?>Insertar</a>
+                                        ?>Menu</a>
                                 </li>
                                 </ul>
 
@@ -123,11 +126,13 @@ if (isset($_POST['Cerrar'])) {
                 <h2>Registrarte</h2>
                 <?php if(isset($error)) { echo "<p style='color: red;'>$error</p>"; } ?>
                 <?php
-                $nombre = isset($_POST['nombre']) ? htmlspecialchars($_POST['nombre']) : '';
-                $apellidos = isset($_POST['apellidos']) ? htmlspecialchars($_POST['apellidos']) : '';
-                $fecha = isset($_POST['fecha']) ? htmlspecialchars($_POST['fecha']) : '';
-                $usuario = isset($_POST['usuario']) ? htmlspecialchars($_POST['usuario']) : '';
-                
+                    $nombre = isset($_POST['nombre']) ? htmlspecialchars($_POST['nombre']) : '';
+                    $apellidos = isset($_POST['apellidos']) ? htmlspecialchars($_POST['apellidos']) : '';
+                    $fecha = isset($_POST['fecha']) ? htmlspecialchars($_POST['fecha']) : '';
+                    $usuario = isset($_POST['usuario']) ? htmlspecialchars($_POST['usuario']) : '';
+                    $contra = isset($_POST['contra']) ? $_POST['contra'] : '';
+                    $contra2 = isset($_POST['contra2']) ? $_POST['contra2'] : '';
+                                    
                 if (isset($_SESSION['id_usu']) && isset($_SESSION['nombre_usuario'])) {
                     echo <<<HEAD
                     

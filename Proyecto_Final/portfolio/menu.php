@@ -1,13 +1,20 @@
 <?php
-session_start();
+session_start();  // Mantén esto siempre al principio
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["fecha"])) {
+    $_SESSION["fecha"] = $_POST["fecha"];
+}
+
+$fechaSeleccionada = isset($_SESSION["fecha"]);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>Menú</title>
-    <link rel="icon" href="util/logo.png" type="image/x-icon">
+    <link rel="icon" href="../util/logo.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -75,7 +82,6 @@ session_start();
         html, body {
             margin: 0;
             padding: 0;
-            overflow: hidden;
 
         }
         .navbar-nav .nav-link:hover {
@@ -128,30 +134,109 @@ session_start();
                     $usuario = $_SESSION['nombre_usuario'];
                     echo "<div class=\"fs-2 text-center mt-5\">Bienvenido/a, $usuario</div>";
                 } else {
-                    echo "<div class=\"fs-2 text-center mt-5\">Inicia sesión para disfrutar del servicio de nuestra tabla</div>";
+                    echo "<div class=\"fs-2 text-center mt-5\">Inicia sesión para disfrutar de este servicio</div>";
                 }
                 
                 ?>
                  
                  <div class="container">
                     <div class="row justify-content-center">
-                        <div class="col-8 pt-4 mb-4 mt-5 text-center">
-                            <div class="fs-3 p-2 text-primary">Selecciona en el menú de abajo lo que desees hacer: </div>
-                            <div class="card">
-                                <div class="card-body">
-                                    <ul class="list-unstyled">
-                                        <li class="mb-3">
-                                            <a class="btn btn-outline-primary w-100" href="#">Añadir</a>
+                    <div class="col-8 pt-4 mb-4 mt-3 text-center">
+                        <form method="POST" action="">
+                            <div class="fs-3 p-2 text-primary">Introduzca una fecha: </div>
+                            <input type="date" id="fecha" name="fecha" class="form-control w-100" required>
+                            <button type="submit" class="btn btn-primary mt-2">Enviar</button>
+                        </form>
+
+                        <?php if (!$fechaSeleccionada): ?>
+                            <div class="text-danger fs-4 mt-2">Debes introducir una fecha para continuar.</div>
+                        <?php endif; ?>
+
+                        <div class="fs-3 p-2 text-primary">Selecciona en el menú de abajo lo que desees hacer: </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <ul class="list-unstyled">
+                                    <li class="mb-3">
+                                        <?php   
+                                        if (isset($_SESSION['id_usu']) && isset($_SESSION['nombre_usuario'])) {
+                                            if ($fechaSeleccionada) {
+                                                echo " <a class=\"btn btn-outline-primary w-100\" href=\"anadir.php\">Añadir</a>";
+                                            } else {
+                                                echo " <button class=\"btn btn-outline-secondary w-100\" disabled>Añadir</button>";
+                                            }
+                                        } else {
+                                            echo " <a class=\"btn btn-outline-secondary w-100\" href=\"login.php\">Añadir</a>";
+                                        }
+                                        ?>
                                         </li>
                                         <li class="mb-3">
-                                            <a class="btn btn-outline-secondary w-100" href="#">Modificar</a>
+                                        <?php   
+                                        if (isset($_SESSION['id_usu']) && isset($_SESSION['nombre_usuario'])) {
+                                            if ($fechaSeleccionada) {
+                                                echo " <a class=\"btn btn-outline-primary w-100\" href=\"modificar.php\">Modificar</a>";
+                                            } else {
+                                                echo " <button class=\"btn btn-outline-secondary w-100\" disabled>Modificar</button>";
+                                            }
+                                        } else {
+                                            echo " <a class=\"btn btn-outline-secondary w-100\" href=\"login.php\">Modificar</a>";
+                                        }
+                                            ?>
                                         </li>
                                         <li class="mb-3">
-                                            <a class="btn btn-outline-danger w-100" href="#">Borrar</a>
+                                            <?php   
+                                        if (isset($_SESSION['id_usu']) && isset($_SESSION['nombre_usuario'])) {
+                                            if ($fechaSeleccionada) {
+                                                echo " <a class=\"btn btn-outline-primary w-100\" href=\"borrar.php\">Borrar</a>";
+                                            } else {
+                                                echo " <button class=\"btn btn-outline-secondary w-100\" disabled>Borrar</button>";
+                                            }
+                                        } else {
+                                            echo " <a class=\"btn btn-outline-secondary w-100\" href=\"login.php\">Borrar</a>";
+                                        }
+                                            ?>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
+                                <?php
+                              if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["fecha"])) {
+                                  $fecha = htmlspecialchars($_POST["fecha"]);
+                                  echo "<div class='fs-4 mt-3 text-success'>Has seleccionado $fecha</div>";
+                                  
+                                  include("../util/funciones.php");
+  
+                                  function mostrarTabla($conn, $tabla) {
+                                      $sql = "SELECT * FROM $tabla";
+                                      $resultado = $conn->query($sql);
+  
+                                      if ($resultado->num_rows > 0) {
+                                          echo "<h2 class='mt-4 text-primary'>Tabla: $tabla</h2>";
+                                          echo "<table class='table table-custom'>";
+                                          echo "<thead><tr>";
+                                          while ($columna = $resultado->fetch_field()) {
+                                              echo "<th>" . htmlspecialchars($columna->name) . "</th>";
+                                          }
+                                          echo "</tr></thead><tbody>";
+                                          while ($fila = $resultado->fetch_assoc()) {
+                                              echo "<tr>";
+                                              foreach ($fila as $valor) {
+                                                  echo "<td>" . htmlspecialchars($valor) . "</td>";
+                                              }
+                                              echo "</tr>";
+                                          }
+                                          echo "</tbody></table>";
+                                      } else {
+                                          echo "<p class='text-danger'>No hay datos en la tabla $tabla.</p>";
+                                      }
+                                  }
+  
+                                  mostrarTabla($conn, "hipoglucemia");
+                                  mostrarTabla($conn, "hiperglucemia");
+                                  mostrarTabla($conn, "comida");
+  
+                                  $conn->close();
+                              }
+                              ?>
                         </div>
                     </div>
                 </div>
@@ -161,6 +246,10 @@ session_start();
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+<script>
+    let today = new Date().toISOString().split("T")[0];
+    document.getElementById("fecha").max = today;
+</script>
 
 </body>
 </html>

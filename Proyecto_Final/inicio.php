@@ -118,13 +118,13 @@ session_start();
                                             echo"<a class=\"nav-link py-2 px-0 px-lg-2\" href=\"portfolio/menu.php\" aria-current=\"true\">";}
                                         else{
                                             echo"<a class=\"nav-link py-2 px-0 px-lg-2\" href=\"portfolio/login.php\" class=\"text-decoration-none\">";}
-                                        ?>Insertar</a>
+                                        ?>Menu</a>
                                 </li>
                                 </li>
                             </ul>
                             <ul class="navbar-nav flex-row flex-wrap ms-md-auto gap-3 align-content-center">
                                 <li class="nav-item col-6 col-lg-auto ">
-                                    <a class="nav-link py-2 px-0 px-lg-2" href="portfolio/login.php">Iniciar Sesión</a>
+                                    <a class="nav-link py-2 px-0 px-lg-2" hr    ef="portfolio/login.php">Iniciar Sesión</a>
                                 </li>
                                 <li class="nav-item col-6 col-lg-auto">
                                     <a class="nav-link py-2 px-0 px-lg-2" href="portfolio/signup.php">Registrarse</a>
@@ -167,6 +167,12 @@ session_start();
                 <div class=" mt-3">
                     <p>Los síntomas de la diabetes pueden incluir sed excesiva, aumento de la micción, fatiga, visión borrosa y pérdida de peso inexplicada. Si no se controla, la diabetes puede provocar complicaciones serias como enfermedades íacas, daño renal, ceguera y problemas circulatorios.</p>
                 </div>
+                <div class="mt-3">
+                    <h3>¿Cuándo ocurre la hipoglucemia e hiperglucemia?</h3>
+                    <p><strong>Hipoglucemia:</strong> Se produce cuando los niveles de glucosa en la sangre son demasiado bajos (generalmente por debajo de 70 mg/dl). Puede causar sudoración, temblores, confusión, mareo y en casos graves, pérdida del conocimiento.</p>
+                    <p><strong>Hiperglucemia:</strong> Ocurre cuando los niveles de glucosa en la sangre son demasiado altos. Puede provocar sed excesiva, visión borrosa, fatiga y necesidad frecuente de orinar. Si no se trata, puede derivar en complicaciones graves.</p>
+                </div>
+
                 <div class="mt-3 border rounded-3">
                     <img src="util/diabetes.webp" class="img-fluid" alt="Imagen sobre combatir la diabetes">
                 </div>
