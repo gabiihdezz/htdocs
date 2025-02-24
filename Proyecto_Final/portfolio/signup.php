@@ -7,10 +7,14 @@ ini_set('display_errors', 1);  // Muestra los errores en pantalla.
 $nombre = $apellidos = $correo = $fecha = $usuario = "";
 $error = "";
 
+if (empty($id_usu) || empty($contraseña)) {
+    $error="El usuario o la contraseña están vacíos, no se guardarán los datos.";
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nombre = trim($_POST["nombre"]);
     $apellidos = trim($_POST["apellidos"]);
-    $fecha = trim($_POST["fecha"]);
+    $fecha = trim( $_POST["fecha"]);
     $usuario = trim($_POST["usuario"]);
     $contra = $_POST["contra"];
     $contra2 = $_POST["contra2"];

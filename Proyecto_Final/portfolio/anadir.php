@@ -1,33 +1,63 @@
 <?php
 session_start(); // Asegurarse de iniciar la sesión
 
+if (!isset($_SESSION['fecha'])) {
+    header("Location: menu.php");
+    exit();
+}
+
 require ('../util/funciones.php');
 
-// Comprobar si la sesión tiene fecha e id_usu
+register_shutdown_function('handle_fatal_error');
+
+function handle_fatal_error() {
+    $error = error_get_last(); // Obtiene el último error
+
+
+    if ($error !== NULL && $error['type'] === E_ERROR) {
+        // Redirige al menu.php en caso de error fatal
+        header('Location: menu.php');
+        exit();
+    }
+}
+
 if (isset($_SESSION["fecha"]) && isset($_SESSION["id_usu"])) {
-    $fecha = $_SESSION["fecha"];
+    $fecha = $_SESSION['fecha'];
     $id_usu = $_SESSION["id_usu"];
     $printFecha = "<div class=\"fs-2\">La fecha seleccionada es: " . $fecha . " </div>";
 } else {
     echo "<div class=\"fs-5 \">No se ha seleccionado ninguna fecha.</div>";
+        header("Location: menu.php");
     exit();
 }
-
 // Manejo del formulario
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $glucosa = trim($_POST["glucosa"]);
-    $hora = trim($_POST["hora"]);
     $tipo_comida = trim($_POST["tipo_comida"]);
-    $estado_glucosa = trim($_POST["estado_glucosa"]);
+    $gl_1h = ($_POST["gl_1h"]);
+    $raciones = ($_POST["raciones"]);
+    $insulina = ($_POST["insulina"]);
+    $deporte = ($_POST["deporte"]);
+    $lenta = ($_POST["lenta"]);
+    $gl_2h = ($_POST["gl_2h"]);
+    $estado_glucosa = trim(string: $_POST["estado_glucosa"]);
 
     // Llamar a la función para guardar en la base de datos
-    $resultado = anadir($tipo_comida, $gl_1h, $rac, $insu, $gl_2h, $id_usu, $fecha);
-
-    if ($resultado) {
-        echo "<div class='alert alert-success'>Registro guardado correctamente.</div>";
-    } else {
-        echo "<div class='alert alert-danger'>Error al guardar los datos.</div>";
+    $resultados = anadir($tipo_comida, $gl_1h, $raciones, $insulina, $gl_2h, $id_usu, $fecha, $deporte, $lenta) ;
+    if ($estado_glucosa === 'hipo') {
+        $glucosa = ($_POST["glucosa"]);
+        $hora = ($_POST["hora"]);
+        $resultado = anadirHipo($glucosa, $hora, $tipo_comida, $fecha, $id_usu);
+    } 
+    else if($estado_glucosa === 'hiper') {
+        $glucosa = trim($_POST["glucosa"]);
+        $hora = ($_POST["hora"]);
+        $corr = ($_POST["corr"]);
+        $resultado = anadirHiper($glucosa, $hora, $corr, $tipo_comida, $id_usu, $fecha);
     }
+    
+
+
 }
 ?>
 
@@ -69,9 +99,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body class="background">
     <div class="container ">
-
-    <div class="row">
-            <header class="navbar navbar-expand-lg bd-navbar fixed-top bg-info ">
+        <div class="row">
+            <header class="navbar navbar-expand-lg bd-navbar fixed-top bg-info">
                 <nav class="container-xxl bd-gutter flex-wrap flex-lg-nowrap" aria-label="Main navigation">
                     <a class="navbar-brand p-0 me-0 me-lg-2" href="../inicio.php" aria-label="Bootstrap">
                         <img src="../util/cora.png " alt="Logo a modo de simulación" width="50px">
@@ -121,17 +150,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <option value="cena">Cena</option>
                                 <option value="otro">Otro momento</option>
                             </select>
-                                <?php
-                                ?>
-
                             <label for="gl_1h">Glucosa 1 hora después:</label>
                             <input type="text" id="gl_1h" name="gl_1h" class="form-control" required>
 
-                            <label for="rac">Raciones de carbohidratos:</label>
-                            <input type="text" id="rac" name="rac" class="form-control" required>
+                            <label for="raciones">Raciones de carbohidratos:</label>
+                            <input type="text" id="raciones" name="raciones" class="form-control" required>
 
-                            <label for="insu">Insulina administrada:</label>
-                            <input type="text" id="insu" name="insu" class="form-control" required>
+                            <label for="insulina">Insulina administrada:</label>
+                            <input type="text" id="insulina" name="insulina" class="form-control" required>
 
                             <label for="deporte">Deporte 5-max, 1-min:</label>
                             <input type="int" id="deporte" name="deporte" max="5" class="form-control" required>
@@ -151,16 +177,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </select>
 
                             <div id="campo_hipo" class="mb-3" style="display: none;">
-                            <label for="glu">Glucosa:</label>
-                            <input type="text" id="glu" name="glu" class="form-control">
+                            <label for="glucosa">Glucosa:</label>
+                            <input type="int" id="glucosa" name="glucosa" class="form-control">
 
                                 <label for="hora">¿A que Hora?</label>
                                 <input type="text" id="hora" name="hora" class="form-control">
                             </div>
 
                             <div id="campo_hiper" class="mb-3" style="display: none;">
-                                <label for="glu">Glucosa:</label>
-                                <input type="text" id="glu" name="glu" class="form-control">
+                                <label for="glucosa">Glucosa:</label>
+                                <input type="int" id="glucosa" name="glucosa" class="form-control">
 
                                 <label for="hora">¿A que Hora?</label>
                                 <input type="text" id="hora" name="hora" class="form-control">

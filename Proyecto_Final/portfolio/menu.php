@@ -160,13 +160,11 @@ $fechaSeleccionada = isset($_SESSION["fecha"]);
                                         <?php   
                                         if (isset($_SESSION['id_usu']) && isset($_SESSION['nombre_usuario'])) {
                                             if ($fechaSeleccionada) {
-                                                echo " <a class=\"btn btn-outline-primary w-100\" href=\"anadir.php\">Añadir</a>";
+                                                echo " <a class=\"btn btn-outline-primary w-100\" href=\"anadir.php?fecha=" . urlencode($_SESSION["fecha"]) . "\">Añadir</a>";
                                             } else {
                                                 echo " <button class=\"btn btn-outline-secondary w-100\" disabled>Añadir</button>";
                                             }
-                                        } else {
-                                            echo " <a class=\"btn btn-outline-secondary w-100\" href=\"login.php\">Añadir</a>";
-                                        }
+                                        } 
                                         ?>
                                         </li>
                                         <li class="mb-3">
@@ -177,9 +175,7 @@ $fechaSeleccionada = isset($_SESSION["fecha"]);
                                             } else {
                                                 echo " <button class=\"btn btn-outline-secondary w-100\" disabled>Modificar</button>";
                                             }
-                                        } else {
-                                            echo " <a class=\"btn btn-outline-secondary w-100\" href=\"login.php\">Modificar</a>";
-                                        }
+                                        } 
                                             ?>
                                         </li>
                                         <li class="mb-3">
@@ -190,8 +186,6 @@ $fechaSeleccionada = isset($_SESSION["fecha"]);
                                             } else {
                                                 echo " <button class=\"btn btn-outline-secondary w-100\" disabled>Borrar</button>";
                                             }
-                                        } else {
-                                            echo " <a class=\"btn btn-outline-secondary w-100\" href=\"login.php\">Borrar</a>";
                                         }
                                             ?>
                                         </li>
