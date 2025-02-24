@@ -11,4 +11,17 @@ class MoviesController extends Controller
         // Cambia la vista a welcome.blade.php temporalmente
         return view('welcome', array('id'=>$id));
     }
+    public function getIndex($id)
+    {
+        // Cambia la vista a welcome.blade.php temporalmente
+        return view('welcome', array('id'=>$id));
+    }
+    public function getCreate($id)
+    {
+        // Cambia la vista a welcome.blade.php temporalmente
+        return view('welcome', array('id'=>$id));
+    }
+    public function getEdit($id){
+    return view('welcome', array('id'=>$id));
+}
 }
