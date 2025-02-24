@@ -1,17 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-/*
-Route::get('/', function () {
-    return ('Pantalla principal');
-});
-*/
-
-/*
-Route::get('/login', function () {
-    return 'Login usuario';
-});
-*/
 
 
 Route::get('/logout', function () {
