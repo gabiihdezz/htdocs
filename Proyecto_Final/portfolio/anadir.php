@@ -8,6 +8,7 @@ if (!isset($_SESSION['fecha'])) {
 
 require ('../util/funciones.php');
 
+
 register_shutdown_function('handle_fatal_error');
 
 function handle_fatal_error() {
@@ -21,10 +22,11 @@ function handle_fatal_error() {
     }
 }
 
+
 if (isset($_SESSION["fecha"]) && isset($_SESSION["id_usu"])) {
     $fecha = $_SESSION['fecha'];
     $id_usu = $_SESSION["id_usu"];
-    $printFecha = "<div class=\"fs-2\">La fecha seleccionada es: " . $fecha . " </div>";
+    $prnumberFecha = "<div class=\"fs-2\">La fecha seleccionada es: " . $fecha . " </div>";
 } else {
     echo "<div class=\"fs-5 \">No se ha seleccionado ninguna fecha.</div>";
         header("Location: menu.php");
@@ -45,9 +47,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Llamar a la función para guardar en la base de datos
     $resultados = anadir($tipo_comida, $gl_1h, $raciones, $insulina, $gl_2h, $id_usu, $fecha, $deporte, $lenta) ;
     if ($estado_glucosa === 'hipo') {
-        $glucosa = ($_POST["glucosa"]);
-        $hora = ($_POST["hora"]);
-        $resultado = anadirHipo($glucosa, $hora, $tipo_comida, $fecha, $id_usu);
+        $glucosa = trim($_POST["glucosaHipo"]);
+        $hora = ($_POST["horaHipo"]);
+        $resultado = anadirHipo($glucosa, $hora, $tipo_comida, $id_usu,$fecha);
     } 
     else if($estado_glucosa === 'hiper') {
         $glucosa = trim($_POST["glucosa"]);
@@ -55,9 +57,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $corr = ($_POST["corr"]);
         $resultado = anadirHiper($glucosa, $hora, $corr, $tipo_comida, $id_usu, $fecha);
     }
-    
-
-
 }
 ?>
 
@@ -135,7 +134,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                      <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-8 pt-4 mb-4 mt-5 text-center">
-                        <?php if(isset($printFecha)) { echo "<div class=\"fs-1\">$printFecha</div>"; }
+                        <?php if(isset($prnumberFecha)) { echo "<div class=\"fs-1\">$prnumberFecha</div>"; }
                         else{
                             header("Location: menu.php");
                         } ?>
@@ -160,7 +159,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <input type="text" id="insulina" name="insulina" class="form-control" required>
 
                             <label for="deporte">Deporte 5-max, 1-min:</label>
-                            <input type="int" id="deporte" name="deporte" max="5" class="form-control" required>
+                            <input type="number" id="deporte" name="deporte" max="5" class="form-control" required>
                             
                             <label for="lenta">Lenta (Dosis):</label>
                             <input type="text" id="lenta" name="lenta" class="form-control" required>
@@ -177,19 +176,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </select>
 
                             <div id="campo_hipo" class="mb-3" style="display: none;">
-                            <label for="glucosa">Glucosa:</label>
-                            <input type="int" id="glucosa" name="glucosa" class="form-control">
+                            <label for="glucosaHipo">Glucosa:</label>
+                            <input type="number" id="glucosaHipo" name="glucosaHipo" class="form-control">
 
-                                <label for="hora">¿A que Hora?</label>
-                                <input type="text" id="hora" name="hora" class="form-control">
+                                <label for="horaHipo">¿A que Hora?</label>
+                                <input type="time" id="horaHipo" name="horaHipo" class="form-control">
                             </div>
 
                             <div id="campo_hiper" class="mb-3" style="display: none;">
                                 <label for="glucosa">Glucosa:</label>
-                                <input type="int" id="glucosa" name="glucosa" class="form-control">
+                                <input type="number" id="glucosa" name="glucosa" class="form-control">
 
                                 <label for="hora">¿A que Hora?</label>
-                                <input type="text" id="hora" name="hora" class="form-control">
+                                <input type="time" id="hora" name="hora" class="form-control">
 
                                 <label for="corr">Glucosa corregida:</label>
                                 <input type="text" id="corr" name="corr" class="form-control">
