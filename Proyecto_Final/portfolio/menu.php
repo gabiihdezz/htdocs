@@ -189,6 +189,18 @@ $fechaSeleccionada = isset($_SESSION["fecha"])? $_SESSION["fecha"] : null;
                                         }
                                             ?>
                                         </li>
+
+                                        <li class="mb-3">
+                                            <?php   
+                                        if (isset($_SESSION['id_usu']) && isset($_SESSION['nombre_usuario'])) {
+                                            if ($fechaSeleccionada) {
+                                                echo " <a class=\"btn btn-outline-primary w-100\" href=\"consultar.php\">Consultar</a>";
+                                            } else {
+                                                echo " <button class=\"btn btn-outline-secondary w-100\" disabled>Consultar</button>";
+                                            }
+                                        }
+                                            ?>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>

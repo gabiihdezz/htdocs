@@ -1,44 +1,48 @@
 <?php
 session_start();
-require ('../util/funciones.php');
+require('../util/funciones.php');
 
-// Verificar si el usuario ha iniciado sesión
 if (!isset($_SESSION['id_usu'])) {
     header("Location: login.php");
     exit();
 }
 
-$id_usu = $_SESSION['id_usu']; // ID del usuario actual
-$fecha_sesion = $_SESSION['fecha']; // Suponiendo que tienes la fecha en la sesión
+$id_usu = $_SESSION["id_usu"];
+$fecha = isset($_SESSION["fecha"]) ? $_SESSION["fecha"] : "No disponible";
 
-// Consulta para obtener registros de control_glucosa con comparación de fecha
-$sql_control = "SELECT * FROM control_glucosa WHERE id_usu = ? AND fecha = ? ORDER BY fecha DESC";
-$stmt_control = $conn->prepare($sql_control);
-$stmt_control->bind_param("is", $id_usu, $fecha_sesion); // Usar "s" para fecha en formato string
+// Consultas para obtener los datos
+$query_control = "SELECT fecha, deporte, lenta FROM control_glucosa WHERE id_usu = ? AND fecha = ?";
+$query_comida = "SELECT fecha, tipo_comida, gl_1h, raciones, insulina, gl_2h FROM comida WHERE id_usu = ? AND fecha = ?";
+$query_hipo = "SELECT fecha, hora, glucosa, tipo_comida FROM hipoglucemia WHERE id_usu = ? AND fecha = ?";
+$query_hiper = "SELECT fecha, hora, glucosa, correccion, tipo_comida FROM hiperglucemia WHERE id_usu = ? AND fecha = ?";
+
+// Preparación de consultas
+$stmt_control = $conn->prepare($query_control);
+$stmt_control->bind_param("is", $id_usu, $fecha);
 $stmt_control->execute();
 $result_control = $stmt_control->get_result();
+$stmt_control->free_result();
 
-// Consulta para obtener registros de comida con comparación de fecha
-$sql_comida = "SELECT * FROM comida WHERE id_usu = ? AND fecha = ? ORDER BY fecha DESC";
-$stmt_comida = $conn->prepare($sql_comida);
-$stmt_comida->bind_param("is", $id_usu, $fecha_sesion); // Usar "s" para fecha en formato string
+$stmt_comida = $conn->prepare($query_comida);
+$stmt_comida->bind_param("is", $id_usu, $fecha);
 $stmt_comida->execute();
 $result_comida = $stmt_comida->get_result();
+$stmt_comida->free_result();
 
-// Consulta para obtener registros de hipoglucemia con comparación de fecha
-$sql_hipo = "SELECT * FROM hipoglucemia WHERE id_usu = ? AND fecha = ? ORDER BY fecha DESC";
-$stmt_hipo = $conn->prepare($sql_hipo);
-$stmt_hipo->bind_param("is", $id_usu, $fecha_sesion); // Usar "s" para fecha en formato string
+$stmt_hipo = $conn->prepare($query_hipo);
+$stmt_hipo->bind_param("is", $id_usu, $fecha);
 $stmt_hipo->execute();
 $result_hipo = $stmt_hipo->get_result();
+$stmt_hipo->free_result();
 
-// Consulta para obtener registros de hiperglucemia con comparación de fecha
-$sql_hiper = "SELECT * FROM hiperglucemia WHERE id_usu = ? AND fecha = ? ORDER BY fecha DESC";
-$stmt_hiper = $conn->prepare($sql_hiper);
-$stmt_hiper->bind_param("is", $id_usu, $fecha_sesion); // Usar "s" para fecha en formato string
+$stmt_hiper = $conn->prepare($query_hiper);
+$stmt_hiper->bind_param("is", $id_usu, $fecha);
 $stmt_hiper->execute();
 $result_hiper = $stmt_hiper->get_result();
+$stmt_hiper->free_result();
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="es">
@@ -48,8 +52,41 @@ $result_hiper = $stmt_hiper->get_result();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 </head>
 <body class="container mt-5">
-    <h2 class="text-center text-primary">Tus Registros</h2>
-    <div class="display-6">La $_SESSIOn fecha es : <?php $_SESSION['fecha']?></div>
+<div class="row">
+            <header class="navbar navbar-expand-lg bd-navbar fixed-top bg-info">
+                <nav class="container-xxl bd-gutter flex-wrap flex-lg-nowrap" aria-label="Main navigation">
+                    <a class="navbar-brand p-0 me-0 me-lg-2" href="../inicio.php" aria-label="Bootstrap">
+                        <img src="../util/cora.png " alt="Logo a modo de simulación" width="50px">
+                    </a>
+                    <div class="offcanvas-lg offcanvas-end flex-grow-1 fs-5" tabindex="-1" >
+                        <div class="offcanvas-body p-4 pt-0 p-lg-0">
+                            <hr class="d-lg-none text-white-50">
+                            <ul class="navbar-nav flex-row flex-wrap bd-navbar-nav">
+                                <li class="nav-item col-6 col-lg-auto">
+                                    <a class="nav-link py-2 px-0 px-lg-2" href="../inicio.php" aria-current="true">Inicio</a>
+                                </li>
+                                <li class="nav-item col-6 col-lg-auto">
+                                    <a class="nav-link py-2 px-0 px-lg-2" href="menu.php">Menu</a>
+                                </li>
+                            </ul>
+                            <ul class="navbar-nav flex-row flex-wrap ms-md-auto gap-3 align-content-center">
+                                <li class="nav-item col-6 col-lg-auto ">
+                                    <a class="nav-link py-2 px-0 px-lg-2" href="login.php">Iniciar Sesión</a>
+                                </li>
+                                <li class="nav-item col-6 col-lg-auto">
+                                    <a class="nav-link py-2 px-0 px-lg-2" href="signup.php">Registrarse</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </header>
+        </div>
+        
+
+    <h2 class="text-center text-primary mt-4">Tus Registros</h2>
+    <p class="display-6">La fecha de sesión es: <?= htmlspecialchars($fecha) ?></p>
+
     <!-- Tabla de Control de Glucosa -->
     <h3 class="mt-4">Control de Glucosa</h3>
     <table class="table table-bordered table-striped">
@@ -150,6 +187,7 @@ $result_hiper = $stmt_hiper->get_result();
 </html>
 
 <?php
+// Cierre de las conexiones
 $stmt_control->close();
 $stmt_comida->close();
 $stmt_hipo->close();

@@ -57,6 +57,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $corr = ($_POST["corr"]);
         $resultado = anadirHiper($glucosa, $hora, $corr, $tipo_comida, $id_usu, $fecha);
     }
+    header("Location: menu.php");
+
 }
 ?>
 
@@ -144,10 +146,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <label for="tipo_comida">Tipo de comida:</label>
                             <select id="tipo_comida" name="tipo_comida" class="form-control" required>
                                 <option value="">Selecciona una opción</option>
-                                <option value="desayuno">Desayuno</option>
-                                <option value="comida">Comida</option>
+                                <option value="Desayuno">Desayuno</option>
+                                <option value="Almuerzo">Almuerzo</option>
+                                <option value="Comida">Comida</option>
+                                <option value="Merienda">Merienda</option>
                                 <option value="cena">Cena</option>
-                                <option value="otro">Otro momento</option>
                             </select>
                             <label for="gl_1h">Glucosa 1 hora después:</label>
                             <input type="text" id="gl_1h" name="gl_1h" class="form-control" required>
