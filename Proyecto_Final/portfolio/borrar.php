@@ -6,6 +6,7 @@ if (!isset($_SESSION['id_usu'])) {
     header("Location: login.php");
     exit();
 }
+$fecha = isset($_SESSION["fecha"])? $_SESSION["fecha"] : null;
 
 $id_usu = $_SESSION["id_usu"];
 $fecha = isset($_SESSION["fecha"]) ? $_SESSION["fecha"] : "No disponible";
@@ -42,6 +43,12 @@ $result_hiper = $stmt_hiper->get_result();
 $stmt_hiper->free_result();
 
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $tipo_comida = trim($_POST["tipo_comida"]);
+
+    // Llamar a la función para guardar en la base de datos
+    $resultados = borrar($tipo_comida, $id_usu, $fecha); ;
+}
 ?>
 
 
@@ -51,10 +58,9 @@ $stmt_hiper->free_result();
     <meta charset="UTF-8">
     <title>Registros del Usuario</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <link rel="icon" href="../util/logo.png" type="image/x-icon">
 </head>
 <body class="container mt-5">
-        <div class="row">
+<div class="row">
             <header class="navbar navbar-expand-lg bd-navbar fixed-top bg-info">
                 <nav class="container-xxl bd-gutter flex-wrap flex-lg-nowrap" aria-label="Main navigation">
                     <a class="navbar-brand p-0 me-0 me-lg-2" href="../inicio.php" aria-label="Bootstrap">
@@ -85,70 +91,118 @@ $stmt_hiper->free_result();
             </header>
         </div>
         
-        
-        <a href="menu.php" class="btn btn-link mt-4">← Volver al Menú</a>
+        <a href="menu.php" class="btn btn-link mt-2">← Volver al Menú</a>
+
         <h2 class="text-center text-primary mt-4">Tus Registros</h2>
         <p class="fs-3 text-center">La fecha que has seleccionado: <b class="text-primary"><?= htmlspecialchars($fecha) ?> </b></p>
         <h3 class="mt-4">Escoge una consulta para Borrar: </h3>
-        <!-- Tabla de Control de Glucosa -->
-        <table class="table table-bordered table-striped">
+        <form method="post" action="">
+            <select id="tipo_comida" name="tipo_comida" class="form-control" required>
+                <option value="">Selecciona una opción para ser borrada</option>
+                <option value="Desayuno" >Desayuno</option>
+                <option value="Almuerzo" >Almuerzo</option>
+                <option value="Comida" >Comida</option>
+                <option value="Merienda" >Merienda</option>
+                <option value="Cena" >Cena</option>
+            </select>
+            <button type="submit" class="btn btn-danger mt-2">Borrar</button>
+            </form>
+    <!-- Tabla de Control de Glucosa -->
+    <h3 class="mt-4">Control de Glucosa</h3>
+    <table class="table table-bordered table-striped">
         <thead class="table-dark">
             <tr>
-                <th colspan="4"></th>
-                <th colspan="2">Hipoglucemia</th>
-                <th colspan="3">Hiperglucemia</th>
-                <th colspan="2"></th>
-            </tr>
-            <tr>
-                <th>GL/1H</th>
-                <th>Rac.</th>
-                <th>Insu.</th>
-                <th>GL/2H</th>
-                <th>GLU.</th>
-                <th>Hora</th>
-                <th>GLU.</th>
-                <th>Hora</th>
-                <th>Corrección</th>
-                <th>Lenta</th>
+                <th>Fecha</th>
                 <th>Deporte</th>
+                <th>Dosis Lenta</th>
             </tr>
         </thead>
         <tbody>
-            <?php
-            // Utilizamos los resultados de las consultas para fusionar los datos
-            while ($row_comida = $result_comida->fetch_assoc()) {
-                $row_hipo = $result_hipo->fetch_assoc() ?: [];
-                $row_hiper = $result_hiper->fetch_assoc() ?: [];
-                $row_control = $result_control->fetch_assoc() ?: [];
-            
-                echo "<tr>";
-                // Columna de Comida
-                echo "<td>" . htmlspecialchars($row_comida['gl_1h'] ?? 'N/A') . "</td>";
-                echo "<td>" . htmlspecialchars($row_comida['raciones'] ?? 'N/A') . "</td>";
-                echo "<td>" . htmlspecialchars($row_comida['insulina'] ?? 'N/A') . "</td>";
-                echo "<td>" . htmlspecialchars($row_comida['gl_2h'] ?? 'N/A') . "</td>";
-            
-                // Columna de Hipoglucemia
-                echo "<td>" . htmlspecialchars($row_hipo['glucosa'] ?? 'N/A') . "</td>";
-                echo "<td>" . htmlspecialchars($row_hipo['hora'] ?? 'N/A') . "</td>";
-            
-                // Columna de Hiperglucemia
-                echo "<td>" . htmlspecialchars($row_hiper['glucosa'] ?? 'N/A') . "</td>";
-                echo "<td>" . htmlspecialchars($row_hiper['hora'] ?? 'N/A') . "</td>";
-                echo "<td>" . htmlspecialchars($row_hiper['correccion'] ?? 'N/A') . "</td>";
-            
-                // Columna de Control de Glucosa
-                echo "<td>" . htmlspecialchars($row_control['lenta'] ?? 'N/A') . "</td>";
-                echo "<td>" . htmlspecialchars($row_control['deporte'] ?? 'N/A') . "</td>";
-            
-                echo "</tr>";
-            }
-            
-            ?>
-            
+            <?php while ($row = $result_control->fetch_assoc()): ?>
+                <tr>
+                    <td><?= htmlspecialchars($row['fecha']) ?></td>
+                    <td><?= htmlspecialchars($row['deporte']) ?></td>
+                    <td><?= htmlspecialchars($row['lenta']) ?></td>
+                </tr>
+            <?php endwhile; ?>
         </tbody>
     </table>
+
     <!-- Tabla de Comidas -->
+    <h3 class="mt-4">Comidas Registradas</h3>
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Fecha</th>
+                <th>Tipo de Comida</th>
+                <th>Glucosa 1h</th>
+                <th>Raciones</th>
+                <th>Insulina</th>
+                <th>Glucosa 2h</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php while ($row = $result_comida->fetch_assoc()): ?>
+                <tr>
+                    <td><?= htmlspecialchars($row['fecha']) ?></td>
+                    <td><?= htmlspecialchars($row['tipo_comida']) ?></td>
+                    <td><?= htmlspecialchars($row['gl_1h']) ?></td>
+                    <td><?= htmlspecialchars($row['raciones']) ?></td>
+                    <td><?= htmlspecialchars($row['insulina']) ?></td>
+                    <td><?= htmlspecialchars($row['gl_2h']) ?></td>
+                </tr>
+            <?php endwhile; ?>
+        </tbody>
+    </table>
+
+    <!-- Tabla de Hipoglucemia -->
+    <h3 class="mt-4">Registros de Hipoglucemia</h3>
+    <table class="table table-bordered table-striped">
+        <thead class="table-danger">
+            <tr>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Glucosa</th>
+                <th>Tipo de Comida</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php while ($row = $result_hipo->fetch_assoc()): ?>
+                <tr>
+                    <td><?= htmlspecialchars($row['fecha']) ?></td>
+                    <td><?= htmlspecialchars($row['hora']) ?></td>
+                    <td><?= htmlspecialchars($row['glucosa']) ?></td>
+                    <td><?= htmlspecialchars($row['tipo_comida']) ?></td>
+                </tr>
+            <?php endwhile; ?>
+        </tbody>
+    </table>
+
+    <!-- Tabla de Hiperglucemia -->
+    <h3 class="mt-4">Registros de Hiperglucemia</h3>
+    <table class="table table-bordered table-striped">
+        <thead class="table-warning">
+            <tr>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Glucosa</th>
+                <th>Corrección</th>
+                <th>Tipo de Comida</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php while ($row = $result_hiper->fetch_assoc()): ?>
+                <tr>
+                    <td><?= htmlspecialchars($row['fecha']) ?></td>
+                    <td><?= htmlspecialchars($row['hora']) ?></td>
+                    <td><?= htmlspecialchars($row['glucosa']) ?></td>
+                    <td><?= htmlspecialchars($row['correccion']) ?></td>
+                    <td><?= htmlspecialchars($row['tipo_comida']) ?></td>
+                </tr>
+            <?php endwhile; ?>
+        </tbody>
+    </table>
+
 </body>
 </html>
 

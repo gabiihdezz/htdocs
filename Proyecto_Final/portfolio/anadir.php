@@ -141,13 +141,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="fs-3 p-2 text-primary">Añadir: </div>
                             <form class="col-8 justify-content-center text-align-center align-items-center mx-auto" method="POST" action="">
                             <label for="tipo_comida">Tipo de comida:</label>
+                            <?php 
+                            $tipos_registrados = [];
+                            $sql = "SELECT tipo_comida FROM comida WHERE id_usu = ? AND fecha = ?";
+                            $stmt = $conn->prepare($sql);
+                            $stmt->bind_param("is", $id_usu, $fecha);
+                            $stmt->execute();
+                            $result = $stmt->get_result();
+                            while ($row = $result->fetch_assoc()) {
+                                $tipos_registrados[] = $row['tipo_comida'];
+                            }
+                            $stmt->close();
+                            ?>
                             <select id="tipo_comida" name="tipo_comida" class="form-control" required>
                                 <option value="">Selecciona una opción</option>
-                                <option value="Desayuno">Desayuno</option>
-                                <option value="Almuerzo">Almuerzo</option>
-                                <option value="Comida">Comida</option>
-                                <option value="Merienda">Merienda</option>
-                                <option value="cena">Cena</option>
+                                <option value="Desayuno" <?= in_array("Desayuno", $tipos_registrados) ? "disabled" : "" ?>>Desayuno</option>
+                                <option value="Almuerzo" <?= in_array("Almuerzo", $tipos_registrados) ? "disabled" : "" ?>>Almuerzo</option>
+                                <option value="Comida" <?= in_array("Comida", $tipos_registrados) ? "disabled" : "" ?>>Comida</option>
+                                <option value="Merienda" <?= in_array("Merienda", $tipos_registrados) ? "disabled" : "" ?>>Merienda</option>
+                                <option value="Cena" <?= in_array("Cena", $tipos_registrados) ? "disabled" : "" ?>>Cena</option>
                             </select>
                             <label for="gl_1h">Glucosa 1 hora después:</label>
                             <input type="text" id="gl_1h" name="gl_1h" class="form-control" required>

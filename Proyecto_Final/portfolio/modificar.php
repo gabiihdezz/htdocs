@@ -82,6 +82,7 @@ $result_hiper = $stmt_hiper->get_result();
                 </nav>
             </header>
         </div>
+        <a href="menu.php" class="btn btn-link mt-4">← Volver al Menú</a>
     
         <p class="fs-3 text-center mt-4">La fecha que has seleccionado: <b class="text-primary"><?= htmlspecialchars($fecha) ?> </b></p>
 

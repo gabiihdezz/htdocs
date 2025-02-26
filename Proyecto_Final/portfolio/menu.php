@@ -20,56 +20,6 @@ $fechaSeleccionada = isset($_SESSION["fecha"])? $_SESSION["fecha"] : null;
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
 
-    .table-custom {
-        background-color: #f8f9fa; 
-        border-collapse: collapse;
-        width: 100%;
-        max-width: 100%; /* Evita que se desborde fuera de los límites */
-        table-layout: fixed; /* Ajusta el tamaño de las celdas automáticamente */
-        margin: 0 auto; /* Centra la tabla */
-    }
-
-    .table-custom thead {
-        background-color: #0056b3; /* Azul oscuro */
-        color: white;
-    }
-
-    .table-custom thead tr:nth-child(2) {
-        background-color: #003f7f; /* Azul más oscuro para diferenciar */
-    }
-
-    .table-custom thead tr:nth-child(3) {
-        background-color: #343a40; /* Gris oscuro */
-        color: white;
-    }
-
-    .table-custom tbody tr:nth-child(odd) {
-        background-color: #fdf3e7; /* Beige claro para filas impares */
-    }
-
-    .table-custom th, .table-custom td {
-        border: 1px solid #ced4da; /* Gris medio */
-        padding: 8px;
-    }
-
-    .table-custom tbody tr:hover {
-        background-color: #e2e6ea; /* Gris claro en hover */
-    }
-
-    .table-custom th, .table-custom td {
-        word-wrap: break-word;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 200px;
-    }
-
-    .table-custom th {
-        text-align: center;
-    }
-
-    .table-custom td {
-        text-align: center;
-    }
 
     *{
             font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
@@ -204,45 +154,6 @@ $fechaSeleccionada = isset($_SESSION["fecha"])? $_SESSION["fecha"] : null;
                                     </ul>
                                 </div>
                             </div>
-                                <?php
-                              if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["fecha"])) {
-                                  $fecha = htmlspecialchars($_POST["fecha"]);
-                                  echo "<div class='fs-4 mt-3 text-success'>Has seleccionado $fecha</div>";
-                                  
-                                  include("../util/funciones.php");
-  
-                                  function mostrarTabla($conn, $tabla) {
-                                      $sql = "SELECT * FROM $tabla";
-                                      $resultado = $conn->query($sql);
-  
-                                      if ($resultado->num_rows > 0) {
-                                          echo "<h2 class='mt-4 text-primary'>Tabla: $tabla</h2>";
-                                          echo "<table class='table table-custom'>";
-                                          echo "<thead><tr>";
-                                          while ($columna = $resultado->fetch_field()) {
-                                              echo "<th>" . htmlspecialchars($columna->name) . "</th>";
-                                          }
-                                          echo "</tr></thead><tbody>";
-                                          while ($fila = $resultado->fetch_assoc()) {
-                                              echo "<tr>";
-                                              foreach ($fila as $valor) {
-                                                  echo "<td>" . htmlspecialchars($valor) . "</td>";
-                                              }
-                                              echo "</tr>";
-                                          }
-                                          echo "</tbody></table>";
-                                      } else {
-                                          echo "<p class='text-danger'>No hay datos en la tabla $tabla.</p>";
-                                      }
-                                  }
-  
-                                  mostrarTabla($conn, "hipoglucemia");
-                                  mostrarTabla($conn, "hiperglucemia");
-                                  mostrarTabla($conn, "comida");
-  
-                                  $conn->close();
-                              }
-                              ?>
                         </div>
                     </div>
                 </div>

@@ -93,25 +93,28 @@ function registroUsuario($contra, $usuario, $fecha, $nombre, $apellidos) {
 function anadir($tipo_comida, $gl_1h, $raciones, $insulina, $gl_2h, $id_usu, $fecha, $deporte, $lenta) {
     global $conn;  
 
-    $sql = "INSERT INTO control_glucosa (fecha, deporte, lenta, id_usu) VALUES (?, ?, ?, ?)";
+    // Insertar en control_glucosa (se ejecutará solo la primera vez en el día)
+    $sql = "INSERT INTO control_glucosa (fecha, deporte, lenta, id_usu) 
+            VALUES (?, ?, ?, ?) 
+            ON DUPLICATE KEY UPDATE deporte = VALUES(deporte), lenta = VALUES(lenta)";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("siii", $fecha, $deporte, $lenta, $id_usu);
     $stmt->execute();
-    $stmt->close(); // Cerramos la consulta
+    $stmt->close(); 
 
-    // Insertar en comida
+    // Insertar en comida, pero evitar duplicados
     $sql = "INSERT INTO comida (tipo_comida, gl_1h, gl_2h, raciones, insulina, fecha, id_usu) 
             VALUES (?, ?, ?, ?, ?, ?, ?)";
+
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("siiiisi", $tipo_comida, $gl_1h, $gl_2h, $raciones, $insulina, $fecha, $id_usu);
 
     if ($stmt->execute()) {
-        $inserted_id = $stmt->insert_id; // Obtener el ID insertado
-        $stmt->close(); // Cerrar la consulta
-        return $inserted_id;
+        $stmt->close(); 
+        return "Registro agregado correctamente.";
     } else {
         $stmt->close();
-        return false; // Error en la inserción
+        return "⚠️ Error: Ya has registrado $tipo_comida para esta fecha.";
     }
 }
 function anadirHipo($glucosa, $hora, $tipo_comida, $id_usu,$fecha) {
@@ -193,7 +196,31 @@ WHERE c.fecha = ? AND c.id_usu = ?;"
     return $datos;
 }
 
+function borrar ($tipo_comida, $id_usu, $fecha){
+    global $conn;  
 
+    $id_usu = $_SESSION['id_usu'];
+    $tipo_comida = $_POST['tipo_comida'];
+    $fecha = isset($_SESSION["fecha"])? $_SESSION["fecha"] : null;
+
+
+    if ($conn->connect_error) {
+        die("Error de conexión: " . $conn->connect_error);
+    }
+
+    $sql = "DELETE FROM comida WHERE id_usu = ? AND tipo_comida = ? AND fecha = ?";
+
+// Preparar la consulta
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("iss", $id_usu, $tipo_comida, $fecha);
+
+// Ejecutar la consulta
+    if ($stmt->execute()) {
+        true;
+    } else {
+        false;
+    }
+}
 
 // Select c.fecha, glu1, insula,racion,glu2,
 // (select gluHipo from hipoglucemia h where h.id_usu = c.id_usu and h.fecha = c.fecha and h.tipo_comida = c.tipo_comida),

@@ -50,7 +50,6 @@ $stmt_hiper->free_result();
     <meta charset="UTF-8">
     <title>Registros del Usuario</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <link rel="icon" href="../util/logo.png" type="image/x-icon">
 </head>
 <body class="container mt-5">
 <div class="row">
@@ -84,13 +83,13 @@ $stmt_hiper->free_result();
             </header>
         </div>
         
-        
-        <a href="menu.php" class="btn btn-link mt-4">← Volver al Menú</a>
-        <h2 class="text-center text-primary mt-4">Tus Registros</h2>
-        <p class="fs-3 text-center">La fecha que has seleccionado: <b class="text-primary"><?= htmlspecialchars($fecha) ?> </b></p>
-        
-        <!-- Tabla de Control de Glucosa -->
-        <h3 class="mt-4">Control de Glucosa</h3>
+        <a href="menu.php" class="btn btn-link mt-2">← Volver al Menú</a>
+
+    <h2 class="text-center text-primary mt-4">Tus Registros</h2>
+    <p class="fs-3 text-center">La fecha que has seleccionado: <b class="text-primary"><?= htmlspecialchars($fecha) ?> </b></p>
+
+    <!-- Tabla de Control de Glucosa -->
+    <h3 class="mt-4">Control de Glucosa</h3>
     <table class="table table-bordered table-striped">
         <thead class="table-dark">
             <tr>
