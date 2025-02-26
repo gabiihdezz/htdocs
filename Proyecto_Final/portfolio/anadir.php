@@ -1,11 +1,14 @@
 <?php
 session_start(); // Asegurarse de iniciar la sesión
 
-if (!isset($_SESSION['fecha'])) {
-    header("Location: menu.php");
+if (!isset($_SESSION['id_usu'])) {
+    header("Location: login.php");
     exit();
 }
-
+if (!isset($_SESSION['fecha'])) {
+    header("menu.php");
+    exit();
+}
 require ('../util/funciones.php');
 
 
@@ -60,6 +63,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header("Location: menu.php");
 
 }
+
+
+$inactividad_maxima = 1 * 60;  
+
+if (isset($_SESSION['last_activity'])) {
+    $tiempo_inactivo = time() - $_SESSION['last_activity']; 
+
+    if ($tiempo_inactivo > $inactividad_maxima) {
+        session_unset();
+        session_destroy();
+        header("Location: ../inicio.php");  
+        exit();
+    }
+}
+
+$_SESSION['last_activity'] = time();
+
 ?>
 
 <!DOCTYPE html>
@@ -94,7 +114,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     </style>
 </head>
-<body class="background">
+<body>
     <div class="container ">
         <div class="row">
             <header class="navbar navbar-expand-lg bd-navbar fixed-top bg-info">

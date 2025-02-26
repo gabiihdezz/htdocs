@@ -1,8 +1,24 @@
 <?php
 $conn = new mysqli('localhost', 'root', '', 'diabetesdb', 3307);
-
 if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
+}
+
+function tiempo (){
+$inactividad_maxima = 1 * 60;  
+
+if (isset($_SESSION['last_activity'])) {
+    $tiempo_inactivo = time() - $_SESSION['last_activity']; 
+
+    if ($tiempo_inactivo > $inactividad_maxima) {
+        session_unset();
+        session_destroy();
+        header("Location: ../inicio.php");  
+        exit();
+    }
+}
+
+$_SESSION['last_activity'] = time();
 }
 
 function autenticarUsuario($usuario, $contra) {
@@ -196,13 +212,12 @@ WHERE c.fecha = ? AND c.id_usu = ?;"
     return $datos;
 }
 
-function borrar ($tipo_comida, $id_usu, $fecha){
+function borrar($tipo_comida, $id_usu, $fecha) {
     global $conn;  
 
     $id_usu = $_SESSION['id_usu'];
     $tipo_comida = $_POST['tipo_comida'];
-    $fecha = isset($_SESSION["fecha"])? $_SESSION["fecha"] : null;
-
+    $fecha = isset($_SESSION["fecha"]) ? $_SESSION["fecha"] : null;
 
     if ($conn->connect_error) {
         die("Error de conexión: " . $conn->connect_error);
@@ -210,16 +225,49 @@ function borrar ($tipo_comida, $id_usu, $fecha){
 
     $sql = "DELETE FROM comida WHERE id_usu = ? AND tipo_comida = ? AND fecha = ?";
 
-// Preparar la consulta
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("iss", $id_usu, $tipo_comida, $fecha);
 
-// Ejecutar la consulta
+    if ($stmt->execute()) {
+        if ($stmt->affected_rows > 0) {
+            $respuesta= "<div>Registro eliminado con éxito.</div>";
+        } else {
+            $respuesta="<div >No se ha podido eliminar, no hay registros coincidentes.</div>";
+        }
+    } else {
+        $respuesta= "<div>No se ha podido eliminar.</div>";	
+    }
+    
+    // Cerrar el statement
+    $stmt->close();
+    return $respuesta;
+}
+
+function modificar($id_usu, $tipo_comida, $fecha, $nuevo_gl_1h, $nuevas_raciones, $nueva_insulina, $nuevo_gl_2h) {
+    global $conn;  
+
+    if ($conn->connect_error) {
+        die("Error de conexión: " . $conn->connect_error);
+    }
+
+    $sql = "UPDATE comida SET gl_1h = ?, raciones = ?, insulina = ?, gl_2h = ? WHERE id_usu = ? AND tipo_comida = ? AND fecha = ?";
+
+    $stmt = $conn->prepare($sql);
+    if (!$stmt) {
+        die("Error en la preparación de la consulta: " . $conn->error);
+    }
+
+    $stmt->bind_param("dddiiss", $nuevo_gl_1h, $nuevas_raciones, $nueva_insulina, $nuevo_gl_2h, $id_usu, $tipo_comida, $fecha);
+
     if ($stmt->execute()) {
         true;
     } else {
         false;
     }
+
+    // Cerrar la declaración y la conexión
+    $stmt->close();
+    $conn->close();
 }
 
 // Select c.fecha, glu1, insula,racion,glu2,
