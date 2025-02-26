@@ -73,8 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
 
-
-    *{
+*{
             font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
         }
         .fondo{
@@ -92,9 +91,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         *, *::before, *::after {
             box-sizing: border-box;
-        }
-        .background{
-            background-color:rgb(185, 231, 240);
         }
     </style>
 </head>
@@ -133,6 +129,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         <div class=" row pt-4 mt-5">
             <div class="col-12 text-justify">
+                <a href="menu.php" class="btn btn-link mt-2">← Volver al Menú</a>
                      <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-8 pt-4 mb-4 mt-5 text-center">

@@ -140,7 +140,7 @@ function anadirHiper($glucosa, $hora, $corr, $tipo_comida, $id_usu, $fecha) {
     $sql = "INSERT INTO hiperglucemia (glucosa, hora, correccion, tipo_comida, fecha, id_usu ) 
             VALUES (?, ?, ?, ?, ?, ? )";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("isissi", $glucosa, $hora,$corr, $tipo_comida,  $fecha, $id_usu,);
+    $stmt->bind_param("isissi", $glucosa, $hora,$corr, $tipo_comida,  $fecha, $id_usu);
 
     if ($stmt->execute()) {
         $id_comida = $stmt->insert_id; // Obtener ID de la comida recién insertada

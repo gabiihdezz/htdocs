@@ -126,7 +126,7 @@ $fechaSeleccionada = isset($_SESSION["fecha"])? $_SESSION["fecha"] : null;
             </header>
         </div>
         
-        <div class=" row pt-4 mt-5">
+        <div class="row pt-4 mt-5">
             <div class="col-12 text-justify">
                 <?php
                 
