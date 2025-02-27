@@ -4,8 +4,13 @@ session_start();  // Mantén esto siempre al principio
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["fecha"])) {
     $_SESSION["fecha"] = $_POST["fecha"];
 }
+else{
+    $_SESSION["fecha"] = null;
+}
 
 $fechaSeleccionada = isset($_SESSION["fecha"])? $_SESSION["fecha"] : null;
+
+
 ?>
 
 

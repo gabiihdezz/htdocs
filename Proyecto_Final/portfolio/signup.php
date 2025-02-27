@@ -7,9 +7,6 @@ ini_set('display_errors', 1);  // Muestra los errores en pantalla.
 $nombre = $apellidos = $correo = $fecha = $usuario = "";
 $error = "";
 
-if (empty($id_usu) || empty($contraseña)) {
-    $error="El usuario o la contraseña están vacíos, no se guardarán los datos.";
-}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nombre = trim($_POST["nombre"]);
@@ -19,6 +16,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $contra = $_POST["contra"];
     $contra2 = $_POST["contra2"];
 
+    if (empty($id_usu) || empty($contraseña)) {
+        $error="El usuario o la contraseña están vacíos, no se guardarán los datos.";
+        session_destroy();
+        header("Location: signup.php");
+        exit;
+    }
     if ($contra !== $contra2) {
         $error = "Las contraseñas no coinciden. Inténtalo de nuevo.";
     } else {
@@ -41,11 +44,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $error = "Error al registrar el usuario. Es posible que el nombre de usuario ya esté en uso.";
         }
     }
-}
-if (isset($_POST['Cerrar'])) {
-    session_destroy();
-    header("Location: signup.php");
-    exit;
+    if (isset($_POST['Cerrar'])) {
+        session_destroy();
+        header("Location: signup.php");
+        exit;
+    }
 }
 ?>
 
