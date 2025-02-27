@@ -6,10 +6,6 @@ if (!isset($_SESSION['id_usu'])) {
     header("Location: login.php");
     exit();
 }
-if (!isset($_SESSION['fecha'])) {
-    header("menu.php");
-    exit();
-}
 $fecha = isset($_SESSION["fecha"])? $_SESSION["fecha"] : null;
 
 $id_usu = $_SESSION["id_usu"];
@@ -53,35 +49,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Llamar a la función para guardar en la base de datos
     $resultados = borrar($tipo_comida, $id_usu, $fecha); ;
 }
-
-register_shutdown_function('handle_fatal_error');
-
-function handle_fatal_error() {
-    $error = error_get_last(); // Obtiene el último error
-
-
-    if ($error !== NULL && $error['type'] === E_ERROR) {
-        // Redirige al menu.php en caso de error fatal
-        header('Location: menu.php');
-        exit();
-    }
-}
-
-$inactividad_maxima = 1 * 60;  
-
-if (isset($_SESSION['last_activity'])) {
-    $tiempo_inactivo = time() - $_SESSION['last_activity']; 
-
-    if ($tiempo_inactivo > $inactividad_maxima) {
-        session_unset();
-        session_destroy();
-        header("Location: ../inicio.php");  
-        exit();
-    }
-}
-
-$_SESSION['last_activity'] = time();
-
 ?>
 
 
@@ -91,30 +58,6 @@ $_SESSION['last_activity'] = time();
     <meta charset="UTF-8">
     <title>Registros del Usuario</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <style>
-
-
-    *{
-            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-        }
-        .fondo{
-            background-image: url("../util/fondo1.webp");
-            background-repeat: repeat;
-            height: 100%; 
-        }
-        html, body {
-            margin: 0;
-            padding: 0;
-
-        }
-        .navbar-nav .nav-link:hover {
-            color: white !important; 
-        }
-        *, *::before, *::after {
-            box-sizing: border-box;
-        }
-    </style>
-
 </head>
 <body class="container mt-5">
 <div class="row">
@@ -147,15 +90,9 @@ $_SESSION['last_activity'] = time();
                 </nav>
             </header>
         </div>
-
+        
         <a href="menu.php" class="btn btn-link mt-2">← Volver al Menú</a>
-        <div class="mt-4 text-center text-danger">
-            <?php 
-            if(isset($resultados)){
-                echo $resultados;
-            }
-            ?>
-        </div>
+
         <h2 class="text-center text-primary mt-4">Tus Registros</h2>
         <p class="fs-3 text-center">La fecha que has seleccionado: <b class="text-primary"><?= htmlspecialchars($fecha) ?> </b></p>
         <h3 class="mt-4">Escoge una consulta para Borrar: </h3>

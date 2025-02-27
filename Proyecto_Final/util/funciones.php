@@ -4,22 +4,6 @@ if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
 
-function tiempo (){
-$inactividad_maxima = 1 * 60;  
-
-if (isset($_SESSION['last_activity'])) {
-    $tiempo_inactivo = time() - $_SESSION['last_activity']; 
-
-    if ($tiempo_inactivo > $inactividad_maxima) {
-        session_unset();
-        session_destroy();
-        header("Location: ../inicio.php");  
-        exit();
-    }
-}
-
-$_SESSION['last_activity'] = time();
-}
 
 function autenticarUsuario($usuario, $contra) {
     global $conn;

@@ -5,41 +5,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["fecha"])) {
     $_SESSION["fecha"] = $_POST["fecha"];
 }
 
-if (!isset($_SESSION['fecha'])) {
-    header(".. /inicio.php");
-    exit();
-}
-
 $fechaSeleccionada = isset($_SESSION["fecha"])? $_SESSION["fecha"] : null;
-
-register_shutdown_function('handle_fatal_error');
-
-function handle_fatal_error() {
-    $error = error_get_last(); // Obtiene el último error
-
-
-    if ($error !== NULL && $error['type'] === E_ERROR) {
-        // Redirige al menu.php en caso de error fatal
-        header('Location: menu.php');
-        exit();
-    }
-}
-
-$inactividad_maxima = 1 * 60;  
-
-if (isset($_SESSION['last_activity'])) {
-    $tiempo_inactivo = time() - $_SESSION['last_activity']; 
-
-    if ($tiempo_inactivo > $inactividad_maxima) {
-        session_unset();
-        session_destroy();
-        header("Location: ../inicio.php");  
-        exit();
-    }
-}
-
-$_SESSION['last_activity'] = time();
-
 ?>
 
 
@@ -131,12 +97,6 @@ $_SESSION['last_activity'] = time();
                             <input type="date" id="fecha" name="fecha" class="form-control w-100" required>
                             <button type="submit" class="btn btn-primary mt-2">Enviar</button>
                         </form>
-                        <?php
-                            if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["fecha"])) {
-                            $fecha = htmlspecialchars($_POST["fecha"]);
-                            echo "<div class='fs-4 mt-3 text-success'>Has seleccionado $fecha</div>";}
-                            ?>                            
-                      
 
                         <?php if (!$fechaSeleccionada): ?>
                             <div class="text-danger fs-4 mt-2">Debes introducir una fecha para continuar.</div>

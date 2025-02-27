@@ -1,14 +1,11 @@
 <?php
 session_start(); // Asegurarse de iniciar la sesión
 
-if (!isset($_SESSION['id_usu'])) {
-    header("Location: login.php");
-    exit();
-}
 if (!isset($_SESSION['fecha'])) {
-    header("menu.php");
+    header("Location: menu.php");
     exit();
 }
+
 require ('../util/funciones.php');
 
 
@@ -63,23 +60,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header("Location: menu.php");
 
 }
-
-
-$inactividad_maxima = 1 * 60;  
-
-if (isset($_SESSION['last_activity'])) {
-    $tiempo_inactivo = time() - $_SESSION['last_activity']; 
-
-    if ($tiempo_inactivo > $inactividad_maxima) {
-        session_unset();
-        session_destroy();
-        header("Location: ../inicio.php");  
-        exit();
-    }
-}
-
-$_SESSION['last_activity'] = time();
-
 ?>
 
 <!DOCTYPE html>
@@ -114,7 +94,7 @@ $_SESSION['last_activity'] = time();
         }
     </style>
 </head>
-<body>
+<body class="background">
     <div class="container ">
         <div class="row">
             <header class="navbar navbar-expand-lg bd-navbar fixed-top bg-info">
@@ -146,7 +126,7 @@ $_SESSION['last_activity'] = time();
                 </nav>
             </header>
         </div>
-        
+
         <div class=" row pt-4 mt-5">
             <div class="col-12 text-justify">
                 <a href="menu.php" class="btn btn-link mt-2">← Volver al Menú</a>
@@ -192,7 +172,7 @@ $_SESSION['last_activity'] = time();
 
                             <label for="deporte">Deporte 5-max, 1-min:</label>
                             <input type="number" id="deporte" name="deporte" max="5" class="form-control" required>
-                            
+
                             <label for="lenta">Lenta (Dosis):</label>
                             <input type="text" id="lenta" name="lenta" class="form-control" required>
 
@@ -246,4 +226,3 @@ $_SESSION['last_activity'] = time();
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
 
 </body>
-</html>
