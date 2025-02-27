@@ -113,6 +113,10 @@ session_start();
                                     <a class="nav-link py-2 px-0 px-lg-2" href="inicio.php" aria-current="true">Inicio</a>
                                 </li>
                                 <li class="nav-item col-6 col-lg-auto">
+                                    <a class="nav-link py-2 px-0 px-lg-2" href="portfolio/estadisticas.php">Estadisticas</a>
+                                </li>
+
+                                <li class="nav-item col-6 col-lg-auto">
                                     <?php
                                         if (isset($_SESSION['id_usu']) && isset($_SESSION['nombre_usuario'])) {
                                             echo"<a class=\"nav-link py-2 px-0 px-lg-2\" href=\"portfolio/menu.php\" aria-current=\"true\">";}

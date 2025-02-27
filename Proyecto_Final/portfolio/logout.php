@@ -1,39 +1,12 @@
-<?php
+<ap?php
 session_start();
 require_once('../util/funciones.php');  
-error_reporting(E_ALL);  // Muestra todos los errores.
-ini_set('display_errors', 1);  // Muestra los errores en pantalla.
-
-$nombre = $apellidos = $correo = $fecha = $usuario = "";
-$error = "";
-
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($id_usu) || empty($contraseña)) {
         session_destroy();
         header("Location: login.php");
         exit;
-    }
-    if ($contra !== $contra2) {
-        $error = "Las contraseñas no coinciden. Inténtalo de nuevo.";
-    } else {
-        // Intentar registrar el usuario
-
-        if ($id_usuario) {
-            // Iniciar sesión automáticamente con los datos devueltos
-            $_SESSION['id_usu'] = $id_usuario;
-            $_SESSION['nombre_usuario'] = $nombre;
-            $_SESSION['usuario'] = $usuario;
-
-            // Asegurar que la sesión se guarda antes de redirigir
-            session_write_close();
-
-            // Redirigir al usuario a la página de inicio
-            header("Location: ../inicio.php");
-            exit();
-        } else {
-            $error = "Error al registrar el usuario. Es posible que el nombre de usuario ya esté en uso.";
-        }
     }
     if (isset($_POST['Cerrar'])) {
         session_destroy();
@@ -91,16 +64,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <hr class="d-lg-none text-white-50">
                             <ul class="navbar-nav flex-row flex-wrap bd-navbar-nav">
                                 <a class="nav-link py-2 px-0 px-lg-2" href="../inicio.php">Inicio</a>
-                            <li class="nav-item col-6 col-lg-auto">
+                                <li class="nav-item col-6 col-lg-auto">
+                                    </li>
+                                    <li class="nav-item col-6 col-lg-auto">
+                                    <?php
+                                        if (isset($_SESSION['id_usu']) && isset($_SESSION['nombre_usuario'])) {
+                                            echo"<a class=\"nav-link py-2 px-0 px-lg-2\" href=\"menu.php\" aria-current=\"true\">";}
+                                        else{
+                                            echo"<a class=\"nav-link py-2 px-0 px-lg-2\" href=\"login.php\" class=\"text-decoration-none\">";}
+                                        ?>Menu</a>
                                 </li>
                                 <li class="nav-item col-6 col-lg-auto">
                                 <?php
-                                    if (isset($_SESSION['id_usu']) && isset($_SESSION['nombre_usuario'])) {
-                                        echo"<a class=\"nav-link py-2 px-0 px-lg-2\" href=\"menu.php\" aria-current=\"true\">";}
-                                    else{
-                                        echo"<a class=\"nav-link py-2 px-0 px-lg-2\" href=\"login.php\" class=\"text-decoration-none\">";}
-                                    ?>Menu</a>
-                            </li>
+                                        if (isset($_SESSION['id_usu']) && isset($_SESSION['nombre_usuario'])) {
+                                            echo"<a class=\"nav-link py-2 px-0 px-lg-2\" href=\"estadisticas.php\" aria-current=\"true\">";}
+                                        else{
+                                            echo"<a class=\"nav-link py-2 px-0 px-lg-2\" href=\"login.php\" class=\"text-decoration-none\">";}
+                                        ?>Estadisticas</a>
+                                </li>
                             </ul>
                             <ul class="navbar-nav flex-row flex-wrap ms-md-auto gap-3 align-content-center">
                             <?php 
@@ -148,11 +129,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
     <script>
-    // Obtener la fecha actual en formato YYYY-MM-DD
-    let today = new Date().toISOString().split("T")[0];
-
-    // Asignar la fecha máxima al input 
-    document.getElementById("fecha").max = today;
-</script>
+        let today = new Date().toISOString().split("T")[0];
+        document.getElementById("fecha").max = today;
+    </script>
 </body>
 </html>

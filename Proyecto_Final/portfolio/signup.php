@@ -103,8 +103,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <hr class="d-lg-none text-white-50">
                                 <ul class="navbar-nav flex-row flex-wrap bd-navbar-nav">
                                     <a class="nav-link py-2 px-0 px-lg-2" href="../inicio.php">Inicio</a>
-                                <li class="nav-item col-6 col-lg-auto">
-                                    </li>
                                     <li class="nav-item col-6 col-lg-auto">
                                     <?php
                                         if (isset($_SESSION['id_usu']) && isset($_SESSION['nombre_usuario'])) {
@@ -112,6 +110,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         else{
                                             echo"<a class=\"nav-link py-2 px-0 px-lg-2\" href=\"login.php\" class=\"text-decoration-none\">";}
                                         ?>Menu</a>
+                                </li>
+                                <li class="nav-item col-6 col-lg-auto">
+                                <?php
+                                        if (isset($_SESSION['id_usu']) && isset($_SESSION['nombre_usuario'])) {
+                                            echo"<a class=\"nav-link py-2 px-0 px-lg-2\" href=\"estadisticas.php\" aria-current=\"true\">";}
+                                        else{
+                                            echo"<a class=\"nav-link py-2 px-0 px-lg-2\" href=\"login.php\" class=\"text-decoration-none\">";}
+                                        ?>Estadisticas</a>
                                 </li>
                                 </ul>
 
