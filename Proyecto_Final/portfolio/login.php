@@ -80,13 +80,21 @@ if (isset($_POST['Cerrar'])) {
                         </ul>
 
                         <ul class="navbar-nav flex-row flex-wrap ms-md-auto gap-3 align-content-center">
-                            <li class="nav-item col-6 col-lg-auto">
-                                <a class="nav-link py-2 px-0 px-lg-2" href="login.php">Iniciar Sesion</a>
-                            </li>
-                            <li class="nav-item col-6 col-lg-auto">
-                                <a class="nav-link py-2 px-0 px-lg-2" href="signup.php">Registrarse</a>
-                            </li>
-                        </ul>
+                                <?php 
+                                if (isset($_SESSION['id_usu']) && isset($_SESSION['nombre_usuario'])) {
+                                    echo"<li class=\"nav-item col-6 col-lg-auto \">
+                                        <a class=\"nav-link py-2 px-0 px-lg-2\" href=\"logout.php\">Cerrar Sesión</a>
+                                    </li>";}
+                                else{
+                                    echo"<li class=\"nav-item col-6 col-lg-auto \">
+                                        <a class=\"nav-link py-2 px-0 px-lg-2\" href=\"login.php\">Iniciar Sesión</a>
+                                    </li>
+                                    <li class=\"nav-item col-6 col-lg-auto\">
+                                        <a class=\"nav-link py-2 px-0 px-lg-2\" href=\"signup.php\">Registrarse</a>
+                                    </li>";}
+                                    
+                                ?>
+                            </ul>
                     </div>
                 </div>
             </nav>

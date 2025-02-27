@@ -123,12 +123,20 @@ session_start();
                                 </li>
                             </ul>
                             <ul class="navbar-nav flex-row flex-wrap ms-md-auto gap-3 align-content-center">
-                                <li class="nav-item col-6 col-lg-auto ">
-                                    <a class="nav-link py-2 px-0 px-lg-2" href="portfolio/login.php">Iniciar Sesión</a>
-                                </li>
-                                <li class="nav-item col-6 col-lg-auto">
-                                    <a class="nav-link py-2 px-0 px-lg-2" href="portfolio/signup.php">Registrarse</a>
-                                </li>
+                                <?php 
+                                if (isset($_SESSION['id_usu']) && isset($_SESSION['nombre_usuario'])) {
+                                    echo"<li class=\"nav-item col-6 col-lg-auto \">
+                                        <a class=\"nav-link py-2 px-0 px-lg-2\" href=\"portfolio/logout.php\">Cerrar Sesión</a>
+                                    </li>";}
+                                else{
+                                    echo"<li class=\"nav-item col-6 col-lg-auto \">
+                                        <a class=\"nav-link py-2 px-0 px-lg-2\" href=\"login.php\">Iniciar Sesión</a>
+                                    </li>
+                                    <li class=\"nav-item col-6 col-lg-auto\">
+                                        <a class=\"nav-link py-2 px-0 px-lg-2\" href=\"signup.php\">Registrarse</a>
+                                    </li>";}
+                                    
+                                ?>
                             </ul>
                         </div>
                     </div>
@@ -185,7 +193,7 @@ session_start();
                     echo"<a href=\"portfolio/login.php\" class=\"text-decoration-none\">";}
                     
                     ?>
-            <div class="fs-3 text-primary">📊 Accede al Registro y Control de Insulina</div>
+            <div class="fs-3 text-primary">📊 Accede a la tabla de Registro y Control de Insulina</div>
                 <div class="card text-center">
                     <table class="table-custom">
                         <thead>
