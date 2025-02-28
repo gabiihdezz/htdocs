@@ -4,13 +4,11 @@ $username = "4595002_gabrielhc";
 $password = "Hugo1234";
 $database = "4595002_gabrielhc";
 
-$conn = new mysqli($servername, $username, $password, $database);
+$conn = new mysqli($servername, $username, $password, $database, 3306);
 
 if ($conn->connect_error) {
     die("Error de conexión: " . $conn->connect_error);
-} else {
-    echo "Conexión exitosa a la base de datos.";
-}
+} 
 
 
 

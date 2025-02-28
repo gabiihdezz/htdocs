@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once($_SERVER['DOCUMENT_ROOT'] . '/util/funciones.php');
+require_once '../util/funciones.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($id_usu) || empty($contraseña)) {

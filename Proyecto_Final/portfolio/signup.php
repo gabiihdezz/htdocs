@@ -1,8 +1,6 @@
 <?php
 session_start();
-require_once($_SERVER['DOCUMENT_ROOT'] . '/util/funciones.php');
-error_reporting(E_ALL);  // Muestra todos los errores.
-ini_set('display_errors', 1);  // Muestra los errores en pantalla.
+require_once '../util/funciones.php';
 
 $nombre = $apellidos = $correo = $fecha = $usuario = "";
 $error = "";
@@ -16,8 +14,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $contra = $_POST["contra"];
     $contra2 = $_POST["contra2"];
 
-    if (empty($id_usu) || empty($contraseña)) {
-        $error="El usuario o la contraseña están vacíos, no se guardarán los datos.";
+    if (empty($usuario) || empty($contra) || empty($contra2)) {
+        $error = "El usuario o la contraseña están vacíos, no se guardarán los datos.";
         session_destroy();
         header("Location: signup.php");
         exit();
@@ -25,8 +23,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($contra !== $contra2) {
         $error = "Las contraseñas no coinciden. Inténtalo de nuevo.";
     } else {
-        // Intentar registrar el usuario
-        $id_usuario = registroUsuario($contra, $usuario, $fecha, $nombre, $apellidos);
+        // Aquí iría el código para registrar al usuario
+
+            $id_usuario = registroUsuario($contra, $usuario, $fecha, $nombre, $apellidos);
 
         if ($id_usuario) {
             // Iniciar sesión automáticamente con los datos devueltos
@@ -41,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: ../inicio.php");
             exit();
         } else {
-            $error = "Error al registrar el usuario. Es posible que el nombre de usuario ya esté en uso.";
+            $error = "<h2>Error al registrar el usuario. Es posible que el nombre de usuario ya esté en uso.</h2>";
         }
     }
     if (isset($_POST['Cerrar'])) {

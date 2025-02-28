@@ -1,6 +1,6 @@
 <?php
 session_start();  // Mantén esto siempre al principio
-require_once($_SERVER['DOCUMENT_ROOT'] . '/util/funciones.php');
+require_once '../util/funciones.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["fecha"])) {
     $_SESSION["fecha"] = $_POST["fecha"];

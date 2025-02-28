@@ -6,7 +6,7 @@ if (!isset($_SESSION['id_usu'])) {
     header("Location: login.php");
     exit();
 }
-require_once($_SERVER['DOCUMENT_ROOT'] . '/util/funciones.php');
+require_once '../util/funciones.php';
 
 
 

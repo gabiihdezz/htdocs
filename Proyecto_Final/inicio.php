@@ -134,10 +134,10 @@ session_start();
                                     </li>";}
                                 else{
                                     echo"<li class=\"nav-item col-6 col-lg-auto \">
-                                        <a class=\"nav-link py-2 px-0 px-lg-2\" href=\"login.php\">Iniciar Sesión</a>
+                                        <a class=\"nav-link py-2 px-0 px-lg-2\" href=\"portfolio/login.php\">Iniciar Sesión</a>
                                     </li>
                                     <li class=\"nav-item col-6 col-lg-auto\">
-                                        <a class=\"nav-link py-2 px-0 px-lg-2\" href=\"signup.php\">Registrarse</a>
+                                        <a class=\"nav-link py-2 px-0 px-lg-2\" href=\"portfolio/signup.php\">Registrarse</a>
                                     </li>";}
                                     
                                 ?>
