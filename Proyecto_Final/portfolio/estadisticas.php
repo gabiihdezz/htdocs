@@ -76,7 +76,7 @@ $conn->close();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 </head>
-<body class="container mt-5">
+<div class="container mt-5">
         <div class="row">
             <header class="navbar navbar-expand-lg bd-navbar fixed-top bg-info">
                 <nav class="container-xxl bd-gutter flex-wrap flex-lg-nowrap" aria-label="Main navigation">
@@ -126,60 +126,81 @@ $conn->close();
     
     <div class="fs-4 text-center"> Estadisticas del último mes</div>
     <div class="row text-center">
-        <div class="col-md-3 mb-3">
-            <div class="card text-white bg-primary p-3">
-                <h5>Promedio Glucosa 1h</h5>
+    <div class="col-md-3 mb-3">
+        <div class="card text-white bg-primary p-3">
+            <h5>Promedio Glucosa 1h</h5>
+            <?php if (empty($result_stats_month['promedio_glucosa_1h'])): ?>
+                <h3>No hay datos</h3>
+            <?php else: ?>
                 <h3><?= number_format($result_stats_month['promedio_glucosa_1h'], 2) ?></h3>
-            </div>
-        </div>
-        <div class="col-md-3 mb-3">
-            <div class="card text-white bg-success p-3">
-                <h5>Promedio Glucosa 2h</h5>
-                <h3><?= number_format($result_stats_month['promedio_glucosa_2h'], 2) ?></h3>
-            </div>
-        </div>
-        <div class="col-md-3 mb-3">
-            <div class="card text-white bg-danger p-3">
-                <h5>Total Hipoglucemias</h5>
-                <h3><?= $result_hipo_count_month['total_hipoglucemias'] ?></h3>
-            </div>
-        </div>
-        <div class="col-md-3 mb-3">
-            <div class="card text-white bg-warning p-3">
-                <h5>Total Hiperglucemias</h5>
-                <h3><?= $result_hiper_count_month['total_hiperglucemias'] ?></h3>
-            </div>
+            <?php endif; ?>
         </div>
     </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="card text-white bg-success p-3">
+            <h5>Promedio Glucosa 2h</h5>
+            <?php if (empty($result_stats_month['promedio_glucosa_2h'])): ?>
+                <h3>No hay datos</h3>
+            <?php else: ?>
+                <h3><?= number_format($result_stats_month['promedio_glucosa_2h'], 2) ?></h3>
+            <?php endif; ?>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="card text-white bg-danger p-3">
+            <h5>Total Hipoglucemias</h5>
+            <h3><?= $result_hipo_count_month['total_hipoglucemias'] ?></h3>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="card text-white bg-warning p-3">
+            <h5>Total Hiperglucemias</h5>
+            <h3><?= $result_hiper_count_month['total_hiperglucemias'] ?></h3>
+        </div>
+    </div>
+</div>
     <div class="fs-4 text-center"> Estadisticas totales: </div>
     <div class="row text-center">
-        <div class="col-md-3 mb-3">
-            <div class="card text-white bg-primary p-3">
-                <h5>Promedio Glucosa 1h</h5>
+    <div class="col-md-3 mb-3">
+        <div class="card text-white bg-primary p-3">
+            <h5>Promedio Glucosa 1h</h5>
+            <?php if (empty($result_stats['promedio_glucosa_1h'])): ?>
+                <h3>No hay datos</h3>
+            <?php else: ?>
                 <h3><?= number_format($result_stats['promedio_glucosa_1h'], 2) ?></h3>
-            </div>
-        </div>
-        <div class="col-md-3 mb-3">
-            <div class="card text-white bg-success p-3">
-                <h5>Promedio Glucosa 2h</h5>
-                <h3><?= number_format($result_stats['promedio_glucosa_2h'], 2) ?></h3>
-            </div>
-        </div>
-        <div class="col-md-3 mb-3">
-            <div class="card text-white bg-danger p-3">
-                <h5>Total Hipoglucemias</h5>
-                <h3><?= $result_hipo_count['total_hipoglucemias'] ?></h3>
-            </div>
-        </div>
-        <div class="col-md-3 mb-3">
-            <div class="card text-white bg-warning p-3">
-                <h5>Total Hiperglucemias</h5>
-                <h3><?= $result_hiper_count['total_hiperglucemias'] ?></h3>
-            </div>
+            <?php endif; ?>
         </div>
     </div>
 
+    <div class="col-md-3 mb-3">
+        <div class="card text-white bg-success p-3">
+            <h5>Promedio Glucosa 2h</h5>
+            <?php if (empty($result_stats['promedio_glucosa_2h'])): ?>
+                <h3>No hay datos</h3>
+            <?php else: ?>
+                <h3><?= number_format($result_stats['promedio_glucosa_2h'], 2) ?></h3>
+            <?php endif; ?>
+        </div>
+    </div>
 
+    <div class="col-md-3 mb-3">
+        <div class="card text-white bg-danger p-3">
+            <h5>Total Hipoglucemias</h5>
+            <h3><?= !empty($result_hipo_count['total_hipoglucemias']) ? $result_hipo_count['total_hipoglucemias'] : "No hay datos" ?></h3>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="card text-white bg-warning p-3">
+            <h5>Total Hiperglucemias</h5>
+            <h3><?= !empty($result_hiper_count['total_hiperglucemias']) ? $result_hiper_count['total_hiperglucemias'] : "No hay datos" ?></h3>
+        </div>
+    </div>
+</div>
+</div>
     <script>
     const ctx = document.getElementById('glucoseChart').getContext('2d');
     const glucoseChart = new Chart(ctx, {
