@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('../util/funciones.php');  
+require_once($_SERVER['DOCUMENT_ROOT'] . '/util/funciones.php');
 error_reporting(E_ALL);  // Muestra todos los errores.
 ini_set('display_errors', 1);  // Muestra los errores en pantalla.
 
@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error="El usuario o la contraseña están vacíos, no se guardarán los datos.";
         session_destroy();
         header("Location: signup.php");
-        exit;
+        exit();
     }
     if ($contra !== $contra2) {
         $error = "Las contraseñas no coinciden. Inténtalo de nuevo.";
@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['Cerrar'])) {
         session_destroy();
         header("Location: signup.php");
-        exit;
+        exit();
     }
 }
 ?>

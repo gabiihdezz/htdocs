@@ -6,6 +6,7 @@
 -- Tiempo de generación: 26-02-2025 a las 00:16:54
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
+USE `4595002_gabrielhc`;
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;

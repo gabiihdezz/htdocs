@@ -1,8 +1,17 @@
 <?php
-$conn = new mysqli('localhost', 'root', '', 'diabetesdb', 3307);
+$servername = "fdb1028.awardspace.net"; // Cambia esto por el servidor correcto
+$username = "4595002_gabrielhc";
+$password = "Hugo1234";
+$database = "4595002_gabrielhc";
+
+$conn = new mysqli($servername, $username, $password, $database);
+
 if ($conn->connect_error) {
-    die("Conexión fallida: " . $conn->connect_error);
+    die("Error de conexión: " . $conn->connect_error);
+} else {
+    echo "Conexión exitosa a la base de datos.";
 }
+
 
 
 function autenticarUsuario($usuario, $contra) {
@@ -226,6 +235,7 @@ function borrar($tipo_comida, $id_usu, $fecha) {
     $stmt->close();
     return $respuesta;
 }
+
 
 function modificar($id_usu, $tipo_comida, $fecha, $nuevo_gl_1h, $nuevas_raciones, $nueva_insulina, $nuevo_gl_2h) {
     global $conn;  

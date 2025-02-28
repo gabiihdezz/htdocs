@@ -1,15 +1,14 @@
 <?php
 session_start();
-require_once('../util/funciones.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/util/funciones.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $usuario = $_POST["usuario"];
     $contra = $_POST["contra"];
 
     if (autenticarUsuario($usuario, $contra)) {
-        // header("Location: ../portfolio/tabla.php");
         header("Location: ../portfolio/menu.php");
-        exit;
+        exit();
     } else {
         $error = "Credenciales incorrectas. Inténtalo de nuevo.";
     }
@@ -18,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 if (isset($_POST['Cerrar'])) {
     session_destroy();
     header("Location: login.php");
-    exit;
+    exit();
 }
 ?>
 

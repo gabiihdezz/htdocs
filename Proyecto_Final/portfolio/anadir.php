@@ -6,7 +6,7 @@ if (!isset($_SESSION['id_usu'])) {
     header("Location: login.php");
     exit();
 }
-require ('../util/funciones.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/util/funciones.php');
 
 
 
@@ -46,6 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $resultado = anadirHiper($glucosa, $hora, $corr, $tipo_comida, $id_usu, $fecha);
     }
     header("Location: menu.php");
+    exit();
 
 }
 ?>
@@ -136,6 +137,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <?php if(isset($prnumberFecha)) { echo "<div class=\"fs-1\">$prnumberFecha</div>"; }
                         else{
                             header("Location: menu.php");
+                            exit();
                         } ?>
 
                         <div class="fs-3 p-2 text-primary">Añadir: </div>

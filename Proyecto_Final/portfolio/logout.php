@@ -1,17 +1,17 @@
 <?php
 session_start();
-require_once('../util/funciones.php');  
+require_once($_SERVER['DOCUMENT_ROOT'] . '/util/funciones.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($id_usu) || empty($contraseña)) {
         session_destroy();
         header("Location: login.php");
-        exit;
+        exit();
     }
     if (isset($_POST['Cerrar'])) {
         session_destroy();
         header("Location: login.php");  
-        exit;
+        exit();
     }
 }
 ?>
@@ -119,7 +119,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     HEAD;
                 } else {
                     header("Location: login.php");
-                    exit;
+                    exit();
                 }
 
                 ?>
