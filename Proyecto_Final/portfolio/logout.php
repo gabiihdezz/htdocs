@@ -1,4 +1,4 @@
-<ap?php
+<?php
 session_start();
 require_once('../util/funciones.php');  
 
@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     if (isset($_POST['Cerrar'])) {
         session_destroy();
-        header("Location: login.php");
+        header("Location: login.php");  
         exit;
     }
 }
@@ -74,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             echo"<a class=\"nav-link py-2 px-0 px-lg-2\" href=\"login.php\" class=\"text-decoration-none\">";}
                                         ?>Menu</a>
                                 </li>
-                                <li class="nav-item col-6 col-lg-auto">
+                                <li class="nav-item col-6  col-lg-auto">
                                 <?php
                                         if (isset($_SESSION['id_usu']) && isset($_SESSION['nombre_usuario'])) {
                                             echo"<a class=\"nav-link py-2 px-0 px-lg-2\" href=\"estadisticas.php\" aria-current=\"true\">";}
