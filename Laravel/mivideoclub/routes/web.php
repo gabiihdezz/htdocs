@@ -66,9 +66,14 @@ Route::get('/catalog/create', function (): string {
     </html>');
 });
 
-Route::get('/catalog/edit/{id?}', function (): string {
-    return( 'Modificar peliculas');
+// Route::get('/catalog/edit/{id?}', function (): string {
+//     return( 'Modificar peliculas');
+// });
+
+
+// Route::get('/catalog/show/{id}', [MoviesController::class, 'getShow']);
+
+Route ::get ('/pag1', function(){
+    return ('Hola Mundo');
 });
-
-
-Route::get('/catalog/show/{id}', [MoviesController::class, 'getShow']);
+Route ::get('/pag1', MoviesController::class);

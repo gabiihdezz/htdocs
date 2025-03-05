@@ -1,15 +1,14 @@
 <?php
 session_start();
-require_once('../util/funciones.php');
+require_once '../util/funciones.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $usuario = $_POST["usuario"];
     $contra = $_POST["contra"];
 
     if (autenticarUsuario($usuario, $contra)) {
-        // header("Location: ../portfolio/tabla.php");
         header("Location: ../portfolio/menu.php");
-        exit;
+        exit();
     } else {
         $error = "Credenciales incorrectas. Inténtalo de nuevo.";
     }
@@ -18,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 if (isset($_POST['Cerrar'])) {
     session_destroy();
     header("Location: login.php");
-    exit;
+    exit();
 }
 ?>
 
@@ -77,16 +76,32 @@ if (isset($_POST['Cerrar'])) {
                                     }
                                 ?>
                             </li>
-                        </ul>
+                            <li class="nav-item col-6 col-lg-auto">
+                                <?php
+                                        if (isset($_SESSION['id_usu']) && isset($_SESSION['nombre_usuario'])) {
+                                            echo"<a class=\"nav-link py-2 px-0 px-lg-2\" href=\"estadisticas.php\" aria-current=\"true\">";}
+                                        else{
+                                            echo"<a class=\"nav-link py-2 px-0 px-lg-2\" href=\"login.php\" class=\"text-decoration-none\">";}
+                                        ?>Estadisticas</a>
+                                </li>
+                            </ul>
 
                         <ul class="navbar-nav flex-row flex-wrap ms-md-auto gap-3 align-content-center">
-                            <li class="nav-item col-6 col-lg-auto">
-                                <a class="nav-link py-2 px-0 px-lg-2" href="login.php">Iniciar Sesion</a>
-                            </li>
-                            <li class="nav-item col-6 col-lg-auto">
-                                <a class="nav-link py-2 px-0 px-lg-2" href="signup.php">Registrarse</a>
-                            </li>
-                        </ul>
+                                <?php 
+                                if (isset($_SESSION['id_usu']) && isset($_SESSION['nombre_usuario'])) {
+                                    echo"<li class=\"nav-item col-6 col-lg-auto \">
+                                        <a class=\"nav-link py-2 px-0 px-lg-2\" href=\"logout.php\">Cerrar Sesión</a>
+                                    </li>";}
+                                else{
+                                    echo"<li class=\"nav-item col-6 col-lg-auto \">
+                                        <a class=\"nav-link py-2 px-0 px-lg-2\" href=\"login.php\">Iniciar Sesión</a>
+                                    </li>
+                                    <li class=\"nav-item col-6 col-lg-auto\">
+                                        <a class=\"nav-link py-2 px-0 px-lg-2\" href=\"signup.php\">Registrarse</a>
+                                    </li>";}
+                                    
+                                ?>
+                            </ul>
                     </div>
                 </div>
             </nav>

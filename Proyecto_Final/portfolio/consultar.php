@@ -1,6 +1,10 @@
 <?php
 session_start();
+<<<<<<< HEAD
 require('../util/funciones.php');
+=======
+require_once '../util/funciones.php';
+>>>>>>> 6a84c8ce9e122591589028e067b35860372c069c
 
 if (!isset($_SESSION['id_usu'])) {
     header("Location: login.php");
@@ -50,7 +54,8 @@ $stmt_hiper->free_result();
     <meta charset="UTF-8">
     <title>Registros del Usuario</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-</head>
+    <link rel="icon" href="../util/logo.png" type="image/x-icon">
+    </head>
 <body class="container mt-5">
 <div class="row">
             <header class="navbar navbar-expand-lg bd-navbar fixed-top bg-info">
@@ -68,6 +73,7 @@ $stmt_hiper->free_result();
                                 <li class="nav-item col-6 col-lg-auto">
                                     <a class="nav-link py-2 px-0 px-lg-2" href="menu.php">Menu</a>
                                 </li>
+<<<<<<< HEAD
                             </ul>
                             <ul class="navbar-nav flex-row flex-wrap ms-md-auto gap-3 align-content-center">
                                 <li class="nav-item col-6 col-lg-auto ">
@@ -76,6 +82,28 @@ $stmt_hiper->free_result();
                                 <li class="nav-item col-6 col-lg-auto">
                                     <a class="nav-link py-2 px-0 px-lg-2" href="signup.php">Registrarse</a>
                                 </li>
+=======
+                                <li class="nav-item col-6 col-lg-auto">
+                                    <a class="nav-link py-2 px-0 px-lg-2" href="estadisticas.php">Estadisticas</a>
+                                </li>
+
+                            </ul>
+                            <ul class="navbar-nav flex-row flex-wrap ms-md-auto gap-3 align-content-center">
+                                <?php 
+                                if (isset($_SESSION['id_usu']) && isset($_SESSION['nombre_usuario'])) {
+                                    echo"<li class=\"nav-item col-6 col-lg-auto \">
+                                        <a class=\"nav-link py-2 px-0 px-lg-2\" href=\"logout.php\">Cerrar Sesión</a>
+                                    </li>";}
+                                else{
+                                    echo"<li class=\"nav-item col-6 col-lg-auto \">
+                                        <a class=\"nav-link py-2 px-0 px-lg-2\" href=\"login.php\">Iniciar Sesión</a>
+                                    </li>
+                                    <li class=\"nav-item col-6 col-lg-auto\">
+                                        <a class=\"nav-link py-2 px-0 px-lg-2\" href=\"signup.php\">Registrarse</a>
+                                    </li>";}
+                                    
+                                ?>
+>>>>>>> 6a84c8ce9e122591589028e067b35860372c069c
                             </ul>
                         </div>
                     </div>

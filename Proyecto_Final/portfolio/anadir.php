@@ -1,26 +1,14 @@
 <?php
 session_start(); // Asegurarse de iniciar la sesión
 
-if (!isset($_SESSION['fecha'])) {
-    header("Location: menu.php");
+
+if (!isset($_SESSION['id_usu'])) {
+    header("Location: login.php");
     exit();
 }
-
-require ('../util/funciones.php');
-
-
-register_shutdown_function('handle_fatal_error');
-
-function handle_fatal_error() {
-    $error = error_get_last(); // Obtiene el último error
+require_once '../util/funciones.php';
 
 
-    if ($error !== NULL && $error['type'] === E_ERROR) {
-        // Redirige al menu.php en caso de error fatal
-        header('Location: menu.php');
-        exit();
-    }
-}
 
 
 if (isset($_SESSION["fecha"]) && isset($_SESSION["id_usu"])) {
@@ -58,6 +46,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $resultado = anadirHiper($glucosa, $hora, $corr, $tipo_comida, $id_usu, $fecha);
     }
     header("Location: menu.php");
+<<<<<<< HEAD
+=======
+    exit();
+>>>>>>> 6a84c8ce9e122591589028e067b35860372c069c
 
 }
 ?>
@@ -112,14 +104,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <li class="nav-item col-6 col-lg-auto">
                                     <a class="nav-link py-2 px-0 px-lg-2" href="menu.php">Menu</a>
                                 </li>
-                            </ul>
-                            <ul class="navbar-nav flex-row flex-wrap ms-md-auto gap-3 align-content-center">
-                                <li class="nav-item col-6 col-lg-auto ">
-                                    <a class="nav-link py-2 px-0 px-lg-2" href="login.php">Iniciar Sesión</a>
-                                </li>
                                 <li class="nav-item col-6 col-lg-auto">
-                                    <a class="nav-link py-2 px-0 px-lg-2" href="signup.php">Registrarse</a>
+                                    <a class="nav-link py-2 px-0 px-lg-2" href="estadisticas.php">Estadisticas</a>
                                 </li>
+
+                            </ul>
+                                <ul class="navbar-nav flex-row flex-wrap ms-md-auto gap-3 align-content-center">
+                                    <?php 
+                                    if (isset($_SESSION['id_usu']) && isset($_SESSION['nombre_usuario'])) {
+                                        echo"<li class=\"nav-item col-6 col-lg-auto \">
+                                            <a class=\"nav-link py-2 px-0 px-lg-2\" href=\"logout.php\">Cerrar Sesión</a>
+                                        </li>";}
+                                    else{
+                                        echo"<li class=\"nav-item col-6 col-lg-auto \">\"
+                                            <a class=\"nav-link py-2 px-0 px-lg-2\" href=\"login.php\">Iniciar Sesión</a>
+                                        </li>
+                                        <li class=\"nav-item col-6 col-lg-auto\">
+                                            <a class=\"nav-link py-2 px-0 px-lg-2\" href=\"signup.php\">Registrarse</a>
+                                        </li>";}
+                                        
+                                    ?>
                             </ul>
                         </div>
                     </div>
@@ -136,6 +140,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <?php if(isset($prnumberFecha)) { echo "<div class=\"fs-1\">$prnumberFecha</div>"; }
                         else{
                             header("Location: menu.php");
+                            exit();
                         } ?>
 
                         <div class="fs-3 p-2 text-primary">Añadir: </div>
