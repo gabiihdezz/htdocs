@@ -1,9 +1,9 @@
 <?php
 $conn = new mysqli('localhost', 'root', '', 'diabetesdb', 3307);
-
 if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
+
 
 function autenticarUsuario($usuario, $contra) {
     global $conn;
@@ -93,25 +93,28 @@ function registroUsuario($contra, $usuario, $fecha, $nombre, $apellidos) {
 function anadir($tipo_comida, $gl_1h, $raciones, $insulina, $gl_2h, $id_usu, $fecha, $deporte, $lenta) {
     global $conn;  
 
-    $sql = "INSERT INTO control_glucosa (fecha, deporte, lenta, id_usu) VALUES (?, ?, ?, ?)";
+    // Insertar en control_glucosa (se ejecutará solo la primera vez en el día)
+    $sql = "INSERT INTO control_glucosa (fecha, deporte, lenta, id_usu) 
+            VALUES (?, ?, ?, ?) 
+            ON DUPLICATE KEY UPDATE deporte = VALUES(deporte), lenta = VALUES(lenta)";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("siii", $fecha, $deporte, $lenta, $id_usu);
     $stmt->execute();
-    $stmt->close(); // Cerramos la consulta
+    $stmt->close(); 
 
-    // Insertar en comida
+    // Insertar en comida, pero evitar duplicados
     $sql = "INSERT INTO comida (tipo_comida, gl_1h, gl_2h, raciones, insulina, fecha, id_usu) 
             VALUES (?, ?, ?, ?, ?, ?, ?)";
+
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("siiiisi", $tipo_comida, $gl_1h, $gl_2h, $raciones, $insulina, $fecha, $id_usu);
 
     if ($stmt->execute()) {
-        $inserted_id = $stmt->insert_id; // Obtener el ID insertado
-        $stmt->close(); // Cerrar la consulta
-        return $inserted_id;
+        $stmt->close(); 
+        return "Registro agregado correctamente.";
     } else {
         $stmt->close();
-        return false; // Error en la inserción
+        return "⚠️ Error: Ya has registrado $tipo_comida para esta fecha.";
     }
 }
 function anadirHipo($glucosa, $hora, $tipo_comida, $id_usu,$fecha) {
@@ -140,7 +143,7 @@ function anadirHiper($glucosa, $hora, $corr, $tipo_comida, $id_usu, $fecha) {
     $sql = "INSERT INTO hiperglucemia (glucosa, hora, correccion, tipo_comida, fecha, id_usu ) 
             VALUES (?, ?, ?, ?, ?, ? )";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("isissi", $glucosa, $hora,$corr, $tipo_comida,  $fecha, $id_usu,);
+    $stmt->bind_param("isissi", $glucosa, $hora,$corr, $tipo_comida,  $fecha, $id_usu);
 
     if ($stmt->execute()) {
         $id_comida = $stmt->insert_id; // Obtener ID de la comida recién insertada
@@ -152,5 +155,113 @@ function anadirHiper($glucosa, $hora, $corr, $tipo_comida, $id_usu, $fecha) {
     }
 }
 
+function obtenerDatosComidas($id_usu, $fecha) {
+    global $conn;
+    $sql = "SELECT 
+    c.fecha, 
+    c.gl_1h AS gl_1h, 
+    c.insulina AS insulina, 
+    c.raciones AS raciones, 
+    c.gl_2h AS gl_2h,
+    (SELECT h.glucosa FROM hipoglucemia h 
+     WHERE h.id_usu = c.id_usu AND h.fecha = c.fecha AND h.tipo_comida = c.tipo_comida) AS gluHipo,
+    (SELECT h.hora FROM hipoglucemia h 
+     WHERE h.id_usu = c.id_usu AND h.fecha = c.fecha AND h.tipo_comida = c.tipo_comida) AS glhoraHipo,
+    (SELECT hr.glucosa FROM hiperglucemia hr 
+     WHERE hr.id_usu = c.id_usu AND hr.fecha = c.fecha AND hr.tipo_comida = c.tipo_comida) AS gluHiper,
+    (SELECT hr.hora FROM hiperglucemia hr 
+     WHERE hr.id_usu = c.id_usu AND hr.fecha = c.fecha AND hr.tipo_comida = c.tipo_comida) AS horaHiper,
+    (SELECT hr.correccion FROM hiperglucemia hr 
+     WHERE hr.id_usu = c.id_usu AND hr.fecha = c.fecha AND hr.tipo_comida = c.tipo_comida) AS correc,
+    c.tipo_comida
+FROM comida c
+INNER JOIN control_glucosa cg 
+    ON cg.id_usu = c.id_usu AND cg.fecha = c.fecha
+WHERE c.fecha = ? AND c.id_usu = ?;"
+;
 
-?>  
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("si", $fecha, $id_usu);
+    $stmt->execute();
+    $resultado = $stmt->get_result();
+    
+    $datos = [];
+    while ($fila = $resultado->fetch_assoc()) {
+        $datos[] = $fila;
+    }
+
+    $stmt->close();
+    $conn->close();
+
+    return $datos;
+}
+
+function borrar($tipo_comida, $id_usu, $fecha) {
+    global $conn;  
+
+    $id_usu = $_SESSION['id_usu'];
+    $tipo_comida = $_POST['tipo_comida'];
+    $fecha = isset($_SESSION["fecha"]) ? $_SESSION["fecha"] : null;
+
+    if ($conn->connect_error) {
+        die("Error de conexión: " . $conn->connect_error);
+    }
+
+    $sql = "DELETE FROM comida WHERE id_usu = ? AND tipo_comida = ? AND fecha = ?";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("iss", $id_usu, $tipo_comida, $fecha);
+
+    if ($stmt->execute()) {
+        if ($stmt->affected_rows > 0) {
+            $respuesta= "<div>Registro eliminado con éxito.</div>";
+        } else {
+            $respuesta="<div >No se ha podido eliminar, no hay registros coincidentes.</div>";
+        }
+    } else {
+        $respuesta= "<div>No se ha podido eliminar.</div>";	
+    }
+    
+    // Cerrar el statement
+    $stmt->close();
+    return $respuesta;
+}
+
+function modificar($id_usu, $tipo_comida, $fecha, $nuevo_gl_1h, $nuevas_raciones, $nueva_insulina, $nuevo_gl_2h) {
+    global $conn;  
+
+    if ($conn->connect_error) {
+        die("Error de conexión: " . $conn->connect_error);
+    }
+
+    $sql = "UPDATE comida SET gl_1h = ?, raciones = ?, insulina = ?, gl_2h = ? WHERE id_usu = ? AND tipo_comida = ? AND fecha = ?";
+
+    $stmt = $conn->prepare($sql);
+    if (!$stmt) {
+        die("Error en la preparación de la consulta: " . $conn->error);
+    }
+
+    $stmt->bind_param("dddiiss", $nuevo_gl_1h, $nuevas_raciones, $nueva_insulina, $nuevo_gl_2h, $id_usu, $tipo_comida, $fecha);
+
+    if ($stmt->execute()) {
+        true;
+    } else {
+        false;
+    }
+
+    // Cerrar la declaración y la conexión
+    $stmt->close();
+    $conn->close();
+}
+
+// Select c.fecha, glu1, insula,racion,glu2,
+// (select gluHipo from hipoglucemia h where h.id_usu = c.id_usu and h.fecha = c.fecha and h.tipo_comida = c.tipo_comida),
+// (select glhoraHipo from hipoglucemia h where h.id_usu = c.id_usu and h.fecha = c.fecha and h.tipo_comida = c.tipo_comida),
+// (select gluHiper from hiperglucemia hr where hr.id_usu = c.id_usu and hr.fecha = c.fecha and hr.tipo_comida = c.tipo_comida),
+// (select horaHiper from hiperglucemia hr where hr.id_usu = c.id_usu and hr.fecha = c.fecha and hr.tipo_comida = c.tipo_comida),
+// (select correc from hiperglucemia hr where hr.id_usu = c.id_usu and hr.fecha = c.fecha and hr.tipo_comida = c.tipo_comida),
+// c.tipo_comida
+// from comidas c
+// inner join control_glucosa cg on (cg.id_usu = c.id_usu and cg.fecha = c.fecha)
+// where c.fecha = ?
+// and c.id_usu = ?

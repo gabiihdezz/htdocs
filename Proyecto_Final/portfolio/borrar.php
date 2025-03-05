@@ -6,6 +6,7 @@ if (!isset($_SESSION['id_usu'])) {
     header("Location: login.php");
     exit();
 }
+$fecha = isset($_SESSION["fecha"])? $_SESSION["fecha"] : null;
 
 $id_usu = $_SESSION["id_usu"];
 $fecha = isset($_SESSION["fecha"]) ? $_SESSION["fecha"] : "No disponible";
@@ -41,6 +42,13 @@ $stmt_hiper->execute();
 $result_hiper = $stmt_hiper->get_result();
 $stmt_hiper->free_result();
 
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $tipo_comida = trim($_POST["tipo_comida"]);
+
+    // Llamar a la función para guardar en la base de datos
+    $resultados = borrar($tipo_comida, $id_usu, $fecha); ;
+}
 ?>
 
 
@@ -85,9 +93,20 @@ $stmt_hiper->free_result();
         
         <a href="menu.php" class="btn btn-link mt-2">← Volver al Menú</a>
 
-    <h2 class="text-center text-primary mt-4">Tus Registros</h2>
-    <p class="fs-3 text-center">La fecha que has seleccionado: <b class="text-primary"><?= htmlspecialchars($fecha) ?> </b></p>
-
+        <h2 class="text-center text-primary mt-4">Tus Registros</h2>
+        <p class="fs-3 text-center">La fecha que has seleccionado: <b class="text-primary"><?= htmlspecialchars($fecha) ?> </b></p>
+        <h3 class="mt-4">Escoge una consulta para Borrar: </h3>
+        <form method="post" action="">
+            <select id="tipo_comida" name="tipo_comida" class="form-control" required>
+                <option value="">Selecciona una opción para ser borrada</option>
+                <option value="Desayuno" >Desayuno</option>
+                <option value="Almuerzo" >Almuerzo</option>
+                <option value="Comida" >Comida</option>
+                <option value="Merienda" >Merienda</option>
+                <option value="Cena" >Cena</option>
+            </select>
+            <button type="submit" class="btn btn-danger mt-2">Borrar</button>
+            </form>
     <!-- Tabla de Control de Glucosa -->
     <h3 class="mt-4">Control de Glucosa</h3>
     <table class="table table-bordered table-striped">

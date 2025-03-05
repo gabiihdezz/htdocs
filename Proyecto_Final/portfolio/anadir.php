@@ -57,6 +57,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $corr = ($_POST["corr"]);
         $resultado = anadirHiper($glucosa, $hora, $corr, $tipo_comida, $id_usu, $fecha);
     }
+    header("Location: menu.php");
+
 }
 ?>
 
@@ -71,8 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
 
-
-    *{
+*{
             font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
         }
         .fondo{
@@ -90,9 +91,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         *, *::before, *::after {
             box-sizing: border-box;
-        }
-        .background{
-            background-color:rgb(185, 231, 240);
         }
     </style>
 </head>
@@ -128,9 +126,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </nav>
             </header>
         </div>
-        
+
         <div class=" row pt-4 mt-5">
             <div class="col-12 text-justify">
+                <a href="menu.php" class="btn btn-link mt-2">← Volver al Menú</a>
                      <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-8 pt-4 mb-4 mt-5 text-center">
@@ -142,12 +141,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="fs-3 p-2 text-primary">Añadir: </div>
                             <form class="col-8 justify-content-center text-align-center align-items-center mx-auto" method="POST" action="">
                             <label for="tipo_comida">Tipo de comida:</label>
+                            <?php 
+                            $tipos_registrados = [];
+                            $sql = "SELECT tipo_comida FROM comida WHERE id_usu = ? AND fecha = ?";
+                            $stmt = $conn->prepare($sql);
+                            $stmt->bind_param("is", $id_usu, $fecha);
+                            $stmt->execute();
+                            $result = $stmt->get_result();
+                            while ($row = $result->fetch_assoc()) {
+                                $tipos_registrados[] = $row['tipo_comida'];
+                            }
+                            $stmt->close();
+                            ?>
                             <select id="tipo_comida" name="tipo_comida" class="form-control" required>
                                 <option value="">Selecciona una opción</option>
-                                <option value="desayuno">Desayuno</option>
-                                <option value="comida">Comida</option>
-                                <option value="cena">Cena</option>
-                                <option value="otro">Otro momento</option>
+                                <option value="Desayuno" <?= in_array("Desayuno", $tipos_registrados) ? "disabled" : "" ?>>Desayuno</option>
+                                <option value="Almuerzo" <?= in_array("Almuerzo", $tipos_registrados) ? "disabled" : "" ?>>Almuerzo</option>
+                                <option value="Comida" <?= in_array("Comida", $tipos_registrados) ? "disabled" : "" ?>>Comida</option>
+                                <option value="Merienda" <?= in_array("Merienda", $tipos_registrados) ? "disabled" : "" ?>>Merienda</option>
+                                <option value="Cena" <?= in_array("Cena", $tipos_registrados) ? "disabled" : "" ?>>Cena</option>
                             </select>
                             <label for="gl_1h">Glucosa 1 hora después:</label>
                             <input type="text" id="gl_1h" name="gl_1h" class="form-control" required>
@@ -160,7 +172,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                             <label for="deporte">Deporte 5-max, 1-min:</label>
                             <input type="number" id="deporte" name="deporte" max="5" class="form-control" required>
-                            
+
                             <label for="lenta">Lenta (Dosis):</label>
                             <input type="text" id="lenta" name="lenta" class="form-control" required>
 
@@ -214,4 +226,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
 
 </body>
-</html>

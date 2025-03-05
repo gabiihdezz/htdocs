@@ -2,10 +2,7 @@
 session_start();
 require_once('conexion.php'); 
 require_once('funciones.php'); 
-<<<<<<< HEAD
-=======
 $_SESSION['codusuario'] = htmlspecialchars($result->fetch_assoc()['Codigo']);
->>>>>>> 8be80c137861cac082f5a1f16cbf7dd413a6a04c
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nombre = $_POST["nombre"];
