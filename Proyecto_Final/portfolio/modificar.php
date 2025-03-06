@@ -1,45 +1,66 @@
 <?php
 session_start();
-require ('../util/funciones.php');
-$id_usu = $_SESSION["id_usu"];
-$fecha = isset($_SESSION["fecha"]) ? $_SESSION["fecha"] : "No disponible";
+require('../util/funciones.php');
 
-// Verificar si el usuario ha iniciado sesión
 if (!isset($_SESSION['id_usu'])) {
     header("Location: login.php");
     exit();
 }
+if (!isset($_SESSION['fecha'])) {
+    header("menu.php");
+    exit();
+}
 
-$id_usu = $_SESSION['id_usu']; // ID del usuario actual
-$fecha_sesion = $_SESSION['fecha']; // Suponiendo que tienes la fecha en la sesión
+$fecha = isset($_SESSION["fecha"]) ? $_SESSION["fecha"] : null;
 
-// Consulta para obtener registros de control_glucosa con comparación de fecha
-$sql_control = "SELECT * FROM control_glucosa WHERE id_usu = ? AND fecha = ? ORDER BY fecha DESC";
-$stmt_control = $conn->prepare($sql_control);
-$stmt_control->bind_param("is", $id_usu, $fecha_sesion); // Usar "s" para fecha en formato string
+$id_usu = $_SESSION["id_usu"];
+$fecha = isset($_SESSION["fecha"]) ? $_SESSION["fecha"] : "No disponible";
+
+// Consultas para obtener los datos
+$query_control = "SELECT fecha, deporte, lenta FROM control_glucosa WHERE id_usu = ? AND fecha = ?";
+$query_comida = "SELECT fecha, tipo_comida, gl_1h, raciones, insulina, gl_2h FROM comida WHERE id_usu = ? AND fecha = ?";
+$query_hipo = "SELECT fecha, hora, glucosa, tipo_comida FROM hipoglucemia WHERE id_usu = ? AND fecha = ?";
+$query_hiper = "SELECT fecha, hora, glucosa, correccion, tipo_comida FROM hiperglucemia WHERE id_usu = ? AND fecha = ?";
+
+// Preparación de consultas
+$stmt_control = $conn->prepare($query_control);
+$stmt_control->bind_param("is", $id_usu, $fecha);
 $stmt_control->execute();
 $result_control = $stmt_control->get_result();
+$stmt_control->free_result();
 
-// Consulta para obtener registros de comida con comparación de fecha
-$sql_comida = "SELECT * FROM comida WHERE id_usu = ? AND fecha = ? ORDER BY fecha DESC";
-$stmt_comida = $conn->prepare($sql_comida);
-$stmt_comida->bind_param("is", $id_usu, $fecha_sesion); // Usar "s" para fecha en formato string
+$stmt_comida = $conn->prepare($query_comida);
+$stmt_comida->bind_param("is", $id_usu, $fecha);
 $stmt_comida->execute();
 $result_comida = $stmt_comida->get_result();
+$stmt_comida->free_result();
 
-// Consulta para obtener registros de hipoglucemia con comparación de fecha
-$sql_hipo = "SELECT * FROM hipoglucemia WHERE id_usu = ? AND fecha = ? ORDER BY fecha DESC";
-$stmt_hipo = $conn->prepare($sql_hipo);
-$stmt_hipo->bind_param("is", $id_usu, $fecha_sesion); // Usar "s" para fecha en formato string
+$stmt_hipo = $conn->prepare($query_hipo);
+$stmt_hipo->bind_param("is", $id_usu, $fecha);
 $stmt_hipo->execute();
 $result_hipo = $stmt_hipo->get_result();
+$stmt_hipo->free_result();
 
-// Consulta para obtener registros de hiperglucemia con comparación de fecha
-$sql_hiper = "SELECT * FROM hiperglucemia WHERE id_usu = ? AND fecha = ? ORDER BY fecha DESC";
-$stmt_hiper = $conn->prepare($sql_hiper);
-$stmt_hiper->bind_param("is", $id_usu, $fecha_sesion); // Usar "s" para fecha en formato string
+$stmt_hiper = $conn->prepare($query_hiper);
+$stmt_hiper->bind_param("is", $id_usu, $fecha);
 $stmt_hiper->execute();
 $result_hiper = $stmt_hiper->get_result();
+$stmt_hiper->free_result();
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST["tipo_comida"])) {
+        // Recogemos los datos del formulario
+        $tipo_comida = trim($_POST["tipo_comida"]);
+        $nuevo_gl_1h = $_POST['gl_1h'];
+        $nuevas_raciones = $_POST['raciones'];
+        $nueva_insulina = $_POST['insulina'];
+        $nuevo_gl_2h = $_POST['gl_2h'];
+
+        // Llamamos a la función para actualizar los datos en la base de datos
+        modificar($id_usu, $tipo_comida, $fecha, $nuevo_gl_1h, $nuevas_raciones, $nueva_insulina, $nuevo_gl_2h);
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -48,47 +69,63 @@ $result_hiper = $stmt_hiper->get_result();
     <meta charset="UTF-8">
     <title>Registros del Usuario</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <link rel="icon" href="../util/logo.png" type="image/x-icon">
 </head>
 <body class="container mt-5">
+<div class="row">
+    <header class="navbar navbar-expand-lg bd-navbar fixed-top bg-info">
+        <nav class="container-xxl bd-gutter flex-wrap flex-lg-nowrap" aria-label="Main navigation">
+            <a class="navbar-brand p-0 me-0 me-lg-2" href="../inicio.php" aria-label="Bootstrap">
+                <img src="../util/cora.png " alt="Logo a modo de simulación" width="50px">
+            </a>
+            <div class="offcanvas-lg offcanvas-end flex-grow-1 fs-5" tabindex="-1" >
+                <div class="offcanvas-body p-4 pt-0 p-lg-0">
+                    <hr class="d-lg-none text-white-50">
+                    <ul class="navbar-nav flex-row flex-wrap bd-navbar-nav">
+                        <li class="nav-item col-6 col-lg-auto">
+                            <a class="nav-link py-2 px-0 px-lg-2" href="../inicio.php" aria-current="true">Inicio</a>
+                        </li>
+                        <li class="nav-item col-6 col-lg-auto">
+                            <a class="nav-link py-2 px-0 px-lg-2" href="menu.php">Menu</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav flex-row flex-wrap ms-md-auto gap-3 align-content-center">
+                        <li class="nav-item col-6 col-lg-auto "><a class="nav-link py-2 px-0 px-lg-2" href="login.php">Iniciar Sesión</a></li>
+                        <li class="nav-item col-6 col-lg-auto"><a class="nav-link py-2 px-0 px-lg-2" href="signup.php">Registrarse</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+</div>
 
-        <div class="row">
-            <header class="navbar navbar-expand-lg bd-navbar fixed-top bg-info">
-                <nav class="container-xxl bd-gutter flex-wrap flex-lg-nowrap" aria-label="Main navigation">
-                    <a class="navbar-brand p-0 me-0 me-lg-2" href="../inicio.php" aria-label="Bootstrap">
-                        <img src="../util/cora.png " alt="Logo a modo de simulación" width="50px">
-                    </a>
-                    <div class="offcanvas-lg offcanvas-end flex-grow-1 fs-5" tabindex="-1" >
-                        <div class="offcanvas-body p-4 pt-0 p-lg-0">
-                            <hr class="d-lg-none text-white-50">
-                            <ul class="navbar-nav flex-row flex-wrap bd-navbar-nav">
-                                <li class="nav-item col-6 col-lg-auto">
-                                    <a class="nav-link py-2 px-0 px-lg-2" href="../inicio.php" aria-current="true">Inicio</a>
-                                </li>
-                                <li class="nav-item col-6 col-lg-auto">
-                                    <a class="nav-link py-2 px-0 px-lg-2" href="menu.php">Menu</a>
-                                </li>
-                            </ul>
-                            <ul class="navbar-nav flex-row flex-wrap ms-md-auto gap-3 align-content-center">
-                                <li class="nav-item col-6 col-lg-auto ">
-                                    <a class="nav-link py-2 px-0 px-lg-2" href="login.php">Iniciar Sesión</a>
-                                </li>
-                                <li class="nav-item col-6 col-lg-auto">
-                                    <a class="nav-link py-2 px-0 px-lg-2" href="signup.php">Registrarse</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-            </header>
-        </div>
-        <a href="menu.php" class="btn btn-link mt-4">← Volver al Menú</a>
+<a href="menu.php" class="btn btn-link mt-2">← Volver al Menú</a>
+
+<h2 class="text-center text-primary mt-4">Tus Registros</h2>
+<p class="fs-3 text-center">La fecha que has seleccionado: <b class="text-primary"><?= htmlspecialchars($fecha) ?> </b></p>
+<h3 class="mt-4">Escoge una consulta para Modificar: </h3>
+
+<form method="post" action="">
+    <select id="tipo_comida" name="tipo_comida" class="form-control" required>
+        <option value="">Selecciona una opción para ser modificada</option>
+        <option value="Desayuno" >Desayuno</option>
+        <option value="Almuerzo" >Almuerzo</option>
+        <option value="Comida" >Comida</option>
+        <option value="Merienda">Merienda</option>
+        <option value="Cena" >Cena</option>
+    </select>
     
-        <p class="fs-3 text-center mt-4">La fecha que has seleccionado: <b class="text-primary"><?= htmlspecialchars($fecha) ?> </b></p>
+    <!-- Campos para modificar los valores -->
+    <div id="campos_modificar" class="mt-3">
+        <input type="text" class="form-control" name="gl_1h" placeholder="Nuevo valor de Glucosa 1h" required>
+        <input type="text" class="form-control mt-2" name="raciones" placeholder="Nueva cantidad de Raciones" required>
+        <input type="text" class="form-control mt-2" name="insulina" placeholder="Nuevo valor de Insulina" required>
+        <input type="text" class="form-control mt-2" name="gl_2h" placeholder="Nuevo valor de Glucosa 2h" required>
+    </div>
 
-    <!-- Tabla de Control de Glucosa -->
-    <h3 class="mt-4">Control de Glucosa</h3>
-    <table class="table table-bordered table-striped">
+    <button type="submit" class="btn btn-primary mb-4 mt-2">Modificar</button>
+</form>
+
+<table class="table table-bordered table-striped">
         <thead class="table-dark">
             <tr>
                 <th>Fecha</th>
@@ -181,14 +218,5 @@ $result_hiper = $stmt_hiper->get_result();
             <?php endwhile; ?>
         </tbody>
     </table>
-
 </body>
 </html>
-
-<?php
-$stmt_control->close();
-$stmt_comida->close();
-$stmt_hipo->close();
-$stmt_hiper->close();
-$conn->close();
-?>
