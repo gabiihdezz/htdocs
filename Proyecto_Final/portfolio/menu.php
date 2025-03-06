@@ -1,11 +1,20 @@
 <?php
 session_start();  // Mantén esto siempre al principio
+require_once '../util/funciones.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["fecha"])) {
     $_SESSION["fecha"] = $_POST["fecha"];
 }
+else{
+    $_SESSION["fecha"] = null;
+}
 
 $fechaSeleccionada = isset($_SESSION["fecha"])? $_SESSION["fecha"] : null;
+if (!isset($_SESSION['id_usu'])) {
+    header("Location: login.php");
+    exit();
+}
+
 ?>
 
 
@@ -61,14 +70,26 @@ $fechaSeleccionada = isset($_SESSION["fecha"])? $_SESSION["fecha"] : null;
                                 <li class="nav-item col-6 col-lg-auto">
                                     <a class="nav-link py-2 px-0 px-lg-2" href="menu.php">Menu</a>
                                 </li>
+                                <li class="nav-item col-6 col-lg-auto">
+                                    <a class="nav-link py-2 px-0 px-lg-2" href="estadisticas.php">Estadisticas</a>
+                                </li>
+
                             </ul>
                             <ul class="navbar-nav flex-row flex-wrap ms-md-auto gap-3 align-content-center">
-                                <li class="nav-item col-6 col-lg-auto ">
-                                    <a class="nav-link py-2 px-0 px-lg-2" href="login.php">Iniciar Sesión</a>
-                                </li>
-                                <li class="nav-item col-6 col-lg-auto">
-                                    <a class="nav-link py-2 px-0 px-lg-2" href="signup.php">Registrarse</a>
-                                </li>
+                                <?php 
+                                if (isset($_SESSION['id_usu']) && isset($_SESSION['nombre_usuario'])) {
+                                    echo"<li class=\"nav-item col-6 col-lg-auto \">
+                                        <a class=\"nav-link py-2 px-0 px-lg-2\" href=\"logout.php\">Cerrar Sesión</a>
+                                    </li>";}
+                                else{
+                                    echo"<li class=\"nav-item col-6 col-lg-auto \">
+                                        <a class=\"nav-link py-2 px-0 px-lg-2\" href=\"login.php\">Iniciar Sesión</a>
+                                    </li>
+                                    <li class=\"nav-item col-6 col-lg-auto\">
+                                        <a class=\"nav-link py-2 px-0 px-lg-2\" href=\"signup.php\">Registrarse</a>
+                                    </li>";}
+                                    
+                                ?>
                             </ul>
                         </div>
                     </div>

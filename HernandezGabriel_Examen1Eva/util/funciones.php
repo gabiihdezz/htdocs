@@ -1,4 +1,7 @@
 <?php
+
+$idpersona = $_SESSION["idpersona"];
+
 function autenticarUsuario($login, $clave) {
     global $conn;  // Usamos la conexión definida en conexion.php
     

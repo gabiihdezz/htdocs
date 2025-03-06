@@ -1,6 +1,14 @@
 <?php
 session_start();
+<<<<<<< HEAD
 require('../util/funciones.php');
+=======
+<<<<<<< HEAD
+require('../util/funciones.php');
+=======
+require_once '../util/funciones.php';
+>>>>>>> 6a84c8ce9e122591589028e067b35860372c069c
+>>>>>>> cf8b327d2700dd999fce11c40532ee0d649bd9fd
 
 if (!isset($_SESSION['id_usu'])) {
     header("Location: login.php");
@@ -61,6 +69,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 6a84c8ce9e122591589028e067b35860372c069c
+>>>>>>> cf8b327d2700dd999fce11c40532ee0d649bd9fd
 ?>
 
 <!DOCTYPE html>
@@ -68,6 +84,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <title>Registros del Usuario</title>
+<<<<<<< HEAD
+=======
+    <link rel="icon" href="../util/logo.png" type="image/x-icon">
+>>>>>>> cf8b327d2700dd999fce11c40532ee0d649bd9fd
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 </head>
 <body class="container mt-5">
@@ -87,10 +107,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <li class="nav-item col-6 col-lg-auto">
                             <a class="nav-link py-2 px-0 px-lg-2" href="menu.php">Menu</a>
                         </li>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> cf8b327d2700dd999fce11c40532ee0d649bd9fd
                     </ul>
                     <ul class="navbar-nav flex-row flex-wrap ms-md-auto gap-3 align-content-center">
                         <li class="nav-item col-6 col-lg-auto "><a class="nav-link py-2 px-0 px-lg-2" href="login.php">Iniciar Sesión</a></li>
                         <li class="nav-item col-6 col-lg-auto"><a class="nav-link py-2 px-0 px-lg-2" href="signup.php">Registrarse</a></li>
+<<<<<<< HEAD
+=======
+=======
+                        <li class="nav-item col-6 col-lg-auto">
+                                <a class="nav-link py-2 px-0 px-lg-2" href="estadisticas.php">Estadisticas</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav flex-row flex-wrap ms-md-auto gap-3 align-content-center">
+                        <?php 
+                        if (isset($_SESSION['id_usu']) && isset($_SESSION['nombre_usuario'])) {
+                            echo"<li class=\"nav-item col-6 col-lg-auto \">
+                                <a class=\"nav-link py-2 px-0 px-lg-2\" href=\"logout.php\">Cerrar Sesión</a>
+                            </li>";}
+                             else{
+                            echo"<li class=\"nav-item col-6 col-lg-auto \">
+                                <a class=\"nav-link py-2 px-0 px-lg-2\" href=\"login.php\">Iniciar Sesión</a>
+                            </li>
+                            <li class=\"nav-item col-6 col-lg-auto\">
+                                <a class=\"nav-link py-2 px-0 px-lg-2\" href=\"signup.php\">Registrarse</a>
+                            </li>";}
+                            
+                        ?>
+>>>>>>> 6a84c8ce9e122591589028e067b35860372c069c
+>>>>>>> cf8b327d2700dd999fce11c40532ee0d649bd9fd
                     </ul>
                 </div>
             </div>
