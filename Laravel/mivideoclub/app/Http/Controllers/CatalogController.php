@@ -15,6 +15,8 @@ class CatalogController extends Controller
 
     public function getShow($id){
         return view('catalog.show', array('id' => $id), array('arrayPeliculas'=> $this->arrayPeliculas));  
+		$peliculas = Peliculas::all();
+		return view ('catalog.show', compact('peliculas') );
       }
 
     public function getCreate(){
