@@ -137,7 +137,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="number" min="50" max="400" class="form-control" name="gl_1h" placeholder="Nuevo valor de Glucosa 1h" required>
         <input type="number" min="1" max="12" class="form-control mt-2" name="raciones" placeholder="Nueva cantidad de Raciones" required>
         <input type="number" min="1" max="15" class="form-control mt-2" name="insulina" placeholder="Nuevo valor de Insulina" required>
-        <input type="number" min="50" max="400" class="form-control mt-2" name="gl_2h" placeholder="Nuevo valor de Glucosa 2h" required>
+        <input type="number" min="1" max="50" class="form-control mt-2" name="gl_2h" placeholder="Nuevo valor de Glucosa 2h" required>
     </div>
 
     <button type="submit" class="btn btn-primary mb-4 mt-2">Modificar</button>

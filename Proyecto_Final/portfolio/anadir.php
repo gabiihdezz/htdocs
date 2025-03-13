@@ -204,7 +204,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <input type="time" id="hora" name="hora" class="form-control">
 
                                 <label for="corr">Glucosa corregida:</label>
-                                <input type="number" id="corr" min="50" max="350" name="corr" class="form-control">
+                                <input type="number" id="corr" min="1" max="50" name="corr" class="form-control">
                             </div>
                                 <input type="submit" value="Enviar" class="btn btn-primary">
                         </form>
