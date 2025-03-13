@@ -3,19 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Peliculas;
+use App\Models\Movie;
 
 class CatalogController extends Controller
 {
     public function getIndex()
     {
-        $peliculas=new Peliculas;
+        $peliculas=new Movie;
         $peliculas = $peliculas->all();
         return view('catalog.index', compact('peliculas'));
     }
     public function getShow($id)
     {
-        $peliculas=new Peliculas;
+        $peliculas=new Movie;
         $pelicula = $peliculas->findOrFail($id);
         return view('catalog.show',compact('pelicula')); 
     }
@@ -23,23 +23,23 @@ class CatalogController extends Controller
     {
         return view('catalog.create');
     }
-    public function postCreate(Request $request)
+    public function postStore(Request $request)
     {
         $validateData= $request->validate([
             'title' => ['required','string','max:255'],
             'director' => ['required','string','max:64'],
             'year' => ['required','string','max:8'],
-            'synopsis' => ['required','string' ],
-            'poster' => ['required','string', 'max:255'],
+            'poster' => ['required','string'],
+            'synopsis' => ['required','string'],
             'rented' => ['required','boolean' ]
         ]);
-        $pelicula = Peliculas::create($validateData);
-        return view('catalog')->with('status','Pelicula creada correctamente');
+        $pelicula = Movie::create($validateData);
+        return view('catalog.show',compact('pelicula'))->with('status','Pelicula creada correctamente');
     }
 
     public function getEdit($id)
     {
-		$peliculas=new Peliculas;
+		$peliculas=new Movie;
         $pelicula = $peliculas->findOrFail($id);
         return view('catalog.edit',compact('pelicula'));
     }
@@ -53,7 +53,7 @@ class CatalogController extends Controller
             'poster' => $request['poster'],
             'rented' => $request['rented']
         ];
-        $pelicula = Peliculas::updateOrCreate(['id' => $request->id], $validateData);
+        $pelicula = Movie::updateOrCreate(['id' => $request->id], $validateData);
         return view('catalog.show',compact('pelicula'))->with('status','Pelicula editada correctamente');
     }
 }
