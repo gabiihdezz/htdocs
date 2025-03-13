@@ -326,7 +326,7 @@ session_start();
                         </div>
                     <div class="col-6 text-center">
                     <div class="fs-5"> ¿AYUDA? </div>
-                    <a href="#" ><div class="fs-5"> Manual de Instrucciones</div></a>
+                    <a href="https://1drv.ms/b/c/39769946e00f911c/EbcetI7DGytHmiF8wpTZpFoBwQx9gt_ro7FVQDPjqwSIow?e=rbMHti" ><div class="fs-5"> Manual de Instrucciones</div></a>
 
                     <?php 
                     if (isset($_SESSION['id_usu']) && isset($_SESSION['nombre_usuario'])) {
