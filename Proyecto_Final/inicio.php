@@ -310,6 +310,38 @@ session_start();
         </div>
         </div>  
 </div>
+    <footer class="bg-info p-3">
+        <div class="d-flex">
+            <div class="col-6 text-center">
+                        <a class="nav-link py-2 px-3" href="inicio.php" aria-current="true">Inicio</a>
+                        <?php
+                            if (isset($_SESSION['id_usu']) && isset($_SESSION['nombre_usuario'])) {
+                                echo "<a class=\"nav-link py-2 px-3\" href=\"portfolio/menu.php\" aria-current=\"true\">";
+                            } else {
+                                echo "<a class=\"nav-link py-2 px-3\" href=\"portfolio/login.php\" class=\"text-decoration-none\">";
+                            }
+                        ?>
+                        Menu</a>
+                        <a class="nav-link py-2 px-3" href="portfolio/estadisticas.php">Estadísticas</a>
+                        </div>
+                    <div class="col-6 text-center">
+                    <div class="fs-5"> ¿AYUDA? </div>
+                    <a href="#" ><div class="fs-5"> Manual de Instrucciones</div></a>
+
+                    <?php 
+                    if (isset($_SESSION['id_usu']) && isset($_SESSION['nombre_usuario'])) {
+                        echo "
+                            <a class=\"nav-link py-2 px-3\" href=\"portfolio/logout.php\">Cerrar Sesión</a>
+                        ";
+                    } else {
+                        echo "
+                            <a class=\"nav-link py-2 px-3\" href=\"portfolio/login.php\">Iniciar Sesión</a>
+                            <a class=\"nav-link py-2 px-3\" href=\"portfolio/signup.php\">Registrarse</a>
+                        ";
+                    }
+                    ?>
+        </div>
+    </footer>
 </body>
 
 
