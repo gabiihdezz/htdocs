@@ -14,9 +14,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-if (isset($_POST['Cerrar'])) {
-    session_destroy();
-    header("Location: login.php");
+if (isset($_SESSION['id_usu'])) {
+    header("Location: logout.php"); // Redirige a logout si no hay sesión activa
     exit();
 }
 ?>

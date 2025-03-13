@@ -1,10 +1,6 @@
 <?php
 session_start();
-<<<<<<< HEAD
 require('../util/funciones.php');
-=======
-require_once '../util/funciones.php';
->>>>>>> 6a84c8ce9e122591589028e067b35860372c069c
 
 if (!isset($_SESSION['id_usu'])) {
     header("Location: login.php");
@@ -52,6 +48,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Llamar a la función para guardar en la base de datos
     $resultados = borrar($tipo_comida, $id_usu, $fecha); ;
+    header("Location: borrar.php");
+    exit();
 }
 ?>
 
@@ -62,68 +60,53 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <title>Registros del Usuario</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-<<<<<<< HEAD
-</head>
-=======
     <link rel="icon" href="../util/logo.png" type="image/x-icon">
     </head>
->>>>>>> 6a84c8ce9e122591589028e067b35860372c069c
-<body class="container mt-5">
-<div class="row">
-            <header class="navbar navbar-expand-lg bd-navbar fixed-top bg-info">
-                <nav class="container-xxl bd-gutter flex-wrap flex-lg-nowrap" aria-label="Main navigation">
-                    <a class="navbar-brand p-0 me-0 me-lg-2" href="../inicio.php" aria-label="Bootstrap">
-                        <img src="../util/cora.png " alt="Logo a modo de simulación" width="50px">
-                    </a>
-                    <div class="offcanvas-lg offcanvas-end flex-grow-1 fs-5" tabindex="-1" >
-                        <div class="offcanvas-body p-4 pt-0 p-lg-0">
-                            <hr class="d-lg-none text-white-50">
-                            <ul class="navbar-nav flex-row flex-wrap bd-navbar-nav">
-                                <li class="nav-item col-6 col-lg-auto">
-                                    <a class="nav-link py-2 px-0 px-lg-2" href="../inicio.php" aria-current="true">Inicio</a>
-                                </li>
-                                <li class="nav-item col-6 col-lg-auto">
-                                    <a class="nav-link py-2 px-0 px-lg-2" href="menu.php">Menu</a>
-                                </li>
-<<<<<<< HEAD
-                            </ul>
-                            <ul class="navbar-nav flex-row flex-wrap ms-md-auto gap-3 align-content-center">
-                                <li class="nav-item col-6 col-lg-auto ">
-                                    <a class="nav-link py-2 px-0 px-lg-2" href="login.php">Iniciar Sesión</a>
-                                </li>
-                                <li class="nav-item col-6 col-lg-auto">
-                                    <a class="nav-link py-2 px-0 px-lg-2" href="signup.php">Registrarse</a>
-                                </li>
-=======
-                                <li class="nav-item col-6 col-lg-auto">
-                                    <a class="nav-link py-2 px-0 px-lg-2" href="estadisticas.php">Estadisticas</a>
-                            </li>
-
-                            </ul>
-                            <ul class="navbar-nav flex-row flex-wrap ms-md-auto gap-3 align-content-center">
-                                <?php 
-                                if (isset($_SESSION['id_usu']) && isset($_SESSION['nombre_usuario'])) {
-                                    echo"<li class=\"nav-item col-6 col-lg-auto \">
-                                        <a class=\"nav-link py-2 px-0 px-lg-2\" href=\"logout.php\">Cerrar Sesión</a>
-                                    </li>";}
-                                else{
-                                    echo"<li class=\"nav-item col-6 col-lg-auto \">
-                                        <a class=\"nav-link py-2 px-0 px-lg-2\" href=\"login.php\">Iniciar Sesión</a>
+    <body class="container mt-5">
+    <div class="row">
+                <header class="navbar navbar-expand-lg bd-navbar fixed-top bg-info">
+                    <nav class="container-xxl bd-gutter flex-wrap flex-lg-nowrap" aria-label="Main navigation">
+                        <a class="navbar-brand p-0 me-0 me-lg-2" href="../inicio.php" aria-label="Bootstrap">
+                            <img src="../util/cora.png " alt="Logo a modo de simulación" width="50px">
+                        </a>
+                        <div class="offcanvas-lg offcanvas-end flex-grow-1 fs-5" tabindex="-1" >
+                            <div class="offcanvas-body p-4 pt-0 p-lg-0">
+                                <hr class="d-lg-none text-white-50">
+                                <ul class="navbar-nav flex-row flex-wrap bd-navbar-nav">
+                                    <li class="nav-item col-6 col-lg-auto">
+                                        <a class="nav-link py-2 px-0 px-lg-2" href="../inicio.php" aria-current="true">Inicio</a>
                                     </li>
-                                    <li class=\"nav-item col-6 col-lg-auto\">
-                                        <a class=\"nav-link py-2 px-0 px-lg-2\" href=\"signup.php\">Registrarse</a>
-                                    </li>";}
-                                    
-                                ?>
->>>>>>> 6a84c8ce9e122591589028e067b35860372c069c
-                            </ul>
+                                    <li class="nav-item col-6 col-lg-auto">
+                                        <a class="nav-link py-2 px-0 px-lg-2" href="menu.php">Menu</a>
+                                    </li>
+                                    <li class="nav-item col-6 col-lg-auto">
+                                        <a class="nav-link py-2 px-0 px-lg-2" href="estadisticas.php">Estadisticas</a>
+                                    </li>
+    
+                                </ul>
+                                <ul class="navbar-nav flex-row flex-wrap ms-md-auto gap-3 align-content-center">
+                                    <?php 
+                                    if (isset($_SESSION['id_usu']) && isset($_SESSION['nombre_usuario'])) {
+                                        echo"<li class=\"nav-item col-6 col-lg-auto \">
+                                            <a class=\"nav-link py-2 px-0 px-lg-2\" href=\"logout.php\">Cerrar Sesión</a>
+                                        </li>";}
+                                    else{
+                                        echo"<li class=\"nav-item col-6 col-lg-auto \">
+                                            <a class=\"nav-link py-2 px-0 px-lg-2\" href=\"login.php\">Iniciar Sesión</a>
+                                        </li>
+                                        <li class=\"nav-item col-6 col-lg-auto\">
+                                            <a class=\"nav-link py-2 px-0 px-lg-2\" href=\"signup.php\">Registrarse</a>
+                                        </li>";}
+                                        
+                                    ?>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
-                </nav>
-            </header>
-        </div>
+                    </nav>
+                </header>
+            </div>
+
         
-        <a href="menu.php" class="btn btn-link mt-2">← Volver al Menú</a>
 
         <h2 class="text-center text-primary mt-4">Tus Registros</h2>
         <p class="fs-3 text-center">La fecha que has seleccionado: <b class="text-primary"><?= htmlspecialchars($fecha) ?> </b></p>

@@ -2,11 +2,13 @@
 session_start();  // Mantén esto siempre al principio
 require_once '../util/funciones.php';
 
+$fechaHoy = date('Y-m-d');
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["fecha"])) {
     $_SESSION["fecha"] = $_POST["fecha"];
 }
 else{
-    $_SESSION["fecha"] = null;
+    $_SESSION["fecha"] =$fechaHoy ;
 }
 
 $fechaSeleccionada = isset($_SESSION["fecha"])? $_SESSION["fecha"] : null;

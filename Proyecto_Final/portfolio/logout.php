@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../util/funciones.php';
+require '../util/funciones.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($id_usu) || empty($contraseña)) {
@@ -117,9 +117,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </form>
 
                     HEAD;
-                } else {
-                    header("Location: login.php");
-                    exit();
                 }
 
                 ?>

@@ -83,70 +83,61 @@ session_start();
             background-size: cover;
             height: 100%; 
         }
-        html, body {
-            margin: 0;
-            padding: 0;
-        }
-
-        *, *::before, *::after {
-            box-sizing: border-box;
-        }
-
+    
         .navbar-nav .nav-link:hover {
             color: white !important; 
         }
+
     </style>
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <header class="navbar navbar-expand-lg bd-navbar fixed-top bg-info">
-                <nav class="container-xxl bd-gutter flex-wrap flex-lg-nowrap" aria-label="Main navigation">
-                    <a class="navbar-brand p-0 me-0 me-lg-2" href="inicio.php" aria-label="Bootstrap">
-                        <img src="util/cora.png " alt="Logo a modo de simulación" width="50px">
-                    </a>
-                    <div class="offcanvas-lg offcanvas-end flex-grow-1 fs-5" tabindex="-1" >
-                        <div class="offcanvas-body p-4 pt-0 p-lg-0">
-                            <hr class="d-lg-none text-white-50">
-                            <ul class="navbar-nav flex-row flex-wrap bd-navbar-nav">
-                                <li class="nav-item col-6 col-lg-auto">
-                                    <a class="nav-link py-2 px-0 px-lg-2" href="inicio.php" aria-current="true">Inicio</a>
-                                </li>
-                                <li class="nav-item col-6 col-lg-auto">
-                                    <a class="nav-link py-2 px-0 px-lg-2" href="portfolio/estadisticas.php">Estadisticas</a>
-                                </li>
+    <div class="row">
+        <header class="navbar navbar-expand bg-info fixed-top">
+            <nav class="container-xxl bd-gutter flex-wrap flex-nowrap" aria-label="Main navigation">
+                <a class="navbar-brand p-0 me-3" href="inicio.php" aria-label="Bootstrap">
+                    <img src="util/cora.png" alt="Logo a modo de simulación" width="50px">
+                </a>
 
-                                <li class="nav-item col-6 col-lg-auto">
-                                    <?php
-                                        if (isset($_SESSION['id_usu']) && isset($_SESSION['nombre_usuario'])) {
-                                            echo"<a class=\"nav-link py-2 px-0 px-lg-2\" href=\"portfolio/menu.php\" aria-current=\"true\">";}
-                                        else{
-                                            echo"<a class=\"nav-link py-2 px-0 px-lg-2\" href=\"portfolio/login.php\" class=\"text-decoration-none\">";}
-                                        ?>Menu</a>
-                                </li>
-                                </li>
-                            </ul>
-                            <ul class="navbar-nav flex-row flex-wrap ms-md-auto gap-3 align-content-center">
-                                <?php 
-                                if (isset($_SESSION['id_usu']) && isset($_SESSION['nombre_usuario'])) {
-                                    echo"<li class=\"nav-item col-6 col-lg-auto \">
-                                        <a class=\"nav-link py-2 px-0 px-lg-2\" href=\"portfolio/logout.php\">Cerrar Sesión</a>
-                                    </li>";}
-                                else{
-                                    echo"<li class=\"nav-item col-6 col-lg-auto \">
-                                        <a class=\"nav-link py-2 px-0 px-lg-2\" href=\"portfolio/login.php\">Iniciar Sesión</a>
-                                    </li>
-                                    <li class=\"nav-item col-6 col-lg-auto\">
-                                        <a class=\"nav-link py-2 px-0 px-lg-2\" href=\"portfolio/signup.php\">Registrarse</a>
-                                    </li>";}
-                                    
-                                ?>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-            </header>
-        </div>
+                <!-- Menú siempre visible -->
+                <ul class="navbar-nav flex-row flex-wrap bd-navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link py-2 px-3" href="inicio.php" aria-current="true">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <?php
+                            if (isset($_SESSION['id_usu']) && isset($_SESSION['nombre_usuario'])) {
+                                echo "<a class=\"nav-link py-2 px-3\" href=\"portfolio/menu.php\" aria-current=\"true\">";
+                            } else {
+                                echo "<a class=\"nav-link py-2 px-3\" href=\"portfolio/login.php\" class=\"text-decoration-none\">";
+                            }
+                        ?>
+                        Menu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link py-2 px-3" href="portfolio/estadisticas.php">Estadísticas</a>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav ms-auto gap-3">
+                    <?php 
+                    if (isset($_SESSION['id_usu']) && isset($_SESSION['nombre_usuario'])) {
+                        echo "<li class=\"nav-item\">
+                            <a class=\"nav-link py-2 px-3\" href=\"portfolio/logout.php\">Cerrar Sesión</a>
+                        </li>";
+                    } else {
+                        echo "<li class=\"nav-item\">
+                            <a class=\"nav-link py-2 px-3\" href=\"portfolio/login.php\">Iniciar Sesión</a>
+                        </li>
+                        <li class=\"nav-item\">
+                            <a class=\"nav-link py-2 px-3\" href=\"portfolio/signup.php\">Registrarse</a>
+                        </li>";
+                    }
+                    ?>
+                </ul>
+            </nav>
+        </header>
+    </div>
+
         <div class="row pt-4 mt-5">
             <div class="col-12 text-justify">
                 <?php
@@ -159,37 +150,12 @@ session_start();
                 }
                 
                 ?>
-                 
-        <div class="container mt-5">
-    <div class="row align-items-center">
+                </div>
+                </div>
+                <div class="container mt-5">
+                <div class="align-items-center">
 
-        <div class="col-6">
-            <div class="fs-1">¿Qué es la diabetes?</div>
-                <div class=" mt-3">
-                    <p>La <strong>diabetes</strong> es una enfermedad crónica que ocurre cuando el cuerpo no puede producir suficiente insulina o no puede usarla de manera efectiva. La insulina es una hormona crucial producida por el páncreas que permite que las células del cuerpo utilicen la glucosa (azúcar) como fuente de energía. Sin suficiente insulina o si el cuerpo no responde a ella de manera adecuada, los niveles de glucosa en la sangre pueden aumentar, lo que con el tiempo puede llevar a complicaciones graves.</p>
-                </div>
-                <div class=" mt-3">
-                    <p>Existen varios tipos de diabetes, pero los más comunes son:</p>
-                    <ul>
-                        <li><strong>Diabetes tipo 1:</strong> El cuerpo no produce insulina, lo que significa que los pacientes deben administrar insulina a lo largo de su vida.</li>
-                        <li><strong>Diabetes tipo 2:</strong> Es más común y ocurre cuando el cuerpo no usa la insulina correctamente (resistencia a la insulina) o no produce suficiente cantidad.</li>
-                        <li><strong>Diabetes gestacional:</strong> Se desarrolla durante el embarazo y generalmente desaparece después del parto, pero puede aumentar el riesgo de desarrollar diabetes tipo 2 en el futuro.</li>
-                    </ul>
-                </div>
-                <div class=" mt-3">
-                    <p>Los síntomas de la diabetes pueden incluir sed excesiva, aumento de la micción, fatiga, visión borrosa y pérdida de peso inexplicada. Si no se controla, la diabetes puede provocar complicaciones serias como enfermedades íacas, daño renal, ceguera y problemas circulatorios.</p>
-                </div>
-                <div class="mt-3">
-                    <h3>¿Cuándo ocurre la hipoglucemia e hiperglucemia?</h3>
-                    <p><strong>Hipoglucemia:</strong> Se produce cuando los niveles de glucosa en la sangre son demasiado bajos (generalmente por debajo de 70 mg/dl). Puede causar sudoración, temblores, confusión, mareo y en casos graves, pérdida del conocimiento.</p>
-                    <p><strong>Hiperglucemia:</strong> Ocurre cuando los niveles de glucosa en la sangre son demasiado altos. Puede provocar sed excesiva, visión borrosa, fatiga y necesidad frecuente de orinar. Si no se trata, puede derivar en complicaciones graves.</p>
-                </div>
-
-                <div class="mt-3 border rounded-3">
-                    <img src="util/diabetes.webp" class="img-fluid" alt="Imagen sobre combatir la diabetes">
-                </div>
-        </div>
-        <div class="col-6 align-self-start">
+                <div class="col-sm-12 col-6 align-self-start">
             <?php
                 if (isset($_SESSION['id_usu']) && isset($_SESSION['nombre_usuario'])) {
                     echo"<a href=\"portfolio/menu.php\" class=\"text-decoration-none\">";}
@@ -212,9 +178,9 @@ session_start();
                             </tr>
                             <tr>
                                 <th>Día</th>
-                                <th>GL/1H.</th>
+                                <th>GL/1H</th>
                                 <th>RAC.</th>
-                                <th>INSU.</th>
+                                <th>INSU</th>
                                 <th>GL/2H.</th>
                                 <th>GLU.</th>
                                 <th>HORA</th>
@@ -227,7 +193,7 @@ session_start();
                             <tr>
                                 <td>Día 1</td>
                                 <td>95 mg/dL</td> 
-                                <td>Pan integral + café</td> 
+                                <td>3</td> 
                                 <td>4U</td> 
                                 <td>130 mg/dL</td>
                                 <td>70 mg/dL</td> 
@@ -239,7 +205,7 @@ session_start();
                             <tr>
                                 <td>Día 2</td>
                                 <td>100 mg/dL</td>
-                                <td>Arroz con pollo</td>
+                                <td>4</td>
                                 <td>6U</td>
                                 <td>140 mg/dL</td>
                                 <td>65 mg/dL</td>
@@ -251,7 +217,7 @@ session_start();
                             <tr>
                                 <td>Día 3</td>
                                 <td>85 mg/dL</td>
-                                <td>Yogur con fruta</td>
+                                <td>3</td>
                                 <td>3U</td>
                                 <td>120 mg/dL</td>
                                 <td>75 mg/dL</td>
@@ -275,7 +241,39 @@ session_start();
                 </div>
             </a>
         </div>
-            <div class="col-11 justify-content-end mt-3">
+
+                <div class="col-sm-12 col-6 mt-4">
+                    <div class="row my-3 d-flex me-1 ms-1 align-items-center">
+                <div class="fs-1">¿Qué es la diabetes?</div>
+                <div class=" mt-3">
+                    <p>La <strong>diabetes</strong> es una enfermedad crónica que ocurre cuando el cuerpo no puede producir suficiente insulina o no puede usarla de manera efectiva. La insulina es una hormona crucial producida por el páncreas que permite que las células del cuerpo utilicen la glucosa (azúcar) como fuente de energía. Sin suficiente insulina o si el cuerpo no responde a ella de manera adecuada, los niveles de glucosa en la sangre pueden aumentar, lo que con el tiempo puede llevar a complicaciones graves.</p>
+                </div>
+                <div class=" mt-3">
+                    <p>Existen varios tipos de diabetes, pero los más comunes son:</p>
+                    <ul>
+                        <li><strong>Diabetes tipo 1:</strong> El cuerpo no produce insulina, lo que significa que los pacientes deben administrar insulina a lo largo de su vida.</li>
+                        <li><strong>Diabetes tipo 2:</strong> Es más común y ocurre cuando el cuerpo no usa la insulina correctamente (resistencia a la insulina) o no produce suficiente cantidad.</li>
+                        <li><strong>Diabetes gestacional:</strong> Se desarrolla durante el embarazo y generalmente desaparece después del parto, pero puede aumentar el riesgo de desarrollar diabetes tipo 2 en el futuro.</li>
+                    </ul>
+                </div>
+                <div class=" mt-3">
+                    <p>Los síntomas de la diabetes pueden incluir sed excesiva, aumento de la micción, fatiga, visión borrosa y pérdida de peso inexplicada. Si no se controla, la diabetes puede provocar complicaciones serias como enfermedades íacas, daño renal, ceguera y problemas circulatorios.</p>
+                </div>
+                <div class="mt-3">
+                    <h3>¿Cuándo ocurre la hipoglucemia e hiperglucemia?</h3>
+                    <p><strong>Hipoglucemia:</strong> Se produce cuando los niveles de glucosa en la sangre son demasiado bajos (generalmente por debajo de 70 mg/dl). Puede causar sudoración, temblores, confusión, mareo y en casos graves, pérdida del conocimiento.</p>
+                    <p><strong>Hiperglucemia:</strong> Ocurre cuando los niveles de glucosa en la sangre son demasiado altos. Puede provocar sed excesiva, visión borrosa, fatiga y necesidad frecuente de orinar. Si no se trata, puede derivar en complicaciones graves.</p>
+                </div>
+
+                <div class="mt-3 text-center">
+                    <img src="util/diabetes.webp" class="img-fluid border rounded-3" alt="Imagen sobre combatir la diabetes">
+                </div>
+        </div>
+</div>
+
+            <div class="col-12 justify-content-end mt-3">
+            <div class="row my-3 d-flex me-1 ms-1 align-items-center">
+
                 <div class="fs-1">¿Cómo combatir la diabetes?</div>
                         <div class="mt-3">
                             <p>Combatir la diabetes, especialmente la tipo 2, requiere un enfoque integral y un compromiso constante con el control del azúcar en sangre. Aunque no existe una "cura" definitiva para la diabetes, se pueden tomar varias medidas para gestionarla de manera efectiva y llevar una vida saludable:</p>
@@ -304,13 +302,15 @@ session_start();
                             <h4>6. Visitas regulares al médico</h4>
                             <p>El control regular con el médico es esencial para ajustar el tratamiento según sea necesario y para detectar complicaciones a tiempo.</p>
                         </div>
-            <div class="mb-3 border rounded-3">
-                <img src="util/diabetes1.png"  alt="Imagen sobre combatir la diabetes">
+            <div class="mb-3 text-center">
+                <img src="util/diabetes1.png" class="img-fluid border rounded-3" alt="Imagen sobre combatir la diabetes">
             </div>
-
+            </div>
             </div>
         </div>
-        </div>
-
+        </div>  
+</div>
 </body>
+
+
 </html>

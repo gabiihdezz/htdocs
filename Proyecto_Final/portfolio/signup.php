@@ -40,14 +40,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: ../inicio.php");
             exit();
         } else {
-            $error = "<h2>Error al registrar el usuario. Es posible que el nombre de usuario ya esté en uso.</h2>";
+            $error = "Error al registrar el usuario. Es posible que el nombre de usuario ya esté en uso.";
         }
     }
-    if (isset($_POST['Cerrar'])) {
-        session_destroy();
-        header("Location: signup.php");
-        exit();
-    }
+    
+}
+if (isset($_SESSION['id_usu'])) {
+    header("Location: logout.php"); // Redirige a logout si no hay sesión activa
+    exit();
 }
 ?>
 
@@ -154,17 +154,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $contra = isset($_POST['contra']) ? $_POST['contra'] : '';
                     $contra2 = isset($_POST['contra2']) ? $_POST['contra2'] : '';
                                     
-                if (isset($_SESSION['id_usu']) && isset($_SESSION['nombre_usuario'])) {
-                    echo <<<HEAD
-                    
-                    <form method="post" action="">
-                        <div class="mb-3">Para registrar otro usuario tienes que cerrar sesión</div>
-                        <div class="mb-3">¿Quieres cerrar sesión?</div>
-                        <input type="submit" name="Cerrar" value="Cerrar sesión" class="btn btn-primary">
-                    </form>
-
-                    HEAD;
-                } else {
                     echo <<<HEAD
                     <form method="post" action="">
                         <div class="row">
@@ -208,7 +197,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </form>
 
                     HEAD;
-                }
                 ?>
             
                      <hr>

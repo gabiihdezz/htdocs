@@ -6,7 +6,7 @@ if (!isset($_SESSION['id_usu'])) {
     header("Location: login.php");
     exit();
 }
-require_once '../util/funciones.php';
+require '../util/funciones.php';
 
 
 
@@ -46,10 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $resultado = anadirHiper($glucosa, $hora, $corr, $tipo_comida, $id_usu, $fecha);
     }
     header("Location: menu.php");
-<<<<<<< HEAD
-=======
     exit();
->>>>>>> 6a84c8ce9e122591589028e067b35860372c069c
 
 }
 ?>
@@ -133,7 +130,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <div class=" row pt-4 mt-5">
             <div class="col-12 text-justify">
-                <a href="menu.php" class="btn btn-link mt-2">← Volver al Menú</a>
                      <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-8 pt-4 mb-4 mt-5 text-center">
@@ -167,22 +163,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <option value="Cena" <?= in_array("Cena", $tipos_registrados) ? "disabled" : "" ?>>Cena</option>
                             </select>
                             <label for="gl_1h">Glucosa 1 hora después:</label>
-                            <input type="text" id="gl_1h" name="gl_1h" class="form-control" required>
+                            <input type="number" id="gl_1h" name="gl_1h" min="50" max="400" class="form-control" required>
 
-                            <label for="raciones">Raciones de carbohidratos:</label>
-                            <input type="text" id="raciones" name="raciones" class="form-control" required>
+                            <label for="raciones">Raciones:</label>
+                            <input type="number" id="raciones" name="raciones"  min="1" max="12" class="form-control" required>
 
-                            <label for="insulina">Insulina administrada:</label>
-                            <input type="text" id="insulina" name="insulina" class="form-control" required>
+                            <label for="insulina">Insulina administrada (Unidades):</label>
+                            <input type="number" id="insulina" name="insulina"  min="1" max="15" class="form-control" required>
 
                             <label for="deporte">Deporte 5-max, 1-min:</label>
-                            <input type="number" id="deporte" name="deporte" max="5" class="form-control" required>
+                            <input type="number" id="deporte" name="deporte" min="1" max="5" class="form-control" required>
 
                             <label for="lenta">Lenta (Dosis):</label>
-                            <input type="text" id="lenta" name="lenta" class="form-control" required>
+                            <input type="number" id="lenta" name="lenta" min="1" max="20" class="form-control" required>
 
                             <label for="gl_2h">Glucosa 2 horas después:</label>
-                            <input type="text" id="gl_2h" name="gl_2h" class="form-control" required>
+                            <input type="number" id="gl_2h" name="gl_2h" min="50" max="400" class="form-control" required>
 
 
                             <label for="estado_glucosa">Estado:</label>
@@ -194,7 +190,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                             <div id="campo_hipo" class="mb-3" style="display: none;">
                             <label for="glucosaHipo">Glucosa:</label>
-                            <input type="number" id="glucosaHipo" name="glucosaHipo" class="form-control">
+                            <input type="number" id="glucosaHipo" min="50" max="400" name="glucosaHipo" class="form-control">
 
                                 <label for="horaHipo">¿A que Hora?</label>
                                 <input type="time" id="horaHipo" name="horaHipo" class="form-control">
@@ -202,13 +198,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                             <div id="campo_hiper" class="mb-3" style="display: none;">
                                 <label for="glucosa">Glucosa:</label>
-                                <input type="number" id="glucosa" name="glucosa" class="form-control">
+                                <input type="number" id="glucosa" min="50" max="400" name="glucosa" class="form-control">
 
                                 <label for="hora">¿A que Hora?</label>
                                 <input type="time" id="hora" name="hora" class="form-control">
 
                                 <label for="corr">Glucosa corregida:</label>
-                                <input type="text" id="corr" name="corr" class="form-control">
+                                <input type="number" id="corr" min="50" max="350" name="corr" class="form-control">
                             </div>
                                 <input type="submit" value="Enviar" class="btn btn-primary">
                         </form>

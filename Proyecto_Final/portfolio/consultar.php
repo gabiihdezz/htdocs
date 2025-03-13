@@ -1,10 +1,6 @@
 <?php
 session_start();
-<<<<<<< HEAD
 require('../util/funciones.php');
-=======
-require_once '../util/funciones.php';
->>>>>>> 6a84c8ce9e122591589028e067b35860372c069c
 
 if (!isset($_SESSION['id_usu'])) {
     header("Location: login.php");
@@ -73,16 +69,6 @@ $stmt_hiper->free_result();
                                 <li class="nav-item col-6 col-lg-auto">
                                     <a class="nav-link py-2 px-0 px-lg-2" href="menu.php">Menu</a>
                                 </li>
-<<<<<<< HEAD
-                            </ul>
-                            <ul class="navbar-nav flex-row flex-wrap ms-md-auto gap-3 align-content-center">
-                                <li class="nav-item col-6 col-lg-auto ">
-                                    <a class="nav-link py-2 px-0 px-lg-2" href="login.php">Iniciar Sesión</a>
-                                </li>
-                                <li class="nav-item col-6 col-lg-auto">
-                                    <a class="nav-link py-2 px-0 px-lg-2" href="signup.php">Registrarse</a>
-                                </li>
-=======
                                 <li class="nav-item col-6 col-lg-auto">
                                     <a class="nav-link py-2 px-0 px-lg-2" href="estadisticas.php">Estadisticas</a>
                                 </li>
@@ -103,7 +89,6 @@ $stmt_hiper->free_result();
                                     </li>";}
                                     
                                 ?>
->>>>>>> 6a84c8ce9e122591589028e067b35860372c069c
                             </ul>
                         </div>
                     </div>
@@ -111,7 +96,7 @@ $stmt_hiper->free_result();
             </header>
         </div>
         
-        <a href="menu.php" class="btn btn-link mt-2">← Volver al Menú</a>
+        <div class="mt-5"></div>
 
     <h2 class="text-center text-primary mt-4">Tus Registros</h2>
     <p class="fs-3 text-center">La fecha que has seleccionado: <b class="text-primary"><?= htmlspecialchars($fecha) ?> </b></p>
@@ -211,6 +196,7 @@ $stmt_hiper->free_result();
             <?php endwhile; ?>
         </tbody>
     </table>
+
 
 </body>
 </html>

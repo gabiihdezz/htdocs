@@ -74,10 +74,25 @@ $conn->close();
     <link rel="icon" href="../util/logo.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+
+
+    *{
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+        html, body {
+            margin: 0;
+            padding: 0;
+
+        }
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+    </style>
 
 </head>
 <div class="container mt-5">
-        <div class="row">
+<div class="row ">
             <header class="navbar navbar-expand-lg bd-navbar fixed-top bg-info">
                 <nav class="container-xxl bd-gutter flex-wrap flex-lg-nowrap" aria-label="Main navigation">
                     <a class="navbar-brand p-0 me-0 me-lg-2" href="../inicio.php" aria-label="Bootstrap">
@@ -119,8 +134,7 @@ $conn->close();
                 </nav>
             </header>
         </div>
-        
-        <a href="menu.php" class="btn btn-link mt-2">← Volver al Menú</a>
+     <div class="mt-5"></div>
         <h2 class="text-center text-primary">📊 Estadísticas Generales</h2>
     <p class="fs-4 text-center">📅 Datos recopilados de tus registros.</p>
     
@@ -151,14 +165,14 @@ $conn->close();
     <div class="col-md-3 mb-3">
         <div class="card text-white bg-danger p-3">
             <h5>Total Hipoglucemias</h5>
-            <h3><?= $result_hipo_count_month['total_hipoglucemias'] ?></h3>
+            <h3><?= $result_hipo_count_month['total_hipoglucemias'] ? $result_hipo_count_month['total_hipoglucemias'] :"No hay datos" ?></h3>
         </div>
     </div>
 
     <div class="col-md-3 mb-3">
         <div class="card text-white bg-warning p-3">
             <h5>Total Hiperglucemias</h5>
-            <h3><?= $result_hiper_count_month['total_hiperglucemias'] ?></h3>
+            <h3><?= $result_hiper_count_month['total_hiperglucemias'] ?$result_hiper_count_month['total_hiperglucemias'] : "No hay datos" ?></h3>
         </div>
     </div>
 </div>

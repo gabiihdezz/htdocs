@@ -1,14 +1,6 @@
 <?php
 session_start();
-<<<<<<< HEAD
 require('../util/funciones.php');
-=======
-<<<<<<< HEAD
-require('../util/funciones.php');
-=======
-require_once '../util/funciones.php';
->>>>>>> 6a84c8ce9e122591589028e067b35860372c069c
->>>>>>> cf8b327d2700dd999fce11c40532ee0d649bd9fd
 
 if (!isset($_SESSION['id_usu'])) {
     header("Location: login.php");
@@ -67,16 +59,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Llamamos a la función para actualizar los datos en la base de datos
         modificar($id_usu, $tipo_comida, $fecha, $nuevo_gl_1h, $nuevas_raciones, $nueva_insulina, $nuevo_gl_2h);
     }
+    header("Location: modificar.php");
+    exit();
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 6a84c8ce9e122591589028e067b35860372c069c
->>>>>>> cf8b327d2700dd999fce11c40532ee0d649bd9fd
 ?>
 
 <!DOCTYPE html>
@@ -84,11 +70,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <title>Registros del Usuario</title>
-<<<<<<< HEAD
-=======
     <link rel="icon" href="../util/logo.png" type="image/x-icon">
->>>>>>> cf8b327d2700dd999fce11c40532ee0d649bd9fd
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    
 </head>
 <body class="container mt-5">
 <div class="row">
@@ -107,17 +91,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <li class="nav-item col-6 col-lg-auto">
                             <a class="nav-link py-2 px-0 px-lg-2" href="menu.php">Menu</a>
                         </li>
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> cf8b327d2700dd999fce11c40532ee0d649bd9fd
-                    </ul>
-                    <ul class="navbar-nav flex-row flex-wrap ms-md-auto gap-3 align-content-center">
-                        <li class="nav-item col-6 col-lg-auto "><a class="nav-link py-2 px-0 px-lg-2" href="login.php">Iniciar Sesión</a></li>
-                        <li class="nav-item col-6 col-lg-auto"><a class="nav-link py-2 px-0 px-lg-2" href="signup.php">Registrarse</a></li>
-<<<<<<< HEAD
-=======
-=======
                         <li class="nav-item col-6 col-lg-auto">
                                 <a class="nav-link py-2 px-0 px-lg-2" href="estadisticas.php">Estadisticas</a>
                         </li>
@@ -137,8 +110,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </li>";}
                             
                         ?>
->>>>>>> 6a84c8ce9e122591589028e067b35860372c069c
->>>>>>> cf8b327d2700dd999fce11c40532ee0d649bd9fd
                     </ul>
                 </div>
             </div>
@@ -146,8 +117,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </header>
 </div>
 
-<a href="menu.php" class="btn btn-link mt-2">← Volver al Menú</a>
-
+<div class="col-12">
 <h2 class="text-center text-primary mt-4">Tus Registros</h2>
 <p class="fs-3 text-center">La fecha que has seleccionado: <b class="text-primary"><?= htmlspecialchars($fecha) ?> </b></p>
 <h3 class="mt-4">Escoge una consulta para Modificar: </h3>
@@ -164,10 +134,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     <!-- Campos para modificar los valores -->
     <div id="campos_modificar" class="mt-3">
-        <input type="text" class="form-control" name="gl_1h" placeholder="Nuevo valor de Glucosa 1h" required>
-        <input type="text" class="form-control mt-2" name="raciones" placeholder="Nueva cantidad de Raciones" required>
-        <input type="text" class="form-control mt-2" name="insulina" placeholder="Nuevo valor de Insulina" required>
-        <input type="text" class="form-control mt-2" name="gl_2h" placeholder="Nuevo valor de Glucosa 2h" required>
+        <input type="number" min="50" max="400" class="form-control" name="gl_1h" placeholder="Nuevo valor de Glucosa 1h" required>
+        <input type="number" min="1" max="12" class="form-control mt-2" name="raciones" placeholder="Nueva cantidad de Raciones" required>
+        <input type="number" min="1" max="15" class="form-control mt-2" name="insulina" placeholder="Nuevo valor de Insulina" required>
+        <input type="number" min="50" max="400" class="form-control mt-2" name="gl_2h" placeholder="Nuevo valor de Glucosa 2h" required>
     </div>
 
     <button type="submit" class="btn btn-primary mb-4 mt-2">Modificar</button>
@@ -266,5 +236,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php endwhile; ?>
         </tbody>
     </table>
+    </div>
 </body>
 </html>
