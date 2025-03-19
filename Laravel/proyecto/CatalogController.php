@@ -80,33 +80,17 @@ class CatalogController extends Controller
     
     public function postEdit(Request $request)
     {
-        
-        $personasData = $request->validate([
-            'idpersona' => 'required|string|max:255',
-            'nombre' => 'required|string|max:64',
-            'apellidos' => 'required|string|max:64',
-            'edad' => 'required|integer',
-        ]);
-
-        $imagenesData = $request->validate([
-            'idimagen' => 'required|string|max:255',
-            'categoria' => 'required|string|max:64',
-            'imagen' => 'required|string|max:8',
-            'descripcion' => 'required|string',
-        ]);
-
-        $agendaData = $request->validate([
-            'id' => 'required|string|max:255',
-            'fecha' => 'required|string|max:64',
-            'hora' => 'required|string|max:64',
-            'idpersona' => 'required|string|max:8',
-            'idimagen' => 'required|string',
+        $validateData = $request->validate([
+            'title' => 'required|string|max:255',
+            'director' => 'required|string|max:255',
+            'year' => 'required|integer',
+            'synopsis' => 'required|string',
+            'poster' => 'required|string',
+            'rented' => 'required|boolean'
         ]);
 
         $pelicula = Movie::updateOrCreate(['id' => $request->id], $validateData);
-        $agenda = Movie::updateOrCreate(['id' => $request->id], $agendaData);
-        $imagenes = Movie::updateOrCreate(['id' => $request->id], $imagenesData);
         
-        return redirect()->route('index')->with('status', 'Editado correctamente');
+        return redirect()->route('index')->with('status', 'Película editada correctamente');
     }
 }
