@@ -1,19 +1,26 @@
-@extends('layouts.master')
-    @section('content')
-    @if(session('status'))
-    
-    <div class="alert alert-success" role="alert">
-        {{ session('status') }}
-    </div>
-    @endif
-    <a href="{{url('/catalog/create/')}}"><h1>Create</h1></a>
-    <h1 class='text-center my-3 fs-1'>Listado de Peliculas</h1>
-    <div class="row my-1 fs-5">
-    @foreach($peliculas as $pelicula)
-        <div class='col'>
-            </a><img src="{{$pelicula->poster}}" style="width:300px;height:auto;"></img>
-            <a href="{{url('/catalog/show/'. $pelicula->id)}}"><h3>{{$pelicula->title}}</h3></a>
+@extends('layouts.app')
+
+@section('content')
+<div class="container text-center">
+    <h1>Bienvenido al Catálogo de Pictogramas</h1>
+    <p>Selecciona una de las siguientes opciones:</p>
+
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <a href="{{ route('personas.index') }}" class="btn btn-primary btn-lg btn-block">
+                📜 Ver Personas
+            </a>
         </div>
-        @endforeach
+        <div class="col-md-4">
+            <a href="{{ route('imagenes.index') }}" class="btn btn-success btn-lg btn-block">
+                🖼️ Ver Imágenes
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="{{ route('agenda.index') }}" class="btn btn-warning btn-lg btn-block">
+                📅 Ver Agenda
+            </a>
+        </div>
     </div>
-    @stop
+</div>
+@endsection

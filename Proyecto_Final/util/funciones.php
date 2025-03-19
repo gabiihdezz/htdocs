@@ -214,8 +214,14 @@ function borrar($tipo_comida, $id_usu, $fecha) {
     if ($conn->connect_error) {
         die("Error de conexión: " . $conn->connect_error);
     }
+    $tipo_comidaNb=count($tipo_comida);
+    if($tipo_comidaNb <1){
+        $sql = "DELETE FROM comida WHERE id_usu = ? AND tipo_comida = ? AND fecha = ?";
+        $sql2= "DELETE FROM control_glucosa WHERE id_usu = ? AND fecha = ?";
+    }
 
     $sql = "DELETE FROM comida WHERE id_usu = ? AND tipo_comida = ? AND fecha = ?";
+
 
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("iss", $id_usu, $tipo_comida, $fecha);
