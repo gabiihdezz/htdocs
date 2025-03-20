@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Support\Facades\Route; // 👈 Agrega esta línea
 use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\ImagenController;
 use App\Http\Controllers\AgendaController;
