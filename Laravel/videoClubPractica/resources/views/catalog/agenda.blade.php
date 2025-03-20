@@ -1,29 +1,35 @@
 @extends('layouts.app')
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Entrada</title>
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Añadir Entrada</h1>
 
-@section('content')
-<div class="container">
-    <h2>Agenda de Personas</h2>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Fecha</th>
-                <th>Hora</th>
-                <th>Persona</th>
-                <th>Imagen</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($agendas as $agenda)
-                <tr>
-                    <td>{{ $agenda->id }}</td>
-                    <td>{{ $agenda->fecha }}</td>
-                    <td>{{ $agenda->hora }}</td>
-                    <td>{{ $agenda->persona->nombre }} {{ $agenda->persona->apellidos }}</td>
-                    <td><img src="{{ asset('imagenes/' . $agenda->imagen->imagen) }}" width="100"></td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-</div>
-@endsection
+        <form action="{{ route('agenda.store') }}" method="POST">
+            @csrf
+            <input type="date" name="fecha" required>
+            <input type="time" name="hora" required>
+            <select name="idpersona" required>
+                @foreach($personas as $persona)
+                    <option value="{{ $persona->idpersona }}">{{ $persona->nombre }} {{ $persona->apellidos }}</option>
+                @endforeach
+            </select>
+            <select name="idimagen" required>
+                @foreach($imagenes as $imagen)
+                    <option value="{{ $imagen->idimagen }}">{{ $imagen->descripcion }}</option>
+                @endforeach
+            </select>
+            <button type="submit">Añadir</button>
+        </form>
+
+        <a href="{{ route('catalog.imagen') }}">Tabla</a>
+        <a href="{{ route('catalog.persona') }}">Buscar</a>
+    </div>
+</body>
+</html>
