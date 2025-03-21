@@ -10,7 +10,7 @@
     <div class="container">
         <h1>Buscar Entrada</h1>
 
-        <form action="{{ route('agenda.search') }}" method="GET">
+        <form action="{{ route('catalog.agenda') }}" method="GET">
             @csrf
             <input type="date" name="fecha" required>
             <select name="idpersona" required>

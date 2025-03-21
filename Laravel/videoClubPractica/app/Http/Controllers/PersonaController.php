@@ -8,6 +8,7 @@ class PersonaController extends Controller
 {
     public function index()
     {
-        return view('personas.index');
+        $personas 
+        return view('catalog.persona');
     }
 }
