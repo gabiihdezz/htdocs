@@ -31,7 +31,7 @@
                         <td>{{ $agenda->fecha }}</td>
                         <td>{{ $agenda->hora }}</td>
                         <td>{{ $agenda->persona->nombre }} {{ $agenda->persona->apellidos }}</td>
-                        <td><img src="{{ asset($agenda->imagen->imagen) }}" alt="{{ $agenda->imagen->descripcion }}" width="100"></td>
+                        <td><img src=" imagenes /{{ asset( $agenda->imagen->imagen) }}" alt="{{ $agenda->imagen->descripcion }}" width="100"></td>
                     </tr>
                 @endforeach
             </tbody>

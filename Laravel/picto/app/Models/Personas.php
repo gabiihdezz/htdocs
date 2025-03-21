@@ -8,9 +8,9 @@ class Personas extends Model
 {
     use HasFactory;
 
-    protected $table = 'personas'; // Confirma que la tabla en la BD se llama 'personas'
+    protected $table = 'personas'; 
 
-    protected $primaryKey = 'idpersona'; // SOLO si la clave primaria no se llama 'id'
+    protected $primaryKey = 'idpersona';
 
     protected $fillable = ['nombre', 'apellidos'];
 }
