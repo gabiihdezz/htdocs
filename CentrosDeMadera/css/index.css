@@ -9,6 +9,7 @@ html, body {
     padding: 0;
     overflow-x: hidden;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    background-color: black;
 }
 
 *, *::before, *::after {
@@ -18,9 +19,63 @@ a{
     text-decoration: none;
     color:inherit;
 }
-h1, h2, h3, h4, h5, h6 {
+nav div h1 {
     font-family: 'corsiva', cursive;
 }
 *{
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
+.bloque1{
+    background-color: #81492d;
+    color:white;
+}
+
+.bloque2{
+    background-color: #da926e;
+    color:white;
+}
+
+.bloque3{
+    background-color: #92774B;
+
+}
+.marquesina {
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+    padding: 10px 0;
+}
+
+.marquesina-contenido {
+    display: inline-block;
+    white-space: nowrap;
+    animation: scroll 60s linear infinite;
+}
+
+.marquesina img {
+    height: 400px; 
+    margin: 20px;
+    border: 2px solid white;
+    border-radius: 4%;
+}
+
+Ñ @keyframes scroll {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-100%);
+    }
+} 
+ .dropdown-menu{
+    background-color: #FFD9B4;
+ }
+ .vercatalogo{
+    background: #FFD9B4;
+    color: #81492d;
+    border: 2px solid black;
+    border-radius: 12px ;
+}
+.marquesina button:hover{
+    background-color: #be6969;
+}                               
